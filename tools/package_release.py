@@ -22,7 +22,7 @@ files = sorted(p for p in root.rglob('*') if p.is_file()
                and '__pycache__' not in p.parts and p.suffix != '.pyc')
 manifest = {p.relative_to(root).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest() for p in files}
 manifest_path = root / 'SHA256SUMS.json'
-manifest_path.write_text(json.dumps(manifest, indent=2, ensure_ascii=False) + '\n', encoding='utf8')
+manifest_path.write_text(json.dumps(manifest, indent=2, ensure_ascii=False) + '\n', encoding='utf8', newline='\n')
 dest = root / 'dist/cardiac-electrophysiology-lab-v0.1.2.zip'
 dest.parent.mkdir(exist_ok=True)
 with zipfile.ZipFile(dest, 'w', zipfile.ZIP_DEFLATED, compresslevel=9) as archive:

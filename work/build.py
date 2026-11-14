@@ -12,6 +12,6 @@ for key,name in [('LAB_STYLES','laboratory.css'),('V011_STYLES','v011.css'),('EC
 template=template.replace('/*PROJECT_LICENSE*/',html.escape((root.parent/'LICENSE').read_text(encoding='utf8')))
 out=root.parent/'outputs'/'sinus-rhythm-3d.html'
 out.parent.mkdir(parents=True,exist_ok=True)
-out.write_text(template,encoding='utf8');print(out, out.stat().st_size)
+out.write_text(template,encoding='utf8', newline='\n');print(out, out.stat().st_size)
 
-(root.parent/'index.html').write_text(template,encoding='utf8')
+(root.parent/'index.html').write_text(template,encoding='utf8', newline='\n')
