@@ -1,0 +1,118 @@
+<!doctype html>
+<!--
+SPDX-License-Identifier: GPL-3.0-only
+Copyright (C) 2026 jksd4c
+See LICENSE for copying conditions and warranty disclaimer.
+-->
+
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="referrer" content="no-referrer"><meta name="viewport" content="width=device-width, initial-scale=1"><title>心脏电活动实验室 · 0.1.2 内测版</title><style>/*LAB_STYLES*/
+/* Compact, always available legal notice; full text opens only on request. */
+#legal-credit{position:fixed;right:16px;bottom:10px;z-index:40;display:block;margin:0;padding:0;border:0;max-width:calc(100vw - 28px);color:#91a7ba;font-size:11px;line-height:1.5}
+#legal-credit>details{max-width:none}
+#legal-credit>details>summary{list-style:none;cursor:pointer;padding:4px 7px;border-radius:4px;background:rgba(10,28,44,.88);font-size:11px;font-weight:400;color:inherit;text-align:right}
+#legal-credit>details>summary::-webkit-details-marker{display:none}
+#legal-credit>details>summary:hover{color:#d0e2ef}
+#legal-credit>details>summary:focus-visible{outline:2px solid #8ebbd6;outline-offset:3px}
+#legal-credit .notice-body{position:absolute;right:0;bottom:33px;width:min(620px,calc(100vw - 28px));max-height:min(65vh,600px);overflow:auto;overscroll-behavior:contain;padding:18px 20px;background:#112b40;border:1px solid #345268;border-radius:10px;box-shadow:0 12px 40px #0006;color:#b9cfdf;font-size:12px;text-align:left;box-sizing:border-box}
+#legal-credit .notice-body>p:first-child{margin-top:0}
+#legal-credit .notice-body details{max-width:100%}
+#legal-credit .notice-body summary{text-align:left;color:#cde2ef;font-size:12px}
+#legal-credit .notice-body pre{white-space:pre-wrap;overflow-wrap:anywhere;font-size:11px;line-height:1.7}
+@media(max-width:520px){#legal-credit{right:10px;bottom:6px}#legal-credit>details>summary{font-size:10px}#legal-credit .notice-body{padding:14px 16px}}
+/*V011_STYLES*/</style></head>
+<body><main id="heart-app" class="standalone-heart">
+ <header class="heading"><div><div class="eyebrow">CARDIAC ELECTROPHYSIOLOGY · RHYTHM ATLAS</div><h1>心脏电活动实验室</h1><span class="version-badge">v0.1.2</span></div><div class="header-right"><div class="language-switch" role="group" aria-label="语言 / Language"><button id="lang-zh" data-language="zh" aria-pressed="true">中文</button><button id="lang-en" data-language="en" aria-pressed="false">English</button></div><div class="legend"><span><i class="dot gold"></i>正常激动</span><span><i class="dot red"></i>异常激动 / 回路</span><span><i class="dot cyan"></i>选中结构</span></div></div></header>
+ <div class="sticky-controls"> <section class="session-bar" aria-label="节律和播放设置">
+  <label class="rhythm-control">节律示例<select id="rhythm" aria-label="选择心律"></select></label>
+  <label id="rhythm-rate-row" class="rate-control" hidden><span id="rhythm-rate-label">示例节律频率</span><span class="rate-input"><input id="rhythm-rate" type="range" min="120" max="240" value="180" step="1" aria-label="异常节律示例频率"><output id="rhythm-rate-value">180</output><small>次/分</small></span></label><div class="play-controls"><button id="play" class="primary" aria-pressed="true">暂停</button><button id="restart">从头播放</button><button id="focus-event" title="暂停在当前示例的关键事件">关键事件</button><label class="speed-control">速度<select id="speed"><option value="0.1">0.1×</option><option value="0.2">0.2×</option><option value="0.5" selected>0.5×</option><option value="1">1×</option></select></label></div>
+ </section> <section class="time-section" aria-label="同步时间轴"><div class="phase-line"><strong id="phase-text">窦房结发放</strong><div id="sequence" class="sequence"><b data-stage="0">SAN</b><span>›</span><b data-stage="1">心房</b><span>›</span><b data-stage="2">AVN</b><span>›</span><b data-stage="3">His</b><span>›</span><b data-stage="4">LBB / RBB</b><span>›</span><b data-stage="5">Purkinje</b></div><span class="time-readout"><span id="time-label">0.000</span> / 12.000 s</span></div><div class="timeline"><div id="timeline-fill"></div></div><label class="scrub-row"><span>12 秒片段</span><input id="scrub" type="range" min="0" max="11999" step="1" value="0" aria-label="定位十二秒教学片段"><span id="speed-label">0.5×</span></label><div id="event-markers" class="event-markers" aria-label="片段中的心电事件"></div></section></div>
+ <div class="workspace-grid">
+  <section class="heart-pane" aria-label="三维心脏及传导系统"><div class="pane-heading"><span>01 / 三维传导</span><span id="view-title">前面观</span></div>
+   <div class="model-stage"><div id="scene-wrap" class="scene-wrap"><div class="view-presets"><button data-view="front">前面</button><button data-view="back">后面</button><button data-view="left">左侧</button><button data-view="right">右侧</button><button id="auto" aria-pressed="false">旋转</button></div><div id="loading" class="loading">正在构建心脏与传导网络…</div><div id="orientation-cube" class="orientation-cube" aria-label="解剖方位立方体"></div><aside class="vector3d-card" aria-label="三维心电向量"><div class="vector3d-heading"><strong>三维心电向量</strong><span id="vector3d-lead">II</span></div><div id="vector3d-scene" class="vector3d-scene"></div><div class="vector3d-legend"><span><i class="dot gold"></i>净向量</span><span><i class="dot cyan"></i>导联投影</span></div><div id="vector3d-value"></div><p id="vector3d-clue"></p><span class="micro-copy">与主模型同向旋转 · 胸导联方向为近似示意</span></aside></div></div><div class="model-help">拖动旋转 · 滚轮缩放 · 点击结构与标签联动</div>
+   <div class="selection-strip"><span id="structure-info" aria-live="polite">点击标签或结构，定位对应的传导组织。</span><button id="clear-selection" hidden>取消选中</button><button id="magnify-structure" hidden>局部查看</button></div>
+   <div class="view-controls"><button id="cut" aria-pressed="false">切开心室前壁</button><label>标注<select id="label-mode"><option value="conduction">传导系统</option><option value="anatomy">解剖结构</option><option value="none">隐藏</option></select></label><label>肌壁显影<input id="opacity" type="range" min="4" max="100" value="46" aria-label="心肌显影强度"><output id="opacity-value">46%</output></label><label>遮挡<select id="depth-mode"><option value="spatial">空间遮挡</option><option value="xray">透视查看</option></select></label></div>
+  </section>
+  <section class="ecg-pane" aria-label="同步十二导联心电图"><div class="pane-heading"><span>02 / 同步十二导联</span><label class="window-control">时间窗 <select id="ecg-duration" aria-label="心电图显示时间窗"><option value="2000">2 秒</option><option value="4000" selected>4 秒</option><option value="6000">6 秒</option></select></label><span id="ecg-window">0–4 s</span></div><div class="ecg-caption">同一时间窗 · 直接拖动心电图定位 · 教学合成波形</div><div id="ecg-grid" class="ecg-grid"></div><div class="strip-heading"><span><strong id="selected-lead-label">II</strong> 导联放大</span><span><span id="strip-zoom-label">4.0 s</span> · <button id="strip-zoom-reset">重置缩放</button></span></div><div class="strip-navigation"><button id="ecg-prev" aria-label="上一心电图窗口">←</button><span>拖动至边缘连续翻窗 · 滚轮放大时间轴</span><button id="ecg-next" aria-label="下一心电图窗口">→</button></div><canvas id="lead-strip" class="lead-strip" aria-label="选中导联放大，拖动游标可定位时间" tabindex="0"></canvas><div class="interval-panel"><div class="interval-heading"><span>心电间期 · 模型估算</span><span id="interval-beat"></span></div><div class="interval-grid"><div><span>RR</span><strong id="metric-rr">—</strong></div><div><span>PR</span><strong id="metric-pr">—</strong></div><div><span>QRS</span><strong id="metric-qrs">—</strong></div><div><span>QT</span><strong id="metric-qt">—</strong></div><div><span>QTcB</span><strong id="metric-qtcB">—</strong></div><div><span>QTcF</span><strong id="metric-qtcF">—</strong></div></div><p id="interval-note"></p><details class="metric-method"><summary>计算方法</summary><p>PR、QRS 为事件模型时程；QT 采用合成 T 波下降支最大斜率切线的基线交点。QTcB = QT / √RR；QTcF = QT / ∛RR（RR 以秒计）。房颤、明显 RR 不齐、重叠波形或宽 QRS 时不显示常规 QTc。仅作教学估算。</p></details></div><div class="ecg-values"><span id="atrial-rate">心房 75</span><span id="ventricular-rate">心室 75 次/分</span><span id="rate-note">规则</span></div></section>
+ </div>
+
+ <section class="teaching-note"><div><span class="note-label">心电图线索</span><p id="rhythm-ecg"></p></div><div><span class="note-label">传播机制</span><p id="rhythm-mechanism"></p><label id="pvc-context-row" hidden>观察情境<select id="pvc-context"><option value="basic">普通室早</option><option value="ront">R-on-T</option><option value="ischemia">急性缺血 / 梗死相关</option><option value="scar">梗死后瘢痕</option></select></label><label id="block-level-row" hidden>阻滞位置示例<select id="block-level"><option value="av">结内</option><option value="his">His–浦肯野系统</option></select></label></div></section>
+ <div class="scenario-evidence"><span id="scenario-chapter"></span><a id="scenario-source" target="_blank" rel="noopener noreferrer"></a></div><section class="detail-section" aria-label="局部放大"><div class="detail-tabs" role="group" aria-label="按需展开的观察窗口"><button id="tab-ventricle" hidden aria-expanded="false" aria-controls="panel-tissue" data-detail="ventricle">心室肌横截面</button><button id="tab-pv" hidden aria-expanded="false" aria-controls="panel-tissue" data-detail="pv">左房 · 肺静脉</button><button id="tab-circuit" hidden aria-expanded="false" aria-controls="panel-circuit" data-detail="circuit">回路与传导放大</button><button id="tab-morphology" hidden aria-expanded="false" aria-controls="panel-morphology" data-detail="morphology">单搏十二导联对照</button><button id="detail-close" hidden>收起窗口</button></div>
+  <div id="panel-circuit" class="circuit-panel" role="region" aria-labelledby="tab-circuit" hidden><div><div class="detail-title" id="circuit-title">回路与传导</div><canvas id="circuit-canvas" aria-label="与心脏同步的传导回路示意"></canvas></div><div class="circuit-notes"><p id="circuit-copy"></p><p class="micro-copy">回路拓扑为教学示意，不按解剖比例；方向箭头表示传播顺序，红叉表示受阻。此处不模拟消融效果或药物反应。</p></div></div><div id="panel-morphology" role="region" aria-labelledby="tab-morphology" hidden><div class="detail-toolbar"><div><div class="detail-title">单搏形态 · 十二导联逐项对照</div><span class="micro-copy">以 QRS 起始对齐；蓝灰：基础窦搏，红：当前搏动。仅显示该搏 QRS–T 分量。</span></div><div id="beat-metrics"></div></div><canvas id="morphology-canvas" aria-label="当前搏动与正常窦搏十二导联形态对照"></canvas><p class="micro-copy">时程为模型设定，电轴与 R/S 根据合成分量计算；胸导联使用病型形态模板。移行、电轴及某一导联形态不能单独证明起源位置。</p></div>
+  <div id="panel-tissue" role="region" aria-labelledby="tab-ventricle" hidden><div class="detail-toolbar"><div><div class="detail-title" id="local-title">心室壁局部 · 机制放大</div><span class="micro-copy" id="local-subtitle">教学重建的组织片段，非原始影像的显微切片。</span></div><div id="ventricular-settings"><label>组织状态<select id="substrate"><option value="normal">正常</option><option value="ischemia">急性缺血</option><option value="scar">梗死后瘢痕</option><option id="longqt-option" value="longqt" hidden>长 QT / EAD</option></select></label><button id="ront-demo">叠加 R-on-T 室早</button><label id="coupling-row">联律间期<input id="coupling" type="range" min="220" max="600" step="5" value="495" aria-label="室早联律间期"><output id="coupling-value">495 ms</output></label></div><div id="pv-settings" hidden><label>触发灶<select id="pv-focus"><option value="LSPV">左上肺静脉</option><option value="LIPV">左下肺静脉</option><option value="RSPV">右上肺静脉</option><option value="RIPV">右下肺静脉</option></select></label><button id="pv-demo">重播肺静脉触发</button></div></div><div id="atrium-credit" class="local-data-credit" hidden>解剖来源：<a href="https://dbarchive.biosciencedbc.jp/en/bodyparts3d/download.html" target="_blank" rel="noopener noreferrer">BodyParts3D 4.0</a> · 左房壁 FJ2438 与四组肺静脉原始网格，统一坐标；肺静脉显示细分保留源开口边界。© The Database Center for Life Science，CC BY 4.0。</div><div class="local-grid"><div id="local-scene" class="local-scene"><div class="local-hint">拖动旋转 · 滚轮缩放</div><div id="local-overlay" class="local-overlay"></div></div><div class="local-readout"><div class="local-legend"><span><i class="dot gold"></i>正常去极化</span><span><i class="dot red"></i>异常激动</span><span><i class="dot purple"></i>复极 / 未完全恢复</span><span><i class="dot blue"></i>已恢复</span><span><i class="dot gray"></i>不可兴奋瘢痕</span></div><canvas id="local-ecg" aria-label="局部同步心电图" hidden></canvas><canvas id="local-trace" aria-label="局部电活动及恢复时间示意"></canvas><strong id="local-phase">组织状态</strong><p id="local-explanation"></p><p class="micro-copy" id="local-limit"></p></div></div></div>
+  
+ </section>
+ <footer class="page-footer"><span class="author-credit">by: jksd4c</span><div id="legal-credit"><details id="release-notice"><summary title="点击查看完整声明、资源来源和第三方许可">仅供学习，不作诊疗依据 · 声明与许可</summary><div class="notice-body">
+<p>jksd4c · GPT-6 Astra 辅助制作 · 0.1.2 内测版 · 开源发布</p>
+<details id="reference-notice"><summary id="reference-summary">教材与模型目录</summary><div id="panel-reference" role="region" aria-labelledby="reference-summary"><div class="table-scroll"><table><thead><tr><th>主参考</th><th>用来做什么</th><th>本轮范围</th></tr></thead><tbody><tr><td><a href="https://shop.elsevier.com/books/goldbergers-clinical-electrocardiography/goldberger/978-0-323-82475-0" target="_blank" rel="noopener noreferrer">Goldberger’s Clinical Electrocardiography，第 10 版</a></td><td>导联、波形、间期、心律识别</td><td>第 2–6 章：基础与导联；第 8 章：束支阻滞；13–16 章：窦性、房性、交界性与室性节律；17–18 章：房室阻滞及预激；21 章：心脏骤停节律。</td></tr><tr><td><a href="https://evolve.elsevier.com/cs/product/9780323757454?role=student" target="_blank" rel="noopener noreferrer">Zipes and Jalife’s Cardiac Electrophysiology: From Cell to Bedside，第 8 版</a></td><td>起搏与传播、复极 / 不应期、触发及折返的机制框架</td><td>细胞间传播、转子与心律失常、肺静脉与房颤、结构重构；局部视图采用简化的组织级示意。</td></tr></tbody></table></div><div class="catalog-tools"><strong id="catalog-count">75 个场景</strong><label>筛选目录 <input id="catalog-search" type="search" placeholder="如 LBBB、室早、AVRT" aria-label="筛选模型目录"></label></div><div id="scope-list" class="scope-list"></div></div></details>
+<p><strong>教学用途</strong><br>本项目用交互式心脏模型帮助学习传导系统、心律失常与心电图。模型及信号经过教学简化，未经临床用途验证，不作为诊断、治疗或消融定位依据。</p>
+<p><strong>解剖模型与修改</strong><br>解剖表面来自 BodyParts3D，经 OrganUI 整理；左房及肺静脉来自同一官方图谱。已进行网格量化、显示与局部视图调整，并叠加教学传导路径。BodyParts3D © The Database Center for Life Science，<a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a>。</p>
+<p><strong>信号与医学参考</strong><br>心电图由规则及模板合成，未使用真实患者心电记录。教材、指南和论文用于知识核对，书目及官方链接见“教材与模型目录”；不附其全文或原图。</p>
+<p><strong>代码与制作工具</strong><br>Three.js r160 使用 MIT 许可；GPT-6 Astra 用于辅助开发。来源署名不代表相关作者、机构或 OpenAI 对本项目背书。感谢公开资源的作者与维护者。</p>
+<p><strong>开源许可</strong><br>本项目原创代码采用 GPL-3.0-only，作者免费提供官方版本。第三方模型与运行库保留各自许可；教学用途说明不增加许可证以外的使用限制。</p>
+
+<p><a href="https://github.com/jksd4c/cardiac-electrophysiology-lab" target="_blank" rel="noopener noreferrer">源码仓库</a> · <a href="https://github.com/jksd4c/cardiac-electrophysiology-lab/blob/v0.1.2/LICENSING.md" target="_blank" rel="noopener noreferrer">许可范围</a> · <a href="mailto:jksd4c@gmail.com">jksd4c@gmail.com</a></p>
+<details id="project-license"><summary>原创代码 · GPL-3.0-only 完整许可</summary><p>Copyright (C) 2026 jksd4c. Original code: GPL-3.0-only. Third-party notices and licenses remain applicable.</p><pre translate="no">/*PROJECT_LICENSE*/</pre></details>
+<details id="privacy-notice"><summary>简短隐私说明</summary>
+<p>模型和心电图在浏览器本地计算，不要求注册，不提供患者资料上传功能，未内置广告或访问统计脚本。</p>
+<p>仅在本机保存中英文语言偏好；清除浏览器网站数据即可删除。浏览网页及打开外部链接时，托管平台和外部站点可能处理 IP 地址等访问记录，并适用各自的隐私政策。</p>
+<p>主动通过邮件或 GitHub Issues 反馈时，相应服务会处理你提交的内容。公开 Issues 对所有人可见；请勿提交患者身份信息或其他敏感资料。</p>
+<p><span>隐私联系：</span><a href="mailto:jksd4c@gmail.com">jksd4c@gmail.com</a> · <a href="https://github.com/jksd4c/cardiac-electrophysiology-lab/blob/v0.1.2/PRIVACY.md" target="_blank" rel="noopener noreferrer">完整隐私说明</a></p></details>
+<details><summary>完整教学声明与发布状态</summary>
+<p>本模型面向教学、学习与交流，以开源教学内测版发布。原创代码与原创说明文档采用 GPL-3.0-only；第三方内容适用其各自许可，完整授权范围见 LICENSING.md。</p>
+<p>解剖外形来自公开图谱，传导路径和局部组织为教学叠加。心电图是合成信号，未经临床用途验证，不作为个体诊断、治疗、用药、消融定位或风险预测依据。内测版可能存在程序、解剖及波形偏差。</p>
+<p>BodyParts3D, © The Database Center for Life Science licensed under CC Attribution 4.0 International. 主心脏经 OrganUI 提供；左房及肺静脉取自同一官方图谱。</p>
+<p>OrganUI 对网格进行选择、分组、三角化、坐标轴转换、缩放、法线及颜色处理；本项目去除主视图冠脉组，量化压缩网格、调整半透明显示，并为左房／肺静脉局部视图进行配准、放大与细分，叠加教学传导网络。模型和派生图像保留原许可及上述修改说明。</p>
+<p>历史 OBJ 头标注 CC BY-SA 2.1 Japan，官方当前数据库许可页标注 CC BY 4.0；本项目记录差异并依据已核实的官方当前授权，不延伸到其他来源不明的文件。</p>
+<p><a href="https://dbarchive.biosciencedbc.jp/en/bodyparts3d/lic.html" target="_blank" rel="noopener noreferrer">BodyParts3D 官方授权</a> · <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a> · <a href="https://github.com/organui/heart-3d/blob/c72ce6654ff8e282942f97750d3104f55ef4fc3d/docs/MODEL_PROVENANCE.md" target="_blank" rel="noopener noreferrer">OrganUI 来源记录</a></p>
+<p>医学参考仅作知识核对与导航，不表示将教材、论文或原图纳入项目开源。第三方权利不因本项目声明而改变。GPT-6 Astra 为辅助工具，不表示 OpenAI 审校或背书，项目开源不包含该模型的权重或服务。</p>
+<p>在法律允许范围内按现状提供，不保证完全无误或适合特定用途。本声明不排除依法不得免除的责任，也不削减适用开源许可授予的权利。完整版见随包 DISCLAIMER.zh-CN.md。</p>
+<p><span>联系与反馈：</span><a href="mailto:jksd4c@gmail.com">jksd4c@gmail.com</a> · <a href="https://github.com/jksd4c/cardiac-electrophysiology-lab/issues" target="_blank" rel="noopener noreferrer">项目 Issues</a><br><span>反馈中请勿提交患者身份信息。</span></p>
+</details>
+<details><summary>解剖来源与修改记录</summary><p><a href="https://dbarchive.biosciencedbc.jp/en/bodyparts3d/lic.html" target="_blank" rel="noopener noreferrer">BodyParts3D 官方授权</a> · <a href="https://github.com/organui/heart-3d/blob/c72ce6654ff8e282942f97750d3104f55ef4fc3d/docs/MODEL_PROVENANCE.md" target="_blank" rel="noopener noreferrer">OrganUI 来源记录</a></p><p>网格压缩、材质显示、局部配准与显示细分见完整教学声明和随包 THIRD_PARTY_NOTICES.md。模型及其截图、录像再分发时请保留来源、许可和修改说明。</p></details>
+<details><summary>Three.js r160 · MIT 完整许可</summary><pre>The MIT License
+
+Copyright © 2010-2023 three.js authors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the &quot;Software&quot;), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+THE SOFTWARE.
+</pre></details>
+<details><summary>OrganUI · MIT 完整许可（上游代码／文档）</summary><pre>MIT License
+
+Copyright (c) 2026 OrganUI contributors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the &quot;Software&quot;), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+</pre></details>
+<p style="font-size:11px;color:#91a7ba">声明结构参考 <a href="https://angioview.com/" target="_blank" rel="noopener noreferrer">AngioView</a> 的来源披露方式；未使用其代码或模型，不表示合作或获得其授权。</p>
+</div></details></div></footer>
+</main><script>/*THREE_LIBRARY*/</script><script id="model-data" type="application/json">/*MODEL_DATA*/</script><script id="atrium-data" type="application/json">/*ATRIUM_DATA*/</script><script id="network-data" type="application/json">/*NETWORK_DATA*/</script><script>/*RHYTHM_CODE*/</script><script>/*CATALOG_CODE*/</script><script>/*PVC_CODE*/</script><script>/*EXTENSION_CODE*/</script><script>/*MORPHOLOGY_CODE*/</script><script>/*ECG_TOOLS*/</script><script>/*I18N_CODE*/</script><script>/*LAB_CODE*/</script><script>/*DETAIL_CODE*/</script><script>/*LOCAL_CODE*/</script><script>/*SPATIAL_CODE*/</script><script>/*VIEWER_CODE*/</script></body></html>

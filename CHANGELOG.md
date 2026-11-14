@@ -1,0 +1,44 @@
+# v0.1.2 — 2026-11-14
+
+### Open-source release
+
+- Applied GPL-3.0-only to original code/documentation; retained third-party CC BY 4.0 and MIT notices.
+- Added full GPL text to the offline page, source repository links, jksd4c@gmail.com feedback and bilingual privacy notice.
+- Published source and an offline beta package; no independent medical certification is claimed.
+
+### Interface update
+
+- Removed the main-screen Leads & vectors panel and References & rhythm catalog tab, including the redundant vector button. The compact 3D vector in the heart viewport remains available.
+- Moved the textbook references and searchable 75-scenario catalog into the bottom-right Notices & licenses disclosure. Selecting a catalog entry closes the disclosure, switches rhythm and returns to the main view.
+- Removed internal model caveats beneath per-scenario references, including sinus, PVC-origin and circuit variants. These reference rows now show citations and source links only. Source labels no longer include chapter/framework qualifiers.
+- Updated Chinese and English titles, version labels and notices. The compact catalog supports rhythm IDs as well as displayed names. Empty local-detail navigation is hidden when no rhythm-specific panel applies.
+- The interface update did not change anatomy assets, runtime dependencies or ECG generation rules. The later open-source release applies the original-code license noted above.
+
+## Verification
+
+- Existing v0.1.1 regression suite passed: 8,925 interval frames, QTc gating, zoom and clip bounds, event density, DOM IDs and 751 bilingual source strings (zero untranslated).
+- Browser checks: main-screen cleanup, compact 3D vector retained, references inside Notices & licenses, LBBB catalog search and selection, and Chinese/English interface switch.
+- Packaged build matches the active HTML byte for byte; ZIP integrity and SHA-256 manifest checked.
+
+---
+
+# v0.1.1 — 2026-11-14
+
+- Dark navy background; author footer `by: jksd4c`; small notices outside the model. Removed the requested subtitle and two redundant reference sections.
+- Chinese / English UI, including 75 rhythm descriptions, local mechanisms, labels, controls and notices; language preference retained locally when browser storage is available.
+- Removed the 60–100 baseline-rate control. Rhythm-specific rate controls remain where needed to explain an abnormal rhythm.
+- Added model-derived RR, PR, QRS, QT, QTcB and QTcF, with explicit withholding of QTc for inappropriate or unstable examples.
+- Continuous ECG scrubbing across window boundaries; horizontal wheel zoom from 0.6 to 12 seconds; centered baseline and constant voltage gain; accurate fractional time ticks.
+- More frequent PAC / PVC examples and earlier AF / VF onset. Preserved compensatory pauses, escape timing and AV block patterns. Brighter abnormal focus lasting 320 ms atrial / 420 ms ventricular.
+- Compact 3D vector at the upper-right of the heart viewport; patient-orientation cube at lower-left. No separate vector column. Main layout changes from 1.15:1 to 1.4:1, transferring about 10.4% of the former ECG width to the heart pane on wide screens.
+- Single sticky control bar combines rhythm selection, playback, event shortcuts and full-clip seeking. It remains accessible while scrolling to local details.
+- Fixed a duplicate long-QT option ID and playback-speed label; synchronized manual zoom with global seeking.
+
+## Verification
+
+- Existing extended suite: 75 scenarios, 44,370 sampled frames across rate endpoints; lead identities, timing, block patterns, VT / TdP and 10 PVC origins.
+- Existing core suite: 15 rhythms × 3 rates, 41,580 sampled frames.
+- v0.1.1: 8,925 interval frames, QTc formula examples and withholding rules, event density / compensatory timing, zoom anchors and clip bounds, unique DOM IDs, 785 bilingual source strings.
+- Browser: rendered heart and ECG, English and Chinese switchback, RVOT / LVOT lead comparison, left/right window crossing, centered zoom, cube rotation / anterior reset, fixed transport at the lower morphology panel, AF and TdP detail controls. Desktop and a narrow viewport were inspected; no app errors were observed.
+
+Clinical expert review, all-device performance and every browser/gesture combination remain outside this verification. Existing anatomical data and Three.js r160 are unchanged.

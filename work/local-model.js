@@ -1,0 +1,94 @@
+/*
+SPDX-License-Identifier: GPL-3.0-only
+Copyright (C) 2026 jksd4c
+See LICENSE for copying conditions and warranty disclaimer.
+*/
+(function(){
+ 'use strict';
+ const Lab=window.HeartLab,S=Lab.state,T=window.THREE,$=id=>document.getElementById(id),host=$('local-scene');
+ let renderer,scene,camera,group,tissue,pvGroup,laMat,pvDots,focusMesh,pvReady=false,pvData=null,mode='none',yaw=-.10,pitch=.16,zoom=1,w=600,h=370,lastSize='',labels=[],cells=[],pulsePaths={},pvAttachments={};
+ const nx=39,ny=17,nz=3,normalColor=new T.Color('#3e779c'),activeColor=new T.Color('#ffe193'),redColor=new T.Color('#ff435f'),repolColor=new T.Color('#b184d2'),scarColor=new T.Color('#525966'),dummy=new T.Object3D(),color=new T.Color();
+ function initialize(){if(renderer)return;renderer=new T.WebGLRenderer({alpha:true,antialias:true,powerPreference:'high-performance'});renderer.setClearColor(0,0);renderer.setPixelRatio(Math.min(devicePixelRatio,2));renderer.domElement.setAttribute('aria-label','可旋转的局部组织三维教学模型');host.prepend(renderer.domElement);scene=new T.Scene();camera=new T.PerspectiveCamera(36,1,.1,30);camera.position.set(0,.25,5.6);scene.add(new T.HemisphereLight(0xc5e7ff,0x152f4a,2.0));const key=new T.DirectionalLight(0xe6f3ff,3.2);key.position.set(-3,4,5);scene.add(key);const rim=new T.DirectionalLight(0x6fbbff,2.4);rim.position.set(4,1,-2);scene.add(rim);group=new T.Group();scene.add(group);
+   const geometry=new T.CapsuleGeometry(.033,.044,3,7);geometry.rotateZ(Math.PI/2);tissue=new T.InstancedMesh(geometry,new T.MeshStandardMaterial({roughness:.38,metalness:.12}),nx*ny*nz);tissue.instanceMatrix.setUsage(T.DynamicDrawUsage);group.add(tissue);
+   buildTissue();buildPV().catch(e=>{host.dataset.anatomyReady='error';text('local-phase','解剖网格加载失败：'+e.message);console.error(e);});
+   let pointer=null;renderer.domElement.addEventListener('pointerdown',e=>{pointer={id:e.pointerId,x:e.clientX,y:e.clientY};renderer.domElement.setPointerCapture(e.pointerId);});renderer.domElement.addEventListener('pointermove',e=>{if(!pointer||pointer.id!==e.pointerId)return;const dx=e.clientX-pointer.x,dy=e.clientY-pointer.y;yaw+=dx*.008;pitch=T.MathUtils.clamp(pitch+dy*.007,-1.1,1.1);pointer.x=e.clientX;pointer.y=e.clientY;});renderer.domElement.addEventListener('pointerup',()=>pointer=null);renderer.domElement.addEventListener('pointercancel',()=>pointer=null);renderer.domElement.addEventListener('wheel',e=>{e.preventDefault();zoom=T.MathUtils.clamp(zoom*Math.exp(-e.deltaY*.0008),.7,1.6);},{passive:false});
+ }
+ function properties(col,row){const q=Math.hypot((col-25)/7,(row-8)/5),normalArrival=row*3.4+Math.abs(col-19)*1.5;let arrival=normalArrival,apd=245-row*2.4+10*Math.sin(col*.3),erp=apd+12,rest=-88,scar=false;
+   if(S.substrate==='longqt'){apd=460+65*(.5+.5*Math.sin(col*.4+row*.3));erp=apd+25;rest=-88;}
+   if(S.substrate==='ischemia'&&q<1.4){apd=145+48*(.5+.5*Math.sin(col*.8+row*.9));erp=apd+85+22*Math.sin(col*.5);rest=-72;arrival+=22*(1.4-q);}
+   if(S.substrate==='scar'){scar=q<.63;if(q>=.63&&q<1.5){arrival+=45*(1.5-q);apd=210+48*Math.sin(col*.9+row*.7);erp=apd+62;rest=-81;}}
+   return {col,row,q,arrival,apd,erp,rest,scar};
+ }
+ function buildTissue(){if(!renderer)return;cells=[];let i=0;for(let z=0;z<nz;z++)for(let row=0;row<ny;row++)for(let col=0;col<nx;col++){const p=properties(col,row);p.i=i;p.x=(col-(nx-1)/2)*.105+(row%2)*.025;p.y=(row-(ny-1)/2)*.087;p.z=(z-1)*.12;p.depth=z;dummy.position.set(p.x,p.y,p.z);dummy.rotation.set(0,0,.04*Math.sin(row*.45));dummy.scale.set(1,1,1);dummy.updateMatrix();tissue.setMatrixAt(i,dummy.matrix);tissue.setColorAt(i,p.scar?scarColor:normalColor);cells.push(p);i++;}tissue.instanceMatrix.needsUpdate=true;tissue.instanceColor.needsUpdate=true;}
+ async function unpackMesh(s,Type){const bytes=Uint8Array.from(atob(s),c=>c.charCodeAt(0));const response=new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream('deflate')));return new Type(await response.arrayBuffer());}
+ async function buildPV(){
+   pvData=JSON.parse($('atrium-data').textContent);pvGroup=new T.Group();pvGroup.visible=mode==='pv';group.add(pvGroup);host.dataset.anatomyReady='loading';
+   laMat=new T.ShaderMaterial({uniforms:{clock:{value:0},af:{value:0},origin:{value:new T.Vector3()}},
+     vertexShader:'varying vec3 p;varying vec3 n;varying vec3 v;void main(){p=position;n=normalize(normalMatrix*normal);vec4 mv=modelViewMatrix*vec4(position,1.);v=-mv.xyz;gl_Position=projectionMatrix*mv;}',
+     fragmentShader:`precision highp float;uniform float clock;uniform float af;uniform vec3 origin;varying vec3 p;varying vec3 n;varying vec3 v;void main(){vec3 N=normalize(n);if(!gl_FrontFacing)N=-N;vec3 V=normalize(v),L=normalize(vec3(-.5,.8,1.));float light=.35+.65*max(dot(N,L),0.);float rim=pow(1.-abs(dot(N,V)),2.5);float spec=pow(max(dot(reflect(-L,N),V),0.),40.);vec3 col=vec3(.13,.32,.53)*light+vec3(.22,.43,.64)*rim+vec3(.46,.66,.84)*spec*.7;float wave=0.;if(af>.5&&clock>=0.){if(clock<1000.){float age=mod(clock,175.);wave=exp(-pow((age-length(p-origin)*80.)/18.,2.));}else{float field=sin(atan(p.y+.25,p.x-.2)*2.-length(p.xy-vec2(.2,-.25))*10.+clock*.03)+.6*sin(p.y*11.+p.z*9.-clock*.045);wave=pow(max(0.,1.-abs(field)*2.),3.);}}col=mix(col,vec3(1.,.09,.17),wave*.83);gl_FragColor=vec4(col,1.);
+#include <colorspace_fragment>
+}`,
+     transparent:false,side:T.DoubleSide,depthWrite:true});
+   for(const packed of pvData.meshes){const [short,indices]=await Promise.all([unpackMesh(packed.p,Int16Array),unpackMesh(packed.i,Uint16Array)]);const positions=Float32Array.from(short,v=>v/10000),geometry=new T.BufferGeometry();geometry.setAttribute('position',new T.BufferAttribute(positions,3));geometry.setIndex(new T.BufferAttribute(indices,1));geometry.computeVertexNormals();
+     const material=packed.name==='LA'?laMat:new T.MeshPhysicalMaterial({color:packed.name.startsWith('L')?'#6899bd':'#608fb0',roughness:.32,metalness:.08,clearcoat:.28,side:T.DoubleSide,transparent:false,opacity:1,depthWrite:true});const mesh=new T.Mesh(geometry,material);mesh.name=packed.name;mesh.userData.sourceElements=packed.elements;pvGroup.add(mesh);
+   }
+   for(const [key,signal] of Object.entries(pvData.signals)){const curve=new T.CurvePath();const points=signal.path.map(p=>new T.Vector3(...p));for(let i=1;i<points.length;i++)curve.add(new T.LineCurve3(points[i-1],points[i]));pulsePaths[key]=curve;pvAttachments[key]=new T.Vector3(...signal.anchor);}
+   pvDots=new T.InstancedMesh(new T.SphereGeometry(.026,12,8),new T.MeshBasicMaterial({color:'#ff7a87',transparent:true,opacity:.95,depthTest:true}),14);pvDots.renderOrder=5;pvGroup.add(pvDots);
+   focusMesh=new T.Mesh(new T.SphereGeometry(.05,24,16),new T.MeshBasicMaterial({color:'#ff526d',transparent:true,depthTest:true}));focusMesh.renderOrder=6;pvGroup.add(focusMesh);pvReady=true;host.dataset.anatomyReady='true';host.dataset.anatomySource='BodyParts3D 4.0 / FJ2438 + 7 pulmonary-vein elements';if(mode==='pv')pvTags();
+ }
+ function pvTags(){if(!pvData)return;const names={LSPV:'左上肺静脉',LIPV:'左下肺静脉',RSPV:'右上肺静脉',RIPV:'右下肺静脉'};tags(Object.entries(pvData.signals).map(([key,signal])=>[names[key],signal.focus,key]));}
+ function resize(){if(!renderer)return;const r=host.getBoundingClientRect(),nw=Math.round(r.width),nh=Math.round(r.height),d=Math.min(devicePixelRatio,2);if(nw<1||nh<1)return;const key=nw+':'+nh+':'+d;if(key!==lastSize){w=nw;h=nh;lastSize=key;renderer.setPixelRatio(d);renderer.setSize(w,h);camera.aspect=w/h;camera.updateProjectionMatrix();}}
+ function tags(defs){$('local-overlay').replaceChildren();labels=defs.map(([name,pos,key])=>{const e=document.createElement('span');e.className='local-tag';e.textContent=name;$('local-overlay').append(e);return {el:e,pos:new T.Vector3(...pos),key};});}
+ function show(name){mode=name;if(name!=='pv'&&name!=='ventricle')return;initialize();$('panel-tissue').dataset.local=name;$('local-ecg').hidden=name!=='ventricle';yaw=name==='pv'?Math.PI:-.10;pitch=name==='pv'?.02:.16;zoom=1;lastSize='';tissue.visible=name==='ventricle';pvGroup.visible=name==='pv';
+   if(name==='ventricle'){text('local-title','心室壁横截面 · 局部放大');text('local-subtitle','分层心肌细胞的教学重建；A、B 为两个观察区域。');tags([['心外膜侧',[-2.22,.70,0]],['心内膜侧',[-2.22,-.70,0]],['A',[-1.2,0,.19]],['B',[1.15,.27,.19]]]);}
+   else {text('local-title','左房与肺静脉 · 解剖数据模型');text('local-subtitle','BodyParts3D 4.0 · 左房壁 + 四组肺静脉；默认后面观，拖动可旋转');pvTags();}
+   resize();
+ }
+ function text(id,value){value=window.HeartI18n?.t(value)??value;if($(id).textContent!==value)$(id).textContent=value;}
+ function ap(age,p){if(age<0)return p.rest;if(age<3)return p.rest+(30-p.rest)*age/3;if(age<15)return 30-(age-3)*1.2;if(S.substrate==='longqt'&&age<p.apd){const baseline=age<p.apd*.65?12:12+(p.rest-12)*(age-p.apd*.65)/(p.apd*.35);return baseline+38*Math.exp(-Math.pow((age-p.apd*.82)/26,2))*(p.col>20?1:.2); }if(age<p.apd*.65)return 15-7*(age-15)/(p.apd*.65-15);if(age<p.apd)return 8+(p.rest-8)*(age-p.apd*.65)/(p.apd*.35);return p.rest;}
+ function beatContext(frame){if(S.rhythm==='tdp'){const base=Lab.engine.ventricles.filter(v=>v.time<Lab.engine.onset).at(-1);return {base,age:frame.time-base.time,ci:Lab.engine.onset-base.time};}let base=null;for(const v of Lab.engine.ventricles){if(v.time<=frame.time&&v.kind!=="pvc")base=v;}if(!base){base=frame.v||{time:0};}const pvc=Lab.engine.ventricles.find(v=>v.kind==='pvc'&&v.time>base.time&&v.time<base.time+Lab.engine.rr*2);return {base,age:frame.time-base.time,ci:pvc?pvc.time-base.time:Infinity};}
+ function excitation(p,ctx){const first=p.arrival,second=ctx.ci+Math.hypot(p.x+1.80,p.y+.40)*60;const conducted=second>=first+p.erp;const useSecond=conducted&&ctx.age>=second;const elapsed=ctx.age-(useSecond?second:first);return {elapsed,second,conducted,useSecond,vm:ap(elapsed,p),recovered:elapsed>=p.erp};}
+ function drawTissue(frame){const ctx=beatContext(frame);let blocked=0;
+   for(const p of cells){if(p.scar){color.copy(scarColor);}else if(frame.vf||frame.tdp&&ctx.age>ctx.ci+650){const field=Math.sin(p.x*5+p.y*4-frame.time*.032)+.6*Math.sin(p.y*9+p.z*5+frame.time*.047);color.copy(normalColor).lerp(redColor,Math.pow(Math.max(0,1-Math.abs(field)*2),2));}
+     else {const v=excitation(p,ctx);if(v.elapsed<0||v.recovered)color.copy(normalColor);else if(v.elapsed<25)color.copy(v.useSecond||frame.ventMode===1?redColor:activeColor);else if(v.elapsed<p.apd*.68)color.copy(v.useSecond?redColor:activeColor).lerp(repolColor,.58);else color.copy(repolColor).lerp(normalColor,T.MathUtils.clamp((v.elapsed-p.apd*.68)/(p.erp-p.apd*.68),0,.8));if(!v.conducted&&Math.abs(ctx.age-v.second)<28){color.copy(repolColor).multiplyScalar(1.25);blocked++;}}
+     if(p.depth===0)color.multiplyScalar(.72);tissue.setColorAt(p.i,color);
+   }tissue.instanceColor.needsUpdate=true;
+   const scenario={longqt:'长 QT 与早后除极',normal:'正常组织',ischemia:'急性缺血区域',scar:'梗死后瘢痕与边缘区'}[S.substrate];
+   text('local-phase',frame.tdp&&ctx.age>=ctx.ci?'TdP：复极延长背景下的多形性室速':frame.vf?'室颤：局部激动失去有序传播':Number.isFinite(ctx.ci)&&ctx.age>=ctx.ci?(blocked?'提前激动遇到尚未恢复的区域':'室早激动进入已恢复的组织'):ctx.age<100?'正常心室激动到达局部组织':'复极与兴奋性恢复');
+   const base={longqt:'长 QT 情境：动作电位延长，局部出现早后除极（EAD）。A、B 的复极时间不同；触发后的方向变化用于解释 TdP，不是数值模拟的离子流或真实患者标测。',normal:'正常心肌也存在生理性的复极差异。金色激动后，细胞逐渐复极并恢复兴奋性；紫色表示尚未充分恢复。',ischemia:'急性缺血可使静息电位变得较不负、传导减慢，并增加局部恢复差异。本例特意区分“已复极”和“仍处于不应期”，不把缺血简单画成所有动作电位统一延长。',scar:'灰色瘢痕核心不能被激动；边缘区的存活心肌呈不同的恢复时间与传导延迟。瘢痕和急性缺血是不同的组织情境。'}[S.substrate];
+   text('local-explanation',base+(Number.isFinite(ctx.ci)?(frame.tdp?' 示意触发间期 ':' 当前室早联律间期 ')+Math.round(ctx.ci)+' ms，红色提前激动只进入示例中已恢复的细胞。':''));
+   text('local-limit',frame.tdp?'长 QT、EAD 和多形性室速共用事件时钟；局部波前是机制示意，并非离子流或持续折返的数值求解。':'局部膜电位 / 不应期参数为示例；未求解持续折返，R-on-T 不等同于必然室颤。组织状态只切换局部示意，本轮未加入心梗定位的 ST–T 心电图。');
+   tracesTissue(ctx,scenario,frame);localECG(ctx,frame);
+ }
+ function tracesTissue(ctx,scenario,frame){const f=Lab.fit($('local-trace'));if(!f)return;const {x,w,h}=f;x.clearRect(0,0,w,h);const left=33,right=9,top=24,bottom=h-37,dur=S.substrate==='longqt'?900:Math.max(650,Math.min(1100,Lab.engine.rr)),sx=(w-left-right)/dur,sy=(bottom-top)/120;const samples=[properties(7,8),properties(30,11)];
+   x.strokeStyle='#7f9eb02b';x.lineWidth=.7;x.beginPath();for(let ms=0;ms<=dur;ms+=100){x.moveTo(left+ms*sx,top);x.lineTo(left+ms*sx,bottom);}for(const vm of [-90,-60,-30,0,30]){const yy=top+(30-vm)*sy;x.moveTo(left,yy);x.lineTo(w-right,yy);}x.stroke();x.fillStyle='#7e9db4';x.font='9px Segoe UI';x.fillText('mV',2,14);x.fillText('+30',0,top+3);x.fillText('−90',2,bottom+3);x.fillText('0',left,bottom+14);x.fillText(Math.round(dur)+' ms',w-46,bottom+14);
+   samples.forEach((p,j)=>{const col=j===0?'#a2d7d2':'#d3a5e7';x.strokeStyle=col;x.lineWidth=1.5;x.beginPath();for(let t=0;t<=dur;t+=2){const q=excitation(p,{age:t,ci:ctx.ci}),yy=top+(30-q.vm)*sy;if(t===0)x.moveTo(left,yy);else x.lineTo(left+t*sx,yy);}x.stroke();x.fillStyle=col;x.font='10px Segoe UI';x.fillText(j?(S.substrate==='normal'?'B · 正常区域':S.substrate==='ischemia'?'B · 缺血区域':S.substrate==='longqt'?'B · EAD 示意':'B · 瘢痕边缘'):(S.substrate==='longqt'?'A · 复极延长':'A · 正常区域'),left+j*(w*.45),13);const y=bottom+25+j*6;x.fillStyle=col+'66';x.fillRect(left+p.arrival*sx,y,Math.min(p.erp,dur-p.arrival)*sx,3);});
+   if(Number.isFinite(ctx.ci)){const px=left+ctx.ci*sx;x.strokeStyle='#ff6c7c';x.setLineDash([3,3]);x.beginPath();x.moveTo(px,top-3);x.lineTo(px,bottom);x.stroke();x.setLineDash([]);x.fillStyle='#ff909a';x.fillText('S₂',px+3,top+10);}
+   const cx=left+Math.min(dur,Math.max(0,ctx.age))*sx;x.strokeStyle='#aee5d099';x.beginPath();x.moveTo(cx,top);x.lineTo(cx,bottom);x.stroke();if(frame.vf){x.fillStyle='#0b2136df';x.fillRect(0,0,w,h);x.fillStyle='#ff8b96';x.font='11px Microsoft YaHei';x.fillText('室颤时不使用单一局部动作电位周期',18,h*.5);}
+ }
+ function localECG(ctx,frame){const f=Lab.fit($('local-ecg'));if(!f)return;const {x,w,h}=f;x.clearRect(0,0,w,h);const left=31,top=18,base=h*.67,duration=Math.max(850,Lab.engine.rr*1.3),scale=(w-left-8)/duration,gain=h*.36;x.strokeStyle='#c49aa04d';x.lineWidth=.6;x.beginPath();for(let t=0;t<=duration;t+=200){x.moveTo(left+t*scale,top);x.lineTo(left+t*scale,h-12);}x.moveTo(left,base);x.lineTo(w,base);x.stroke();x.font='10px Segoe UI';x.fillStyle='#3f5c6d';x.fillText('II',2,base+3);x.fillStyle='#627a88';x.fillText('同步心电图 · 以本次窦性 QRS 起点为 0',left,10);let previous=null;
+   for(let t=0;t<=duration;t+=2){const red=Number.isFinite(ctx.ci)&&t>=ctx.ci,yy=base-Lab.engine.ecg(ctx.base.time+t,'II')*gain;if(red!==previous){if(previous!==null)x.stroke();x.beginPath();x.strokeStyle=red?'#bd2941':'#253d4c';x.lineWidth=1.3;x.moveTo(left+t*scale,yy);previous=red;}else x.lineTo(left+t*scale,yy);}x.stroke();
+   if(Number.isFinite(ctx.ci)){const xx=left+ctx.ci*scale;x.setLineDash([3,3]);x.strokeStyle='#ba456699';x.beginPath();x.moveTo(xx,top);x.lineTo(xx,h-10);x.stroke();x.setLineDash([]);x.fillStyle='#bd2941';x.fillText('室早',xx+4,top+10);}
+   const xx=left+Math.max(0,Math.min(duration,ctx.age))*scale;x.strokeStyle='#087f89';x.beginPath();x.moveTo(xx,top);x.lineTo(xx,h-10);x.stroke();x.fillStyle='#627a88';x.fillText('0',left,h-1);x.fillText(Math.round(duration)+' ms',w-55,h-1);
+ }
+ function pvBurstTime(){return ['af','preAf'].includes(S.rhythm)?S.time-Lab.engine.pvOnset:-1000;}
+ function drawPV(frame){if(!pvReady){text('local-phase','正在解码真实解剖网格…');return;}const elapsed=pvBurstTime(),curve=pulsePaths[S.pvFocus],focus=new T.Vector3(...pvData.signals[S.pvFocus].focus);laMat.uniforms.clock.value=elapsed-65;laMat.uniforms.af.value=frame.af?1:0;laMat.uniforms.origin.value.copy(pvAttachments[S.pvFocus]);focusMesh.position.copy(focus);focusMesh.scale.setScalar(elapsed>=0&&elapsed<1000?1+.35*Math.cos(elapsed*.06):.72);focusMesh.material.opacity=elapsed>=0&&elapsed<1000?1:.45;
+   const active=elapsed>=0&&elapsed<1100;pvDots.visible=active;for(let i=0;i<14;i++){const offset=i*8,phase=((elapsed-offset)%175+175)%175,progress=Math.min(1,phase/65),p=curve.getPointAt(progress);dummy.position.copy(p);dummy.rotation.set(0,0,0);dummy.scale.setScalar(active&&elapsed>=offset?Math.max(.12,1-i*.055):0);dummy.updateMatrix();pvDots.setMatrixAt(i,dummy.matrix);}pvDots.instanceMatrix.needsUpdate=true;
+   text('local-phase',elapsed<0?'肺静脉肌袖与左房连接':elapsed<1000?'肺静脉触发灶短阵快速发放':'心房紊乱维持 · 多波前示意');
+   text('local-explanation',elapsed<0?'肺静脉近心房侧可有心肌肌袖延伸。选择一个触发灶并点击“重播肺静脉触发”，观察快速异位激动进入左房，随后心房发生紊乱激动。':elapsed<1000?'红色激动从所选肺静脉肌袖向左房传播；下方局部电位示意与全局十二导联使用同一触发时刻。':'短阵触发结束后，心房仍可在合适的基质上维持紊乱激动；本图以多个波前表示这一阶段，不把房颤等同于一个肺静脉永久快速起搏。');
+   text('local-limit','解剖来自 BodyParts3D 图谱网格，并非个体 CT。触发点、波前及局部电位为教学叠加；原数据未分割心肌袖。其他触发与维持机制不在本例范围内。');tracesPV(frame,elapsed);
+ }
+ function tracesPV(frame,elapsed){const f=Lab.fit($('local-trace'));if(!f)return;const {x,w,h}=f;x.clearRect(0,0,w,h);const left=31,end=2700,start=-500,sx=(w-left-7)/(end-start),toX=t=>left+(t-start)*sx;const rows=[32,82,136];x.font='10px Segoe UI';x.lineWidth=1;
+   for(let j=0;j<3;j++){const y=rows[j];x.fillStyle='#9bb9ce';x.fillText(['PV','LA','II'][j],1,y+3);x.strokeStyle='#5d849d44';x.beginPath();x.moveTo(left,y);x.lineTo(w,y);x.stroke();x.strokeStyle=j===2?'#c8dec6':'#ff7c8a';x.beginPath();
+     for(let t=start;t<=end;t+=4){let a=0;if(j===0){for(let k=0;k<6;k++)a+=Math.exp(-Math.pow((t-k*175)/9,2))-.42*Math.exp(-Math.pow((t-k*175-10)/10,2));}
+       else if(j===1){if(t>=65){if(t<1000){for(let k=0;k<6;k++)a+=.75*Math.exp(-Math.pow((t-k*175-65)/13,2))-.35*Math.exp(-Math.pow((t-k*175-82)/17,2));}else a=.26*Math.sin(t*.047)+.18*Math.sin(t*.067+.3)+.12*Math.sin(t*.097);}}
+       else {const origin=Number.isFinite(Lab.engine.pvOnset)?Lab.engine.pvOnset:0;a=Lab.engine.ecg(origin+t,'II')*.75;}
+       const yy=y-a*22;if(t===start)x.moveTo(toX(t),yy);else x.lineTo(toX(t),yy);
+     }x.stroke();
+   }x.setLineDash([3,4]);x.strokeStyle='#9abaad66';x.beginPath();x.moveTo(toX(0),12);x.lineTo(toX(0),h-7);x.stroke();x.setLineDash([]);x.fillStyle='#8faabf';x.font='9px Segoe UI';x.fillText('触发 0 ms',toX(0)+4,10);x.fillText('局部电位为示意，无统一 mV 标尺',left,h-2);if(frame.af){const px=toX(Math.min(end,elapsed));x.strokeStyle='#9de7ce';x.beginPath();x.moveTo(px,16);x.lineTo(px,h-12);x.stroke();}
+ }
+ function draw(frame){if(mode!=='pv'&&mode!=='ventricle'||!renderer)return;resize();group.rotation.set(pitch,yaw,0,'YXZ');group.scale.setScalar(zoom);group.position.y=mode==='pv'?0:.05;camera.position.z=mode==='pv'?(w/h<1.3?8.4:6.4):(w/h<1.3?7.1:5.6);camera.lookAt(0,0,0);camera.updateMatrixWorld();group.updateMatrixWorld(true);if(mode==='ventricle')drawTissue(frame);else drawPV(frame);renderer.render(scene,camera);
+   for(const l of labels){const p=l.pos.clone().applyMatrix4(group.matrixWorld).project(camera);const x=(p.x*.5+.5)*w,y=(.5-p.y*.5)*h;const side=x<w/2?-1:1;l.el.style.left=T.MathUtils.clamp(x+side*47,57,w-57)+'px';l.el.style.top=T.MathUtils.clamp(y+(l.key?.includes('SPV')?-28:l.key?25:0),18,h-30)+'px';l.el.classList.toggle('trigger-selected',mode==='pv'&&l.key===S.pvFocus);l.el.style.opacity=p.z<1?'1':'0';}
+ }
+ const local=Lab.local={show,draw,rebuild(){if(renderer)buildTissue();}};
+})();
