@@ -1,3 +1,23 @@
+# v1.0 — 2026-11-15
+
+### Membrane-potential release
+
+- Promoted the local-v1.0 tools into the public build and both web entry points. The local preview remains available with `python work/build.py --local`.
+- Added switchable myocardial voltage colors, a −90 to +30 mV color bar and right-click surface probing. The selected point follows the heart and displays voltage, phases 0–4 and a synchronized local action-potential trace.
+- Added a sticky single-beat timeline with 1 ms seeking, fine steps, previous/next beats, beat looping and phase shortcuts. Disorganized ventricular rhythms use an observation window instead of a global beat.
+- Added instantaneous frontal-vector angle/quadrant readouts. Near-zero vectors do not display an unstable angle.
+- Updated the Chinese and English interface, usage guides, reference links and release labels. Added a Windows preview launcher that starts a loopback-only background server.
+- Retained existing anatomy, 75 rhythm scenarios, ECG generation and third-party licenses. Membrane colors and traces are teaching approximations, not measured patient voltages or an ionic-current solver.
+
+### Verification
+
+- Membrane regression: 76,800 samples across 75 scenarios, including phase continuity, voltage bounds, recovery, BBB delays, quadrants and cycle boundaries.
+- Existing regression suites: 41,580 core rhythm frames, 44,370 expanded frames and 8,925 interval frames; zoom, QTc gating, event density and bilingual checks passed.
+- Browser: public v1.0 build rendered the heart and ECG; right-click probing, all five phase buttons, 250 → 251 ms stepping, voltage toggle and English interface were verified without app console errors.
+- The release archive includes editable source, embedded runtime assets, attribution and a SHA-256 manifest. No new third-party runtime dependency was added.
+
+---
+
 # v0.1.2 — 2026-11-14
 
 ### Open-source release

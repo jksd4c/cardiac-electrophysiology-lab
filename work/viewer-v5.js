@@ -129,8 +129,8 @@ See LICENSE for copying conditions and warranty disclaimer.
       else if(key==='RA'||key==='LA'){const s=key==='RA'?anchors.SA:[.24,.29,.60];for(let i=0;i<act.length;i++)act[i]=(key==='RA'?6:55)+Math.hypot(pos[i*3]-s[0],pos[i*3+1]-s[1],pos[i*3+2]-s[2])*(key==='RA'?47:40);}
       g.setAttribute('activation',new T.BufferAttribute(act,1));
       const layer={key,meshes:[],mats:[],g,cavity,vessel};
-      for(const back of [true,false]){const mat=new T.ShaderMaterial({vertexShader:shellVertex,fragmentShader:shellFragment,uniforms:{t:{value:0},base:{value:new T.Color(vessel?'#729edb':cavity?'#426ba4':'#4d80c1')},opacity:{value:state.opacity},cut:{value:0},kind:{value:vessel?2:cavity?1:0},selected:{value:0},back:{value:back?1:0},mode:{value:0},age:{value:0},globalTime:{value:0},abnormal:{value:0},branchCode:{value:0},preexcited:{value:0},chamber:{value:key==='LV'?1:key==='RV'?-1:0},focus:{value:new T.Vector3()}},side:back?T.BackSide:T.FrontSide,transparent:true,depthWrite:false,depthTest:true});const m=new T.Mesh(g,mat);m.name=item.name;m.userData.key=key;m.renderOrder=back?1:cavity?2:3;heart.add(m);layer.meshes.push(m);layer.mats.push(mat);if(!back)pickSurfaces.push(m);}
-      surfaces.push(layer);
+      for(const back of [true,false]){const mat=new T.ShaderMaterial({vertexShader:shellVertex,fragmentShader:window.HeartMembrane?.fragment(shellFragment)||shellFragment,uniforms:{...window.HeartMembrane?.uniforms(),t:{value:0},base:{value:new T.Color(vessel?'#729edb':cavity?'#426ba4':'#4d80c1')},opacity:{value:state.opacity},cut:{value:0},kind:{value:vessel?2:cavity?1:0},selected:{value:0},back:{value:back?1:0},mode:{value:0},age:{value:0},globalTime:{value:0},abnormal:{value:0},branchCode:{value:0},preexcited:{value:0},chamber:{value:key==='LV'?1:key==='RV'?-1:0},focus:{value:new T.Vector3()}},side:back?T.BackSide:T.FrontSide,transparent:true,depthWrite:false,depthTest:true});const m=new T.Mesh(g,mat);m.name=item.name;m.userData.key=key;m.renderOrder=back?1:cavity?2:3;heart.add(m);layer.meshes.push(m);layer.mats.push(mat);if(!back)pickSurfaces.push(m);}
+      surfaces.push(layer);window.HeartMembrane?.register(layer);
       {const m=new T.Mesh(g,vessel?depthNoCut:depthMat);depthHeart.add(m);}
     }
     const wireVertex=`varying vec3 p;varying vec3 n;varying vec3 v;varying float at;uniform float a;uniform float b;void main(){p=position;at=mix(a,b,uv.x);vec4 mv=modelViewMatrix*vec4(position,1.);v=-mv.xyz;n=normalize(normalMatrix*normal);gl_Position=projectionMatrix*mv;}`;
@@ -202,6 +202,14 @@ See LICENSE for copying conditions and warranty disclaimer.
     $('magnify-structure').onclick=()=>{const key=state.selected;if(!key)return;if(key==='LA'&&Lab.allowedDetail('pv')){Lab.detail('pv');state.yaw=Math.PI;}else if(['LV','RV','VENT'].includes(key))Lab.detail('ventricle');state.zoom=1.8;heart.rotation.set(state.pitch,state.yaw,0,'YXZ');const q=vec(anchors[key]).applyEuler(heart.rotation).multiplyScalar(state.zoom);state.panX=-q.x;state.panY=-q.y+.04;state.auto=false;$('auto').setAttribute('aria-pressed','false');};
     function setUniform(m,key,value){m.uniforms[key].value=T.MathUtils.lerp(m.uniforms[key].value,value,Math.min(1,frameDt*14));}
     function occludedPick(hit){const p=hit.point.clone().applyMatrix4(heart.matrixWorld.clone().invert());return state.cut&&!['AO','PT','SVC'].includes(hit.object.userData.key)&&p.y<.22&&p.z>.59+.18*p.x;}
+    function pickMembrane(clientX,clientY){
+      const r=renderer.domElement.getBoundingClientRect();pointer.set((clientX-r.left)/r.width*2-1,-(clientY-r.top)/r.height*2+1);raycaster.setFromCamera(pointer,camera);
+      const hit=raycaster.intersectObjects(pickSurfaces,false).find(h=>!occludedPick(h));
+      if(!hit||!['RA','LA','VENT','RV','LV'].includes(hit.object.userData.key)){window.HeartMembrane?.select(null);return;}
+      const p=heart.worldToLocal(hit.point.clone()),g=hit.object.geometry,face=hit.face,a=new T.Vector3().fromBufferAttribute(g.attributes.position,face.a),b=new T.Vector3().fromBufferAttribute(g.attributes.position,face.b),c=new T.Vector3().fromBufferAttribute(g.attributes.position,face.c),weights=new T.Vector3();
+      T.Triangle.getBarycoord(p,a,b,c,weights);const activation=weights.x*g.attributes.activation.getX(face.a)+weights.y*g.attributes.activation.getX(face.b)+weights.z*g.attributes.activation.getX(face.c);
+      window.HeartMembrane?.select({key:hit.object.userData.key,position:p.toArray(),activation});
+    }
     function pick(clientX,clientY){const r=renderer.domElement.getBoundingClientRect();pointer.set((clientX-r.left)/r.width*2-1,-(clientY-r.top)/r.height*2+1);raycaster.setFromCamera(pointer,camera);
       const body=raycaster.intersectObjects(pickSurfaces,false).filter(h=>!occludedPick(h)),front=body[0]?.distance??Infinity;
       const hits=raycaster.intersectObjects(pickFibers,false).filter(h=>state.depthMode==='xray'||h.distance-front<.76*state.zoom);
@@ -244,8 +252,8 @@ See LICENSE for copying conditions and warranty disclaimer.
       const ventHot=(frame.ventMode===1||frame.preexcited)&&frame.ventAge>=0&&frame.ventAge<420,atrialHot=frame.atrialMode===1&&frame.atrialAge>=0&&frame.atrialAge<320;
       focusSprite.visible=ventHot||atrialHot||frame.af||frame.pvTrigger;focusSprite.position.copy(ventHot?focalV:focalA);focusSprite.scale.setScalar(frame.af?.34+.05*Math.sin(state.time*.04):.45);focusSprite.material.color.set('#ff304e');focusSprite.material.opacity=frame.af?.9:Math.max(.45,1.3-(ventHot?frame.ventAge:frame.atrialAge)/550);
 
-      updateCircuits(frame);renderer.setRenderTarget(depths);renderer.setClearColor(0xffffff,1);renderer.clear();renderer.render(depthScene,camera);renderer.setRenderTarget(null);renderer.setClearColor(0,0);renderer.render(scene,camera);drawLabels();
-      Lab.draw(frame);window.HeartSpatial?.draw(frame,heart.quaternion);
+      window.HeartMembrane?.prepare(frame);updateCircuits(frame);renderer.setRenderTarget(depths);renderer.setClearColor(0xffffff,1);renderer.clear();renderer.render(depthScene,camera);renderer.setRenderTarget(null);renderer.setClearColor(0,0);renderer.render(scene,camera);drawLabels();
+      Lab.draw(frame);window.HeartSpatial?.draw(frame,heart.quaternion);window.HeartMembrane?.draw(frame);
     }
     function playUI(){Lab.playUI();}
     $('play').onclick=()=>{state.running=!state.running;playUI()};$('auto').onclick=()=>{state.auto=!state.auto;$('auto').setAttribute('aria-pressed',state.auto)};
@@ -263,16 +271,16 @@ See LICENSE for copying conditions and warranty disclaimer.
       if(pointers.size===2){const a=[...pointers.values()],d=Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y);if(lastDistance)state.zoom=Math.max(.6,Math.min(2.4,state.zoom*d/lastDistance));lastDistance=d;state.panX+=dx*.0025;state.panY-=dy*.0025;}
       else if(panDrag){state.panX+=dx*.005;state.panY-=dy*.005;}else{state.yaw+=dx*.007;state.pitch=Math.max(-1.4,Math.min(1.4,state.pitch+dy*.0055));}labelDirty=true;
     });
-    renderer.domElement.addEventListener('pointerup',e=>{if(movement<6&&!panDrag)select(pick(e.clientX,e.clientY));pointers.delete(e.pointerId);lastDistance=0;dragging=false;persist();});
+    renderer.domElement.addEventListener('pointerup',e=>{if(movement<6){if(window.HeartMembrane&&(e.button===2||window.HeartMembrane.picking&&e.button===0))pickMembrane(e.clientX,e.clientY);else if(!panDrag)select(pick(e.clientX,e.clientY));}pointers.delete(e.pointerId);lastDistance=0;dragging=false;persist();});
     renderer.domElement.addEventListener('pointercancel',e=>{pointers.delete(e.pointerId);lastDistance=0;dragging=false});renderer.domElement.addEventListener('pointerleave',()=>{hover=null});
     renderer.domElement.addEventListener('wheel',e=>{e.preventDefault();state.zoom=Math.max(.6,Math.min(2.4,state.zoom*Math.exp(-e.deltaY*.0008)));labelDirty=true;},{passive:false});
     document.addEventListener('keydown',e=>{if(e.key==='Escape'&&state.selected)select(null,false)});root.addEventListener('change',persist);
     window.addEventListener('openai:set_globals',e=>restore(e.detail?.globals?.widgetState?.privateContent));
     renderer.domElement.addEventListener('webglcontextlost',e=>{e.preventDefault();$('loading').hidden=false;$('loading').textContent='显示已暂停，请刷新页面恢复。'});
     $('opacity').value=Math.round(state.opacity*100);$('opacity-value').textContent=Math.round(state.opacity*100)+'%';$('speed').value=state.speed;$('label-mode').value=state.labelMode;
-    $('loading').hidden=true;new ResizeObserver(resize).observe(area);resize();select(null,false,false);
+    window.HeartMembrane?.attach(heart,depthFade);$('loading').hidden=true;new ResizeObserver(resize).observe(area);resize();select(null,false,false);
     window.HeartSpatial?.init();
-    let prev=performance.now();function tick(now){const dt=Math.max(0,Math.min(80,now-prev));prev=now;frameDt=dt/1000;Lab.advanceECGDrag(dt);if(state.running)state.time=(state.time+dt*state.speed)%12000;if(state.auto)state.yaw+=dt/1000*Math.PI*2/32;render();requestAnimationFrame(tick)}requestAnimationFrame(tick);
+    let prev=performance.now();function tick(now){const dt=Math.max(0,Math.min(80,now-prev));prev=now;frameDt=dt/1000;Lab.advanceECGDrag(dt);if(state.running)state.time=window.HeartMembrane?window.HeartMembrane.advance(state.time,dt*state.speed):(state.time+dt*state.speed)%12000;if(state.auto)state.yaw+=dt/1000*Math.PI*2/32;render();requestAnimationFrame(tick)}requestAnimationFrame(tick);
     window.heartViewer={state,renderer,scene,camera,network,select,render,heart,stats:{anatomicalMeshes:surfaces.length,conductionSegments:fibers.length,triangles:surfaces.reduce((n,s)=>n+s.g.index.count/3,0)}};
     window.heartReady=true;area.dataset.ready='true';
   } catch(e) { fail(e); }

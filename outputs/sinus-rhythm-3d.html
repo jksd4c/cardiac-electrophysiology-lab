@@ -5,7 +5,7 @@ Copyright (C) 2026 jksd4c
 See LICENSE for copying conditions and warranty disclaimer.
 -->
 
-<html lang="zh-CN"><head><meta charset="utf-8"><meta name="referrer" content="no-referrer"><meta name="viewport" content="width=device-width, initial-scale=1"><title>心脏电活动实验室 · 0.1.2 内测版</title><style>/*
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="app-version" content="v1.0"><meta name="referrer" content="no-referrer"><meta name="viewport" content="width=device-width, initial-scale=1"><title>心脏电活动实验室 · v1.0</title><style>/*
 SPDX-License-Identifier: GPL-3.0-only
 Copyright (C) 2026 jksd4c
 See LICENSE for copying conditions and warranty disclaimer.
@@ -95,9 +95,23 @@ html{scroll-padding-top:180px}
 @media(max-width:1500px) and (min-width:951px){#scene-wrap{height:520px}.workspace-grid{grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:20px}.sticky-controls .session-bar{flex-wrap:wrap}.sticky-controls .time-section{grid-template-columns:minmax(240px,1fr) minmax(260px,1fr)}}
 @media(max-width:950px){.workspace-grid{grid-template-columns:1fr}#scene-wrap{height:530px}.sticky-controls .session-bar{gap:9px 12px}.sticky-controls .time-section{grid-template-columns:1fr;gap:3px}.sticky-controls .phase-line{grid-row:1}.sticky-controls .scrub-row{grid-column:1;grid-row:2}.sticky-controls .event-markers{grid-row:3}.sticky-controls .rhythm-control{min-width:180px}.sticky-controls #rhythm{padding:7px 9px}.sticky-controls .play-controls button{padding:6px 9px}.sticky-controls .phase-line>strong{max-width:none}}
 @media(max-width:600px){html{scroll-padding-top:218px}.heading{display:flex}.header-right{padding-top:2px}.language-switch button{font-size:10px;padding:4px 6px}.sticky-controls{margin-top:12px;border-radius:6px}.sticky-controls .session-bar{padding:8px 9px 5px;gap:7px}.sticky-controls .rhythm-control{min-width:0;flex-direction:row;gap:6px;font-size:10px}.sticky-controls #rhythm{min-width:0;font-size:10px;padding:7px 5px;flex:1}.sticky-controls .play-controls{gap:5px}.sticky-controls .speed-control{font-size:9px;gap:4px}.sticky-controls #speed{padding:5px;font-size:10px}.sticky-controls .time-section{padding:0 9px 6px}.sticky-controls .phase-line>strong{font-size:9px}.sticky-controls .scrub-row{font-size:9px;gap:8px}.sticky-controls .event-markers{min-height:23px;padding-top:0}.sticky-controls .event-markers button{font-size:8px}.sticky-controls .rate-control{font-size:9px;gap:8px}.sticky-controls .rate-input output{font-size:14px}.sticky-controls .rate-input input{width:100px}.scene-wrap .vector3d-card{width:106px;height:106px;top:47px;right:2px}#scene-wrap{height:460px;min-height:430px}.view-presets{justify-content:flex-start;padding-left:5px;gap:4px}.view-presets button{padding:5px 8px}.pane-heading{font-size:10px}.interval-grid{gap:6px}.page-footer #legal-credit{margin-left:auto}}
+/* SPDX-License-Identifier: GPL-3.0-only · Copyright (C) 2026 jksd4c */
+.version-badge{color:#7ee6d2;border:1px solid #5ba99455;border-radius:4px;padding:3px 7px}
+.membrane-panel{border:1px solid #31506b88;background:linear-gradient(135deg,#0d2338,#081728);border-radius:10px;margin-top:15px;padding:14px 16px;min-width:0}
+.mp-heading,.mp-tools,.mp-readouts,.mp-chart-heading,.mp-cycle-heading{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.mp-heading strong{font-size:13px;font-weight:500;color:#e2f1fc}.mp-kicker{font-size:9px;color:#6e9db8;letter-spacing:1.8px;display:block;margin-bottom:4px}
+.mp-tools{justify-content:flex-end;gap:6px}.mp-tools button{padding:5px 8px;font-size:10px}.mp-tools button[aria-pressed=true]{background:#1a514d;border-color:#5cbf9f;color:#bdffe9}
+.mp-toggle{display:flex;align-items:center;gap:7px;font-size:11px;color:#cce1f0;cursor:pointer}.mp-toggle input{accent-color:#82dfc1;width:16px;height:16px}
+.mp-color-scale{margin:13px 0 14px}.mp-scale-caption{display:flex;justify-content:space-between;gap:8px;font-size:9px;color:#91aec6;margin-bottom:6px}.mp-gradient{height:9px;border-radius:8px;position:relative;border:1px solid #ffffff20}.mp-gradient i{position:absolute;top:-4px;width:3px;height:17px;background:white;border:1px solid #072035;transform:translateX(-50%);border-radius:2px}.mp-ticks{display:flex;justify-content:space-between;margin-top:4px;font:9px ui-monospace,monospace;color:#aac7dc}
+.mp-readouts{background:#07152480;border-radius:6px;padding:9px 10px;gap:6px;margin-bottom:8px}.mp-readouts>div{display:flex;flex-direction:column;gap:4px}.mp-readouts small{font-size:9px;color:#7f9db7}.mp-readouts output{font-size:13px;font-variant-numeric:tabular-nums;color:#d9ebf8}.mp-readouts #mp-voltage{font-size:19px;color:#9fe8de}.mp-readouts #mp-phase{color:#ffdc81}.mp-phase-chips{display:flex;gap:5px;margin:8px 0}.mp-phase-chips button{flex:1;min-width:0;padding:5px 2px;font-size:9px;border-color:#28445a;color:#9ab9cf}.mp-phase-chips b{font-size:11px;margin-right:3px}.mp-phase-chips button[aria-pressed=true]{background:#29443c;color:#ddffb6;border-color:#8cba7b}.mp-phase-chips button:disabled{opacity:.4;cursor:default}
+#mp-trace{display:block;width:100%;height:160px;border-radius:6px;background:#071525;touch-action:none;cursor:crosshair}
+.mp-chart-heading{font-size:10px;color:#c5dded;margin-bottom:6px}.mp-chart-heading span:last-child{font-size:9px;color:#7e9db8}.mp-status{font-size:10px;min-height:18px;line-height:1.7;color:#94b1c7;margin:7px 0 0}.mp-note{font-size:9px;color:#7899b2;margin-top:8px;line-height:1.7}.mp-note summary{cursor:pointer}.mp-note p{margin:5px 0}.mp-note a{color:#95c7e8}.mp-position{font-size:9px;color:#82a2b9;margin:5px 0 0}.mp-off .mp-gradient{opacity:.42}.mp-off #mp-scale-state{color:#7c94a8}
+.mp-cycle{padding:8px 14px 10px;border-top:1px solid #35516b66;background:#0b203340;border-radius:0 0 9px 9px}.mp-cycle-heading{font-size:10px;gap:6px;margin-bottom:3px}.mp-cycle-heading strong{font-weight:500;color:#a5e9d5}.mp-cycle-controls{display:flex;gap:4px;align-items:center}.mp-cycle button{padding:3px 7px;font-size:9px}.mp-cycle button[aria-pressed=true]{border-color:#5cbf9f;background:#21443f;color:#c1ffe9}.mp-cycle #mp-cycle-value{font:10px ui-monospace,monospace;color:#d6edfc}.mp-cycle-range{display:grid;grid-template-columns:48px minmax(0,1fr) 60px;align-items:center;gap:10px;font:9px ui-monospace,monospace;color:#7f9fb9}.mp-cycle input{width:100%;min-width:0;margin:0;accent-color:#8ee4c0;height:19px;cursor:ew-resize}.mp-cycle-meta{font-size:9px;color:#83a3ba;white-space:nowrap}#mp-axis{color:#b2cfdf}.mp-cycle-fine{display:flex;gap:4px;align-items:center}
+.scene-wrap[data-membrane-picking=true] .heart-webgl{cursor:crosshair!important}
+@media(max-width:600px){.membrane-panel{padding:12px;margin-top:12px}.mp-heading{align-items:flex-start}.mp-tools{flex-wrap:wrap;justify-content:flex-start}.mp-cycle{padding:7px 9px}.mp-cycle-meta{width:100%;white-space:normal;font-size:8px}.mp-cycle-heading{gap:5px}.mp-cycle-controls{margin-left:auto}.mp-cycle-controls button{font-size:8px;padding:3px 5px}.mp-cycle-fine{display:none}.mp-readouts output{font-size:11px}.mp-readouts #mp-voltage{font-size:16px}.mp-phase-chips button{font-size:8px}.mp-phase-chips b{display:block;margin:0}#mp-trace{height:145px}.mp-status{font-size:9px}.mp-cycle-range{grid-template-columns:36px minmax(0,1fr) 52px;gap:6px}}
 </style></head>
 <body><main id="heart-app" class="standalone-heart">
- <header class="heading"><div><div class="eyebrow">CARDIAC ELECTROPHYSIOLOGY · RHYTHM ATLAS</div><h1>心脏电活动实验室</h1><span class="version-badge">v0.1.2</span></div><div class="header-right"><div class="language-switch" role="group" aria-label="语言 / Language"><button id="lang-zh" data-language="zh" aria-pressed="true">中文</button><button id="lang-en" data-language="en" aria-pressed="false">English</button></div><div class="legend"><span><i class="dot gold"></i>正常激动</span><span><i class="dot red"></i>异常激动 / 回路</span><span><i class="dot cyan"></i>选中结构</span></div></div></header>
+ <header class="heading"><div><div class="eyebrow">CARDIAC ELECTROPHYSIOLOGY · RHYTHM ATLAS</div><h1>心脏电活动实验室</h1><span class="version-badge">v1.0</span></div><div class="header-right"><div class="language-switch" role="group" aria-label="语言 / Language"><button id="lang-zh" data-language="zh" aria-pressed="true">中文</button><button id="lang-en" data-language="en" aria-pressed="false">English</button></div><div class="legend"><span><i class="dot gold"></i>正常激动</span><span><i class="dot red"></i>异常激动 / 回路</span><span><i class="dot cyan"></i>选中结构</span></div></div></header>
  <div class="sticky-controls"> <section class="session-bar" aria-label="节律和播放设置">
   <label class="rhythm-control">节律示例<select id="rhythm" aria-label="选择心律"></select></label>
   <label id="rhythm-rate-row" class="rate-control" hidden><span id="rhythm-rate-label">示例节律频率</span><span class="rate-input"><input id="rhythm-rate" type="range" min="120" max="240" value="180" step="1" aria-label="异常节律示例频率"><output id="rhythm-rate-value">180</output><small>次/分</small></span></label><div class="play-controls"><button id="play" class="primary" aria-pressed="true">暂停</button><button id="restart">从头播放</button><button id="focus-event" title="暂停在当前示例的关键事件">关键事件</button><label class="speed-control">速度<select id="speed"><option value="0.1">0.1×</option><option value="0.2">0.2×</option><option value="0.5" selected>0.5×</option><option value="1">1×</option></select></label></div>
@@ -107,6 +121,17 @@ html{scroll-padding-top:180px}
    <div class="model-stage"><div id="scene-wrap" class="scene-wrap"><div class="view-presets"><button data-view="front">前面</button><button data-view="back">后面</button><button data-view="left">左侧</button><button data-view="right">右侧</button><button id="auto" aria-pressed="false">旋转</button></div><div id="loading" class="loading">正在构建心脏与传导网络…</div><div id="orientation-cube" class="orientation-cube" aria-label="解剖方位立方体"></div><aside class="vector3d-card" aria-label="三维心电向量"><div class="vector3d-heading"><strong>三维心电向量</strong><span id="vector3d-lead">II</span></div><div id="vector3d-scene" class="vector3d-scene"></div><div class="vector3d-legend"><span><i class="dot gold"></i>净向量</span><span><i class="dot cyan"></i>导联投影</span></div><div id="vector3d-value"></div><p id="vector3d-clue"></p><span class="micro-copy">与主模型同向旋转 · 胸导联方向为近似示意</span></aside></div></div><div class="model-help">拖动旋转 · 滚轮缩放 · 点击结构与标签联动</div>
    <div class="selection-strip"><span id="structure-info" aria-live="polite">点击标签或结构，定位对应的传导组织。</span><button id="clear-selection" hidden>取消选中</button><button id="magnify-structure" hidden>局部查看</button></div>
    <div class="view-controls"><button id="cut" aria-pressed="false">切开心室前壁</button><label>标注<select id="label-mode"><option value="conduction">传导系统</option><option value="anatomy">解剖结构</option><option value="none">隐藏</option></select></label><label>肌壁显影<input id="opacity" type="range" min="4" max="100" value="46" aria-label="心肌显影强度"><output id="opacity-value">46%</output></label><label>遮挡<select id="depth-mode"><option value="spatial">空间遮挡</option><option value="xray">透视查看</option></select></label></div>
+<section id="membrane-panel" class="membrane-panel" aria-label="膜电位观察">
+ <div class="mp-heading"><div><span class="mp-kicker">MEMBRANE POTENTIAL</span><strong>膜电位观察</strong></div><div class="mp-tools"><label class="mp-toggle"><input id="mp-toggle" type="checkbox" checked>膜电位着色</label><button id="mp-pick" aria-pressed="false">标记点</button><button id="mp-clear" disabled>清除点</button></div></div>
+ <div class="mp-color-scale"><div class="mp-scale-caption"><span>膜电位 / mV</span><span id="mp-scale-state">已复极 → 去极化</span></div><div id="mp-gradient" class="mp-gradient"><i id="mp-color-cursor" hidden></i></div><div class="mp-ticks"><span>−90</span><span>−60</span><span>−30</span><span>0</span><span>+30</span></div></div>
+ <div class="mp-chart-heading"><span id="mp-probe-name">右键心肌表面，放置观察点</span><span>局部动作电位 · mV</span></div>
+ <div class="mp-readouts"><div><small>当前膜电位</small><output id="mp-voltage">— mV</output></div><div><small>动作电位阶段</small><output id="mp-phase">—</output></div><div><small>复极进度</small><output id="mp-recovery">—</output></div></div>
+ <div class="mp-phase-chips" role="group" aria-label="定位动作电位阶段"><button data-mp-phase="0" aria-pressed="false" disabled><b>0</b>快速去极</button><button data-mp-phase="1" aria-pressed="false" disabled><b>1</b>早期复极</button><button data-mp-phase="2" aria-pressed="false" disabled><b>2</b>平台期</button><button data-mp-phase="3" aria-pressed="false" disabled><b>3</b>快速复极</button><button data-mp-phase="4" aria-pressed="false" disabled><b>4</b>静息期</button></div>
+ <canvas id="mp-trace" aria-label="选点动作电位，拖动定位，方向键按一毫秒移动" tabindex="0"></canvas>
+ <p id="mp-position" class="mp-position"></p><p id="mp-status" class="mp-status" role="status">右键单击选点；右键拖动仍可平移。也可先点“标记点”，再单击心肌。</p>
+ <details class="mp-note"><summary>膜电位模型与参考</summary><p>色标表示跨膜电位，曲线为心房／心室工作心肌的 0–4 期教学近似；血管与结区不套用该曲线。相同电位可处于不同阶段，以阶段读数区分。复极进度按峰值至静息电位计算，不等同于不应期或兴奋性。</p><p>激动顺序沿用传导模型，动作电位时程按部位与周期作简化调整。房颤／室颤为局部非同步示意；无组织心室节律使用观察窗，不定义统一心动周期。该着色不是患者电位测量或离子电流求解。</p><p><a href="https://cvphysiology.com/arrhythmias/a006" target="_blank" rel="noopener noreferrer">Klabunde · Non-Pacemaker Action Potentials</a> · <a href="https://doi.org/10.1152/advan.00105.2016" target="_blank" rel="noopener noreferrer">Cardiac electrophysiology: normal and ischemic ionic currents and the ECG (2017)</a></p></details>
+</section>
+
   </section>
   <section class="ecg-pane" aria-label="同步十二导联心电图"><div class="pane-heading"><span>02 / 同步十二导联</span><label class="window-control">时间窗 <select id="ecg-duration" aria-label="心电图显示时间窗"><option value="2000">2 秒</option><option value="4000" selected>4 秒</option><option value="6000">6 秒</option></select></label><span id="ecg-window">0–4 s</span></div><div class="ecg-caption">同一时间窗 · 直接拖动心电图定位 · 教学合成波形</div><div id="ecg-grid" class="ecg-grid"></div><div class="strip-heading"><span><strong id="selected-lead-label">II</strong> 导联放大</span><span><span id="strip-zoom-label">4.0 s</span> · <button id="strip-zoom-reset">重置缩放</button></span></div><div class="strip-navigation"><button id="ecg-prev" aria-label="上一心电图窗口">←</button><span>拖动至边缘连续翻窗 · 滚轮放大时间轴</span><button id="ecg-next" aria-label="下一心电图窗口">→</button></div><canvas id="lead-strip" class="lead-strip" aria-label="选中导联放大，拖动游标可定位时间" tabindex="0"></canvas><div class="interval-panel"><div class="interval-heading"><span>心电间期 · 模型估算</span><span id="interval-beat"></span></div><div class="interval-grid"><div><span>RR</span><strong id="metric-rr">—</strong></div><div><span>PR</span><strong id="metric-pr">—</strong></div><div><span>QRS</span><strong id="metric-qrs">—</strong></div><div><span>QT</span><strong id="metric-qt">—</strong></div><div><span>QTcB</span><strong id="metric-qtcB">—</strong></div><div><span>QTcF</span><strong id="metric-qtcF">—</strong></div></div><p id="interval-note"></p><details class="metric-method"><summary>计算方法</summary><p>PR、QRS 为事件模型时程；QT 采用合成 T 波下降支最大斜率切线的基线交点。QTcB = QT / √RR；QTcF = QT / ∛RR（RR 以秒计）。房颤、明显 RR 不齐、重叠波形或宽 QRS 时不显示常规 QTc。仅作教学估算。</p></details></div><div class="ecg-values"><span id="atrial-rate">心房 75</span><span id="ventricular-rate">心室 75 次/分</span><span id="rate-note">规则</span></div></section>
  </div>
@@ -118,7 +143,7 @@ html{scroll-padding-top:180px}
   
  </section>
  <footer class="page-footer"><span class="author-credit">by: jksd4c</span><div id="legal-credit"><details id="release-notice"><summary title="点击查看完整声明、资源来源和第三方许可">仅供学习，不作诊疗依据 · 声明与许可</summary><div class="notice-body">
-<p>jksd4c · GPT-6 Astra 辅助制作 · 0.1.2 内测版 · 开源发布</p>
+<p>jksd4c · GPT-6 Astra 辅助制作 · v1.0 · 开源发布</p>
 <details id="reference-notice"><summary id="reference-summary">教材与模型目录</summary><div id="panel-reference" role="region" aria-labelledby="reference-summary"><div class="table-scroll"><table><thead><tr><th>主参考</th><th>用来做什么</th><th>本轮范围</th></tr></thead><tbody><tr><td><a href="https://shop.elsevier.com/books/goldbergers-clinical-electrocardiography/goldberger/978-0-323-82475-0" target="_blank" rel="noopener noreferrer">Goldberger’s Clinical Electrocardiography，第 10 版</a></td><td>导联、波形、间期、心律识别</td><td>第 2–6 章：基础与导联；第 8 章：束支阻滞；13–16 章：窦性、房性、交界性与室性节律；17–18 章：房室阻滞及预激；21 章：心脏骤停节律。</td></tr><tr><td><a href="https://evolve.elsevier.com/cs/product/9780323757454?role=student" target="_blank" rel="noopener noreferrer">Zipes and Jalife’s Cardiac Electrophysiology: From Cell to Bedside，第 8 版</a></td><td>起搏与传播、复极 / 不应期、触发及折返的机制框架</td><td>细胞间传播、转子与心律失常、肺静脉与房颤、结构重构；局部视图采用简化的组织级示意。</td></tr></tbody></table></div><div class="catalog-tools"><strong id="catalog-count">75 个场景</strong><label>筛选目录 <input id="catalog-search" type="search" placeholder="如 LBBB、室早、AVRT" aria-label="筛选模型目录"></label></div><div id="scope-list" class="scope-list"></div></div></details>
 <p><strong>教学用途</strong><br>本项目用交互式心脏模型帮助学习传导系统、心律失常与心电图。模型及信号经过教学简化，未经临床用途验证，不作为诊断、治疗或消融定位依据。</p>
 <p><strong>解剖模型与修改</strong><br>解剖表面来自 BodyParts3D，经 OrganUI 整理；左房及肺静脉来自同一官方图谱。已进行网格量化、显示与局部视图调整，并叠加教学传导路径。BodyParts3D © The Database Center for Life Science，<a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a>。</p>
@@ -126,7 +151,7 @@ html{scroll-padding-top:180px}
 <p><strong>代码与制作工具</strong><br>Three.js r160 使用 MIT 许可；GPT-6 Astra 用于辅助开发。来源署名不代表相关作者、机构或 OpenAI 对本项目背书。感谢公开资源的作者与维护者。</p>
 <p><strong>开源许可</strong><br>本项目原创代码采用 GPL-3.0-only，作者免费提供官方版本。第三方模型与运行库保留各自许可；教学用途说明不增加许可证以外的使用限制。</p>
 
-<p><a href="https://github.com/jksd4c/cardiac-electrophysiology-lab" target="_blank" rel="noopener noreferrer">源码仓库</a> · <a href="https://github.com/jksd4c/cardiac-electrophysiology-lab/blob/v0.1.2/LICENSING.md" target="_blank" rel="noopener noreferrer">许可范围</a> · <a href="mailto:jksd4c@gmail.com">jksd4c@gmail.com</a></p>
+<p><a href="https://github.com/jksd4c/cardiac-electrophysiology-lab" target="_blank" rel="noopener noreferrer">源码仓库</a> · <a href="https://github.com/jksd4c/cardiac-electrophysiology-lab/blob/v1.0/LICENSING.md" target="_blank" rel="noopener noreferrer">许可范围</a> · <a href="mailto:jksd4c@gmail.com">jksd4c@gmail.com</a></p>
 <details id="project-license"><summary>原创代码 · GPL-3.0-only 完整许可</summary><p>Copyright (C) 2026 jksd4c. Original code: GPL-3.0-only. Third-party notices and licenses remain applicable.</p><pre translate="no">                    GNU GENERAL PUBLIC LICENSE
                        Version 3, 29 June 2007
 
@@ -807,10 +832,10 @@ Public License instead of this License.  But first, please read
 <p>模型和心电图在浏览器本地计算，不要求注册，不提供患者资料上传功能，未内置广告或访问统计脚本。</p>
 <p>仅在本机保存中英文语言偏好；清除浏览器网站数据即可删除。浏览网页及打开外部链接时，托管平台和外部站点可能处理 IP 地址等访问记录，并适用各自的隐私政策。</p>
 <p>主动通过邮件或 GitHub Issues 反馈时，相应服务会处理你提交的内容。公开 Issues 对所有人可见；请勿提交患者身份信息或其他敏感资料。</p>
-<p><span>隐私联系：</span><a href="mailto:jksd4c@gmail.com">jksd4c@gmail.com</a> · <a href="https://github.com/jksd4c/cardiac-electrophysiology-lab/blob/v0.1.2/PRIVACY.md" target="_blank" rel="noopener noreferrer">完整隐私说明</a></p></details>
+<p><span>隐私联系：</span><a href="mailto:jksd4c@gmail.com">jksd4c@gmail.com</a> · <a href="https://github.com/jksd4c/cardiac-electrophysiology-lab/blob/v1.0/PRIVACY.md" target="_blank" rel="noopener noreferrer">完整隐私说明</a></p></details>
 <details><summary>完整教学声明与发布状态</summary>
-<p>本模型面向教学、学习与交流，以开源教学内测版发布。原创代码与原创说明文档采用 GPL-3.0-only；第三方内容适用其各自许可，完整授权范围见 LICENSING.md。</p>
-<p>解剖外形来自公开图谱，传导路径和局部组织为教学叠加。心电图是合成信号，未经临床用途验证，不作为个体诊断、治疗、用药、消融定位或风险预测依据。内测版可能存在程序、解剖及波形偏差。</p>
+<p>本模型面向教学、学习与交流，以开源教学版本发布。原创代码与原创说明文档采用 GPL-3.0-only；第三方内容适用其各自许可，完整授权范围见 LICENSING.md。</p>
+<p>解剖外形来自公开图谱，传导路径和局部组织为教学叠加。心电图是合成信号，未经临床用途验证，不作为个体诊断、治疗、用药、消融定位或风险预测依据。本模型可能存在程序、解剖及波形偏差。</p>
 <p>BodyParts3D, © The Database Center for Life Science licensed under CC Attribution 4.0 International. 主心脏经 OrganUI 提供；左房及肺静脉取自同一官方图谱。</p>
 <p>OrganUI 对网格进行选择、分组、三角化、坐标轴转换、缩放、法线及颜色处理；本项目去除主视图冠脉组，量化压缩网格、调整半透明显示，并为左房／肺静脉局部视图进行配准、放大与细分，叠加教学传导网络。模型和派生图像保留原许可及上述修改说明。</p>
 <p>历史 OBJ 头标注 CC BY-SA 2.1 Japan，官方当前数据库许可页标注 CC BY 4.0；本项目记录差异并依据已核实的官方当前授权，不延伸到其他来源不明的文件。</p>
@@ -1783,7 +1808,7 @@ const originals=new WeakMap(),attrs=new WeakMap();
 function eligible(n){return n.parentElement&&!n.parentElement.closest('script,style,[data-language]');}
 function translateNode(n){if(n.nodeType===3){if(!eligible(n))return;const s=n.nodeValue,prior=originals.get(n),source=prior&&s===prior.en?prior.zh:s;if(language==='en'&&zhRE.test(source)){const en=t(source);if(en!==s){originals.set(n,{zh:source,en});n.nodeValue=en;}}else if(language==='zh'){const old=originals.get(n);if(old&&s===old.en)n.nodeValue=old.zh;}return;}if(n.nodeType!==1)return;const walker=document.createTreeWalker(n,NodeFilter.SHOW_TEXT);let child;while(child=walker.nextNode())translateNode(child);for(const el of [n,...n.querySelectorAll('[title],[aria-label],[placeholder],optgroup')]){if(el.matches('[data-language],script,style'))continue;for(const name of ['title','aria-label','placeholder','label']){if(!el.hasAttribute(name))continue;const val=el.getAttribute(name);let record=attrs.get(el)||{},source=record[name]&&val===record[name].en?record[name].zh:val;if(language==='en'&&zhRE.test(source)){record[name]={zh:source,en:t(source)};el.setAttribute(name,record[name].en);attrs.set(el,record);}else if(language==='zh'&&record[name]&&val===record[name].en)el.setAttribute(name,record[name].zh);}}}
 let observer;function scan(root=document.body){observer?.disconnect();translateNode(root);observer?.observe(document.body,{childList:true,subtree:true,characterData:true});}
-function setLanguage(next){language=next==='en'?'en':'zh';document.documentElement.lang=language==='en'?'en':'zh-CN';document.title=language==='en'?'Cardiac Electrophysiology Lab · v0.1.2':'心脏电活动实验室 · v0.1.2';try{localStorage.setItem('heart-language',language);}catch{}for(const b of document.querySelectorAll('[data-language]'))b.setAttribute('aria-pressed',b.dataset.language===language);scan();window.dispatchEvent(new Event('heart-language-change'));}
+function setLanguage(next){language=next==='en'?'en':'zh';document.documentElement.lang=language==='en'?'en':'zh-CN';document.title=(language==='en'?'Cardiac Electrophysiology Lab':'心脏电活动实验室')+' · '+(document.querySelector('meta[name=app-version]')?.content||'v1.0');try{localStorage.setItem('heart-language',language);}catch{}for(const b of document.querySelectorAll('[data-language]'))b.setAttribute('aria-pressed',b.dataset.language===language);scan();window.dispatchEvent(new Event('heart-language-change'));}
 window.HeartI18n={t,setLanguage,get language(){return language;},add(entries){for(const [a,b]of entries)dict.set(a,b);refresh();scan();}};
 observer=new MutationObserver(records=>{observer.disconnect();for(const record of records){if(record.type==='characterData')translateNode(record.target);else for(const n of record.addedNodes)translateNode(n);}observer.observe(document.body,{childList:true,subtree:true,characterData:true});});
 document.querySelectorAll('[data-language]').forEach(b=>b.onclick=()=>setLanguage(b.dataset.language));setLanguage(language);
@@ -1814,7 +1839,7 @@ BodyParts3D 4.0 · 左房壁 + 四组肺静脉；默认后面观，拖动可旋�
 两路融合|Fusion of two activation paths
 继发复极|Secondary repolarization
 室性心律失常共识|Ventricular arrhythmia consensus
-心脏电活动实验室 · 0.1.2 内测版|Cardiac Electrophysiology Lab · v0.1.2 beta
+心脏电活动实验室 · v1.0|Cardiac Electrophysiology Lab · v1.0
 窦房结发放|SA node firing
 · 左房壁 FJ2438 与四组肺静脉原始网格，统一坐标；肺静脉显示细分保留源开口边界。© The Database Center for Life Science，CC BY 4.0。|· LA wall FJ2438 and four PV meshes in shared coordinates. Display subdivision preserves source opening boundaries. © The Database Center for Life Science, CC BY 4.0.
 异常节律示例频率|Example abnormal rhythm rate
@@ -1823,14 +1848,14 @@ BodyParts3D 4.0 · 左房壁 + 四组肺静脉；默认后面观，拖动可旋�
 额面瞬时心电向量与导联轴|Instantaneous frontal vector and lead axes
 十二导联的十个电极位置示意|Ten electrode positions for the 12-lead ECG
 以下教材的官方版本与目录用于建立学习框架；各场景另附机制参考链接。波形、回路和组织活动为原创教学示意，不复刻教材原图，也不声称逐页核对整本教材。|Official editions and contents establish the learning framework; individual scenarios link to mechanism references. Waveforms, circuits and tissue activity are original teaching illustrations, not reproduced textbook figures or a page-by-page validation of complete textbooks.
-jksd4c · GPT-6 Astra 辅助制作 · 0.1.2 内测版 · 开源发布|jksd4c · Developed with GPT-6 Astra · v0.1.2 beta · Open source
+jksd4c · GPT-6 Astra 辅助制作 · v1.0 · 开源发布|jksd4c · Developed with GPT-6 Astra · v1.0 · Open source
 本项目用交互式心脏模型帮助学习传导系统、心律失常与心电图。模型及信号经过教学简化，未经临床用途验证，不作为诊断、治疗或消融定位依据。|An interactive model for learning cardiac conduction, arrhythmias and ECGs. Anatomy and signals are simplified for teaching and are not validated for diagnosis, treatment or ablation localization.
 解剖表面来自 BodyParts3D，经 OrganUI 整理；左房及肺静脉来自同一官方图谱。已进行网格量化、显示与局部视图调整，并叠加教学传导路径。BodyParts3D © The Database Center for Life Science，|Anatomical surfaces come from BodyParts3D via OrganUI; the LA and PVs use the same official atlas. Meshes are quantized and adapted for display and local views, with teaching conduction overlays. BodyParts3D © The Database Center for Life Science, 
 心电图由规则及模板合成，未使用真实患者心电记录。教材、指南和论文用于知识核对，书目及官方链接见“教材与模型目录”；不附其全文或原图。|ECGs are synthesized from rules and templates, without patient recordings. Textbooks, guidelines and papers support knowledge checks. Bibliography and official links appear in References & rhythm catalog; full texts and original figures are not included.
 Three.js r160 使用 MIT 许可；GPT-6 Astra 用于辅助开发。来源署名不代表相关作者、机构或 OpenAI 对本项目背书。感谢公开资源的作者与维护者。|Three.js r160 is MIT licensed. GPT-6 Astra assisted development. Attribution does not imply endorsement by authors, institutions or OpenAI. We thank the authors and maintainers of these public resources.
 本项目原创代码采用 GPL-3.0-only，作者免费提供官方版本。第三方模型与运行库保留各自许可；教学用途说明不增加许可证以外的使用限制。|Original project code is licensed under GPL-3.0-only; the author provides the official version free of charge. Third-party models and libraries retain their own licenses. The educational notice adds no restrictions beyond the applicable licenses.
-本模型面向教学、学习与交流，以开源教学内测版发布。原创代码与原创说明文档采用 GPL-3.0-only；第三方内容适用其各自许可，完整授权范围见 LICENSING.md。|Released as an open-source teaching beta for learning and discussion. Original code and original documentation use GPL-3.0-only. Third-party materials retain their own licenses; see LICENSING.md for the scope.
-解剖外形来自公开图谱，传导路径和局部组织为教学叠加。心电图是合成信号，未经临床用途验证，不作为个体诊断、治疗、用药、消融定位或风险预测依据。内测版可能存在程序、解剖及波形偏差。|Atlas anatomy carries teaching overlays of conduction paths and local tissue. Synthetic ECGs are not clinically validated and must not guide individual diagnosis, treatment, medication, ablation or risk prediction. This beta may contain software, anatomical or waveform errors.
+本模型面向教学、学习与交流，以开源教学版本发布。原创代码与原创说明文档采用 GPL-3.0-only；第三方内容适用其各自许可，完整授权范围见 LICENSING.md。|Released as an open-source educational model for learning and discussion. Original code and original documentation use GPL-3.0-only. Third-party materials retain their own licenses; see LICENSING.md for the scope.
+解剖外形来自公开图谱，传导路径和局部组织为教学叠加。心电图是合成信号，未经临床用途验证，不作为个体诊断、治疗、用药、消融定位或风险预测依据。本模型可能存在程序、解剖及波形偏差。|Atlas anatomy carries teaching overlays of conduction paths and local tissue. Synthetic ECGs are not clinically validated and must not guide individual diagnosis, treatment, medication, ablation or risk prediction. This model may contain software, anatomical or waveform errors.
 BodyParts3D, © The Database Center for Life Science licensed under CC Attribution 4.0 International. 主心脏经 OrganUI 提供；左房及肺静脉取自同一官方图谱。|BodyParts3D, © The Database Center for Life Science licensed under CC Attribution 4.0 International. The main heart is supplied via OrganUI; the LA and PVs come from the same official atlas.
 OrganUI 对网格进行选择、分组、三角化、坐标轴转换、缩放、法线及颜色处理；本项目去除主视图冠脉组，量化压缩网格、调整半透明显示，并为左房／肺静脉局部视图进行配准、放大与细分，叠加教学传导网络。模型和派生图像保留原许可及上述修改说明。|OrganUI selected, grouped and triangulated meshes, transformed axes and scale, and processed normals and colors. This project removes the main-view coronary group, quantizes meshes, adjusts transparency, and registers, enlarges and subdivides LA/PV views with teaching conduction overlays. Retain the original license and these modification notices with models and derived images.
 历史 OBJ 头标注 CC BY-SA 2.1 Japan，官方当前数据库许可页标注 CC BY 4.0；本项目记录差异并依据已核实的官方当前授权，不延伸到其他来源不明的文件。|Historical OBJ headers specify CC BY-SA 2.1 Japan; the current official database page specifies CC BY 4.0. This difference is documented, and the verified current official grant is used. It does not extend to files of unknown provenance.
@@ -1998,7 +2023,7 @@ See LICENSE for copying conditions and warranty disclaimer.
  for(const [id,r] of Object.entries(H.rhythms)){const b=document.createElement('button');b.textContent=r.name;b.dataset.search=(id+' '+r.name).toLowerCase();b.onclick=()=>{$('release-notice').open=false;$('reference-notice').open=false;configure({rhythm:id});window.scrollTo({top:0,behavior:'smooth'});};$('scope-list').append(b);}
  function fit(c){const r=c.getBoundingClientRect(),d=Math.min(window.devicePixelRatio||1,2),w=Math.round(r.width),h=Math.round(r.height);if(w<1||h<1)return null;if(c.width!==Math.round(w*d)||c.height!==Math.round(h*d)){c.width=Math.round(w*d);c.height=Math.round(h*d);}const x=c.getContext('2d');if(!x._heartI18n){const fill=x.fillText.bind(x);x.fillText=(s,...args)=>fill(tr(s),...args);x._heartI18n=true;}x.setTransform(d,0,0,d,0,0);return {x,w,h,d};}
  function playUI(){text('play',state.running?'暂停':'播放');$('play').setAttribute('aria-pressed',state.running);text('speed-label',state.speed+'×');}
- function seek(t,play=false){state.time=H.clamp(Math.round(t),0,11999);state.stripStart=null;state.running=play;playUI();window.heartViewer?.render();}
+ function seek(t,play=false){window.HeartMembrane?.onSeek(t);state.time=H.clamp(Math.round(t),0,11999);state.stripStart=null;state.running=play;playUI();window.heartViewer?.render();}
  function configure(update={}){
    const rhythmChanged=!!update.rhythm&&update.rhythm!==state.rhythm;if(rhythmChanged){state.context='basic';state.detail='none';state.rhythmRate=H.rhythms[update.rhythm].rate?.value??null;state.substrate=H.rhythms[update.rhythm].substrate||'normal';if(update.rhythm==='ront')state.coupling=280;}Object.assign(state,update);state.coupling=H.clamp(state.coupling,220,Math.min(600,60000/state.bpm*.85));
    engine=new H.Engine({rhythm:state.rhythm,bpm:state.bpm,coupling:state.coupling,blockLevel:state.blockLevel,rhythmRate:state.rhythmRate});Lab.engine=engine;state.time=0;cacheVersion++;Lab.local?.rebuild();
@@ -2260,6 +2285,310 @@ function draw(frame,rotation){if(!objects)return;resize();const o=objects,s=Lab.
 }
 window.HeartSpatial={init,draw};
 })();
+</script><script>/* SPDX-License-Identifier: GPL-3.0-only
+ * Copyright (C) 2026 jksd4c
+ * Phenomenological teaching overlay, not an ionic or patient-specific model.
+ */
+(function (root) {
+  'use strict';
+  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+  const mod = (a, b) => ((a % b) + b) % b;
+  const smooth = x => { x = clamp(x, 0, 1); return x * x * (3 - 2 * x); };
+  const palette = ['#243b9b', '#227ed0', '#31c6cb', '#a8e17c', '#ffe078', '#ff775d'];
+  const phases = ['快速去极', '早期复极', '平台期', '快速复极', '静息期'];
+  // Boundaries are fractions of local AP duration. The same expressions are
+  // compiled into the surface shader below, so the probe and mesh agree.
+  function actionPotential(age, duration = 300) {
+    const u = age / duration;
+    let phase = 4, voltage = -90;
+    if (u >= 0 && u < .01) { phase = 0; voltage = -90 + 120 * smooth(u / .01); }
+    else if (u >= .01 && u < .055) { phase = 1; voltage = 30 - 22 * smooth((u - .01) / .045); }
+    else if (u >= .055 && u < .64) { phase = 2; voltage = 8 - 14 * ((u - .055) / .585); }
+    else if (u >= .64 && u < 1) { phase = 3; voltage = -6 - 84 * smooth((u - .64) / .36); }
+    return {voltage, phase, age, duration, recovery: phase === 0 ? null : clamp((30 - voltage) / 120, 0, 1)};
+  }
+  function branchDelay(code, key, p) {
+    const left = key === 'LV' ? 1 : key === 'RV' ? 0 : smooth((p[0] + .18) / .30);
+    let d = 0;
+    if (['rbbb', 'rbbLaf', 'rbbLpf'].includes(code)) d += 60 * (1 - left);
+    if (code === 'lbbb') d += 65 * left;
+    if (['lafb', 'rbbLaf'].includes(code)) d += 22 * left * smooth((p[2] + .18) / .40);
+    if (['lpfb', 'rbbLpf'].includes(code)) d += 22 * left * (1 - smooth((p[2] + .18) / .40));
+    return d;
+  }
+  function parameters(engine, frame, atrial) {
+    const beats = atrial ? engine.atria : engine.ventricles;
+    const at = beats.findLastIndex(b => b.time <= frame.time);
+    const rr = at > 0 ? beats[at].time - beats[at - 1].time : engine.period || engine.rr;
+    const period = clamp(rr || 800, 150, 4000);
+    const scale = clamp(Math.sqrt(period / 800), .65, 1.25);
+    return {period, duration: (atrial ? 175 : frame.longQT ? 410 : 285) * scale};
+  }
+  function localDuration(key, p, params) {
+    const atrial = key === 'LA' || key === 'RA';
+    const variation = atrial ? 8 * p[0] : 16 * (p[1] + .8) - 9 * p[2] + (key === 'LV' || key === 'RV' ? 16 : 0);
+    return clamp(params.duration + variation, 80, params.period * .86);
+  }
+  function localAge(probe, frame, params) {
+    const {key, position: p, activation} = probe;
+    const atrial = key === 'RA' || key === 'LA';
+    const mode = atrial ? frame.atrialMode : frame.ventMode;
+    let age = (atrial ? frame.atrialClock : frame.ventClock) - activation - (atrial ? 0 : branchDelay(frame.branch, key, p)) - 8;
+    const focus = atrial ? frame.atrialFocus || (frame.a?.kind === 'escapeA' ? [-.92, -.10, .42] : frame.a?.kind === 'retrograde' ? [-.407, -.3, .028] : [.36, .14, -.43]) : frame.ventricularFocus || [-.24, -.80, .85];
+    const spread = Math.hypot(...p.map((v, i) => v - focus[i])) * (['RV', 'LV'].includes(key) ? 110 : 105);
+    if (mode === 1) age = (atrial ? frame.atrialAge : frame.ventAge) - spread;
+    if (!atrial && frame.preexcited) age = Math.max(age, frame.ventAge - Math.hypot(...p.map((v, i) => v - focus[i])) * 110);
+    if (mode === 2) {
+      // Local asynchronous teaching pattern; no claim of a global AF/VF cycle.
+      const period = (atrial ? 155 : 185) + 24 * Math.sin(p[0] * 3 + p[2] * 4);
+      age = mod(frame.time + p[0] * 91 + p[1] * 67 + p[2] * 121 + 17 * Math.sin(frame.time * .007 + p[1] * 4), period);
+    }
+    if (mode === 3) age = mod(frame.time - (Math.atan2(p[2], p[0] + .3) / (2 * Math.PI) + .5) * params.period, params.period);
+    return age;
+  }
+  function sample(probe, engine, time) {
+    const frame = engine.frameAt(time), atrial = probe.key === 'RA' || probe.key === 'LA';
+    const params = parameters(engine, frame, atrial), mode = atrial ? frame.atrialMode : frame.ventMode;
+    let duration = localDuration(probe.key, probe.position, params);
+    if (mode === 2) duration = (atrial ? 155 : 185) + 24 * Math.sin(probe.position[0] * 3 + probe.position[2] * 4);
+    return {...actionPotential(localAge(probe, frame, params), duration), asynchronous: mode === 2};
+  }
+  function cycleAt(engine, time) {
+    time = clamp(time, 0, 11999);
+    const frame = engine.frameAt(time);
+    const organized = !frame.vf && !(engine.id === 'asystole' && time > engine.onset + 500) && !(engine.id === 'ventFlutter' && time >= engine.onset);
+    const beats = engine.ventricles;
+    const previous = beats.findLast(b => b.time <= time), next = beats.find(b => b.time > time);
+    if (!organized || !next || (next.time - (previous?.time ?? 0)) > 3000) {
+      const start = Math.floor(time / 1000) * 1000;
+      return {start, end: Math.min(12000, start + 1000), organized: false, index: -1};
+    }
+    return {start: Math.max(0, Math.ceil(previous?.time ?? 0)), end: Math.min(12000, Math.ceil(next.time)), organized: true, index: previous ? beats.indexOf(previous) : -1};
+  }
+  function cycleSeek(cycle, offset) { return clamp(Math.round(cycle.start + offset), cycle.start, cycle.end - 1); }
+  function advance(time, delta, loop) { return loop ? loop.start + mod(time - loop.start + delta, loop.end - loop.start) : mod(time + delta, 12000); }
+  function quadrant(vector) {
+    const x = vector[0], inferior = -vector[1];
+    if (Math.hypot(x, inferior) < .03) return {angle: null, label: '近零向量', number: null};
+    const angle = Math.atan2(inferior, x) * 180 / Math.PI;
+    if (Math.abs(x) < 1e-6 || Math.abs(inferior) < 1e-6) return {angle, label: '象限边界', number: null};
+    const number = x > 0 ? (inferior > 0 ? 1 : 4) : (inferior > 0 ? 2 : 3);
+    return {angle, number, label: ['','左下','右下','右上','左上'][number]};
+  }
+  function color(voltage) {
+    const t = clamp((voltage + 90) / 120, 0, 1) * (palette.length - 1), index = Math.min(Math.floor(t), palette.length - 2), f = t - index;
+    const rgb = h => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16));
+    return '#' + rgb(palette[index]).map((v, i) => Math.round(v * (1 - f) + rgb(palette[index + 1])[i] * f).toString(16).padStart(2, '0')).join('');
+  }
+  const api = {actionPotential, branchDelay, parameters, localDuration, localAge, sample, cycleAt, cycleSeek, advance, quadrant, color, palette, phases, clamp};
+  if (typeof module === 'object' && module.exports) module.exports = api;
+  else root.MembraneCore = api;
+})(typeof window === 'undefined' ? globalThis : window);
+</script><script>/* SPDX-License-Identifier: GPL-3.0-only · Copyright (C) 2026 jksd4c */
+(function () {
+  'use strict';
+  const C = window.MembraneCore, Lab = window.HeartLab, T = window.THREE;
+  const $ = id => document.getElementById(id), tr = s => window.HeartI18n?.t(s) ?? s;
+  let enabled = true, picking = false, probe = null, marker = null, loop = null, cycle = null, cachedEngine = null;
+  let probeId = 0, traceKey = '', traceData = null, traceBase = document.createElement('canvas'), dragging = null, wasAsynchronous=false;
+  const layers = [], names = {RA:'右心房', LA:'左心房', VENT:'心室肌壁', RV:'右室内膜面', LV:'左室内膜面'};
+  const write = (id, s) => { const e = $(id), text = tr(s); if (e && e.textContent !== String(text)) e.textContent = text; };
+  const entries = `膜电位观察|Membrane potential
+膜电位着色|Voltage map
+标记点|Place probe
+清除点|Clear probe
+膜电位 / mV|Membrane potential / mV
+已复极 → 去极化|Repolarized → Depolarized
+着色已关闭|Voltage map off
+右键心肌表面，放置观察点|Right-click the myocardium to place a probe
+局部动作电位 · mV|Local action potential · mV
+当前膜电位|Membrane potential
+动作电位阶段|AP phase
+复极进度|Repolarization
+快速去极|Upstroke
+早期复极|Early repolarization
+平台期|Plateau
+快速复极|Rapid repolarization
+静息期|Resting
+定位动作电位阶段|Jump to action-potential phase
+选点动作电位，拖动定位，方向键按一毫秒移动|Probe action potential: drag to seek; arrow keys step by 1 ms
+右键单击选点；右键拖动仍可平移。也可先点“标记点”，再单击心肌。|Right-click to sample; right-drag to pan. Or choose Place probe, then click the myocardium.
+膜电位模型与参考|Model and references
+色标表示跨膜电位，曲线为心房／心室工作心肌的 0–4 期教学近似；血管与结区不套用该曲线。相同电位可处于不同阶段，以阶段读数区分。复极进度按峰值至静息电位计算，不等同于不应期或兴奋性。|Colors encode transmembrane voltage. The trace approximates phases 0–4 of working atrial/ventricular myocardium; vessels and nodal tissue are excluded. The same voltage may occur in different phases. Repolarization is normalized from peak to resting voltage, not refractoriness or excitability.
+激动顺序沿用传导模型，动作电位时程按部位与周期作简化调整。房颤／室颤为局部非同步示意；无组织心室节律使用观察窗，不定义统一心动周期。该着色不是患者电位测量或离子电流求解。|Activation follows the conduction model; AP duration varies schematically with location and cycle length. AF/VF use local asynchronous patterns. Disorganized ventricular rhythms use an observation window rather than a global cardiac cycle. These are neither measured patient voltages nor ionic-current solutions.
+单搏精细观察|Single-beat inspection
+当前 V–V 周期|Current V–V cycle
+观察窗 · 无统一周期|Observation window · no global cycle
+上一搏|Previous beat
+下一搏|Next beat
+上一窗|Previous window
+下一窗|Next window
+循环本搏|Loop beat
+循环观察窗|Loop window
+暂停|Pause
+定位当前心动周期，精度一毫秒|Seek within this cardiac cycle, 1 ms precision
+前移一毫秒|Back 1 ms
+后移一毫秒|Forward 1 ms
+额面向量|Frontal vector
+近零向量|Near-zero vector
+象限边界|On an axis
+左下|Left-inferior
+右下|Right-inferior
+右上|Right-superior
+左上|Left-superior
+去极中|Depolarizing
+请单击心肌表面；Esc 取消选点。|Click the myocardium; Esc cancels probe placement.
+请选择心房或心室肌壁；血管不显示工作心肌动作电位。|Choose an atrial or ventricular wall. Vessels have no working-myocyte action-potential trace.
+已清除观察点。|Probe cleared.
+当前窗口未经过此阶段，可切换相邻周期。|This phase is absent from the current window. Try an adjacent cycle.
+拖动曲线或上方单搏时间条，逐毫秒观察。|Drag the trace or the single-beat timeline to inspect millisecond by millisecond.
+局部非同步电活动 · 无全心统一分期|Local asynchronous activity · no global phase
+心肌表面观察点|Myocardial surface probe
+患者方位|Patient coordinates
+前|Anterior
+后|Posterior
+左|Left
+右|Right
+上|Superior
+下|Inferior
+局部激动后|Since local activation
+尚未激动|Before local activation
+先在主模型上右键选点|Right-click a point on the main heart model
+本周期相对时间 / ms|Time within this cycle / ms
+心室肌壁|Ventricular wall
+右心房|Right atrium
+左心房|Left atrium
+右室内膜面|RV endocardium
+左室内膜面|LV endocardium`;
+  window.HeartI18n?.add(entries.split('\n').map(s => s.split('|')));
+  const cycleHost = document.createElement('section');
+  cycleHost.className = 'mp-cycle'; cycleHost.setAttribute('aria-label', '单搏精细观察');
+  cycleHost.innerHTML = `<div class="mp-cycle-heading"><strong id="mp-cycle-title">当前 V–V 周期</strong><span id="mp-cycle-value"></span><span class="mp-cycle-meta" id="mp-axis"></span><div class="mp-cycle-controls"><button id="mp-prev">上一搏</button><button id="mp-loop" aria-pressed="false">循环本搏</button><button id="mp-next">下一搏</button><span class="mp-cycle-fine"><button id="mp-minus" aria-label="前移一毫秒">−1 ms</button><button id="mp-plus" aria-label="后移一毫秒">+1 ms</button></span></div></div><div class="mp-cycle-range"><span>0 ms</span><input id="mp-scrub" type="range" min="0" max="799" step="1" value="0" aria-label="定位当前心动周期，精度一毫秒"><span id="mp-cycle-duration">800 ms</span></div>`;
+  document.querySelector('.sticky-controls').append(cycleHost);
+  $('mp-gradient').style.background = `linear-gradient(90deg,${C.palette.join(',')})`;
+  document.querySelector('.model-help').textContent = '拖动旋转 · 滚轮缩放 · 右键心肌选点 · Shift 拖动平移';
+  window.HeartI18n?.add([['拖动旋转 · 滚轮缩放 · 右键心肌选点 · Shift 拖动平移','Drag to rotate · Scroll to zoom · Right-click to sample · Shift-drag to pan']]);
+  window.addEventListener('heart-language-change', () => { traceKey = ''; });
+
+  function uniforms() { return {mpOn:{value:1}, mpAtrial:{value:0}, mpDuration:{value:285}, mpPeriod:{value:800}}; }
+  function fragment(source) {
+    const colors = C.palette.map(h => { const c = new T.Color(h); return `vec3(${c.r.toFixed(6)},${c.g.toFixed(6)},${c.b.toFixed(6)})`; });
+    const helpers = `uniform float mpOn;uniform float mpAtrial;uniform float mpDuration;uniform float mpPeriod;
+      float mpVoltage(float age,float duration){float u=age/duration;if(u<0.||u>=1.)return -90.;if(u<.01)return -90.+120.*smoothstep(0.,.01,u);if(u<.055)return 30.-22.*smoothstep(.01,.055,u);if(u<.64)return 8.-14.*(u-.055)/.585;return -6.-84.*smoothstep(.64,1.,u);}
+      vec3 mpColor(float voltage){float f=clamp((voltage+90.)/120.,0.,1.)*5.;${colors.slice(0,-1).map((v,i)=>`if(f<=${i+1}.)return mix(${v},${colors[i+1]},f-${i}.);`).join('')}return ${colors[5]};}
+    `;
+    const mapping = `if(mpOn>.5&&kind<1.5){
+      float ma=dt; if(preexcited>.5)ma=max(ma,age-length(p-focus)*110.);
+      float variation=mpAtrial>.5?8.*p.x:16.*(p.y+.8)-9.*p.z+(kind>.5?16.:0.);
+      float duration=clamp(mpDuration+variation,80.,mpPeriod*.86);
+      if(mode>1.5&&mode<2.5){float period=(mpAtrial>.5?155.:185.)+24.*sin(p.x*3.+p.z*4.);ma=mod(globalTime+p.x*91.+p.y*67.+p.z*121.+17.*sin(globalTime*.007+p.y*4.),period);duration=period;}
+      if(mode>2.5)ma=mod(globalTime-(atan(p.z,p.x+.3)/6.28318530718+.5)*mpPeriod,mpPeriod);
+      vec3 mapped=mpColor(mpVoltage(ma,duration));col=mapped*(.64+.36*diffuse)+vec3(.15,.19,.21)*key+mapped*rim*.12;
+      a=clamp(opacity*1.55,.28,.90)*(.82+.18*rim);if(kind>.5)a*=.65;if(back>.5){col*=.72;a*=.22;}col=mix(col,vec3(.7,1.,.95),selected*.12);
+    }`;
+    return source.replace('void main(){float section=', helpers + 'void main(){float section=').replace('gl_FragColor=vec4(col,clamp(a,0.,.85));', mapping + '\n gl_FragColor=vec4(col,clamp(a,0.,.92));');
+  }
+  function register(layer) { layers.push(layer); }
+  function attach(heart, depthFade) {
+    const canvas = document.createElement('canvas'); canvas.width = canvas.height = 64;
+    const x = canvas.getContext('2d'); x.strokeStyle = '#06131d'; x.lineWidth = 11; x.beginPath(); x.arc(32,32,18,0,Math.PI*2); x.stroke();
+    x.strokeStyle = '#fff'; x.lineWidth = 5; x.stroke(); x.fillStyle = '#fff'; x.beginPath(); x.arc(32,32,4,0,Math.PI*2); x.fill();
+    marker = new T.Sprite(depthFade(new T.SpriteMaterial({map:new T.CanvasTexture(canvas),transparent:true,depthTest:false,depthWrite:false})));
+    marker.scale.setScalar(.14); marker.renderOrder = 11; marker.visible = false; heart.add(marker);
+  }
+  function setPicking(value) { picking=value; $('mp-pick').setAttribute('aria-pressed',String(value)); $('scene-wrap').dataset.membranePicking=String(value); }
+  function select(value) {
+    if (!value || !names[value.key]) { write('mp-status','请选择心房或心室肌壁；血管不显示工作心肌动作电位。'); return; }
+    probe={...value,id:++probeId}; traceKey=''; setPicking(false);
+    if (marker) { marker.position.set(...probe.position); marker.visible=true; }
+    $('mp-clear').disabled=false; write('mp-status','拖动曲线或上方单搏时间条，逐毫秒观察。');
+    window.heartViewer?.render();
+  }
+  function clear() { probe=null; traceKey=''; traceData=null; if(marker)marker.visible=false; $('mp-clear').disabled=true; write('mp-status','已清除观察点。'); }
+  function prepare(frame) {
+    if (cachedEngine!==Lab.engine) { cachedEngine=Lab.engine; loop=null; traceKey=''; }
+    cycle=loop||C.cycleAt(Lab.engine,frame.time);
+    for(const layer of layers){const atrial=layer.key==='RA'||layer.key==='LA', p=C.parameters(Lab.engine,frame,atrial);for(const m of layer.mats){const u=m.uniforms;u.mpOn.value=enabled&&!layer.vessel?1:0;u.mpAtrial.value=atrial?1:0;u.mpDuration.value=p.duration;u.mpPeriod.value=p.period;}}
+  }
+  function onSeek(time) { if(loop&&(time<loop.start||time>=loop.end))loop=null; }
+  function advance(time, delta) { return C.advance(time,delta,loop); }
+  function seekOffset(value) { const c=dragging?.cycle||cycle||C.cycleAt(Lab.engine,Lab.state.time); Lab.seek(C.cycleSeek(c,Number(value))); }
+  function adjacent(direction) { const c=cycle||C.cycleAt(Lab.engine,Lab.state.time);loop=null;Lab.seek(direction<0?Math.max(0,c.start-1):Math.min(11999,c.end)); }
+  function jumpPhase(phase) {
+    if(!probe||!cycle)return;
+    let start=null,end=null;
+    for(let t=cycle.start;t<cycle.end;t++){if(C.sample(probe,Lab.engine,t).phase===phase){if(start===null)start=t;end=t;}else if(start!==null)break;}
+    if(start===null){write('mp-status','当前窗口未经过此阶段，可切换相邻周期。');return;}
+    Lab.seek(Math.floor((start+end)/2));
+  }
+  $('mp-toggle').onchange=e=>{enabled=e.target.checked;$('membrane-panel').classList.toggle('mp-off',!enabled);window.heartViewer?.render();};
+  $('mp-pick').onclick=()=>{setPicking(!picking);write('mp-status',picking?'请单击心肌表面；Esc 取消选点。':'右键单击选点；右键拖动仍可平移。也可先点“标记点”，再单击心肌。');};
+  $('mp-clear').onclick=()=>{clear();window.heartViewer?.render();};
+  $('mp-prev').onclick=()=>adjacent(-1);$('mp-next').onclick=()=>adjacent(1);
+  $('mp-minus').onclick=()=>seekOffset(Lab.state.time-cycle.start-1);$('mp-plus').onclick=()=>seekOffset(Lab.state.time-cycle.start+1);
+  $('mp-loop').onclick=()=>{loop=loop?null:{...cycle};if(loop)Lab.state.running=true;Lab.playUI();window.heartViewer?.render();};
+  $('mp-scrub').oninput=e=>seekOffset(e.target.value);
+  document.querySelectorAll('[data-mp-phase]').forEach(b=>b.onclick=()=>jumpPhase(Number(b.dataset.mpPhase)));
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')setPicking(false);});
+  const chart=$('mp-trace');
+  function chartMove(e){if(!dragging||dragging.id!==e.pointerId)return;const r=chart.getBoundingClientRect(),f=C.clamp((e.clientX-r.left-42)/(r.width-54),0,1);seekOffset(f*(dragging.cycle.end-dragging.cycle.start-1));}
+  chart.addEventListener('pointerdown',e=>{if(e.button!==0)return;e.preventDefault();dragging={id:e.pointerId,cycle:{...cycle}};chart.setPointerCapture(e.pointerId);chartMove(e);});
+  chart.addEventListener('pointermove',chartMove);
+  for(const type of ['pointerup','pointercancel','lostpointercapture'])chart.addEventListener(type,()=>{dragging=null;});
+  chart.addEventListener('keydown',e=>{if(['ArrowLeft','ArrowRight','Home','End'].includes(e.key)){e.preventDefault();const offset=e.key==='Home'?0:e.key==='End'?cycle.end-cycle.start-1:Lab.state.time-cycle.start+(e.key==='ArrowLeft'?-1:1)*(e.shiftKey?10:1);seekOffset(offset);}});
+
+  function trace(frame,current){
+    const fit=Lab.fit(chart);if(!fit)return;const {x,w,h,d}=fit,left=42,right=w-12,top=22,bottom=h-25;
+    const sx=t=>left+(t-cycle.start)/(cycle.end-cycle.start)*(right-left),sy=v=>bottom-(v+100)/140*(bottom-top);
+    const key=[probe?.id,cycle.start,cycle.end,w,h,d,window.HeartI18n?.language,Lab.state.rhythm].join(':');
+    if(key!==traceKey){
+      traceKey=key;traceBase.width=chart.width;traceBase.height=chart.height;const b=traceBase.getContext('2d');b.setTransform(d,0,0,d,0,0);b.fillStyle='#071525';b.fillRect(0,0,w,h);b.font='9px Segoe UI';b.textAlign='right';b.lineWidth=.6;
+      for(const v of [-90,-60,-30,0,30]){const yy=sy(v);b.strokeStyle=v===0?'#54728a70':'#31506a55';b.beginPath();b.moveTo(left,yy);b.lineTo(right,yy);b.stroke();b.fillStyle='#7f9fb9';b.fillText(v>0?'+'+v:String(v),left-7,yy+3);}
+      b.textAlign='center';const duration=cycle.end-cycle.start,tick=duration>1200?200:duration>600?100:50;
+      for(let ms=0;ms<duration;ms+=tick){const xx=sx(cycle.start+ms);b.strokeStyle='#31506a44';b.beginPath();b.moveTo(xx,top);b.lineTo(xx,bottom);b.stroke();b.fillStyle='#7697b1';b.fillText(String(ms),xx,h-10);}
+      b.textAlign='left';b.fillStyle='#91aec4';b.fillText('mV',9,13);b.textAlign='right';b.fillText('ms',w-6,h-10);
+      traceData=[];
+      if(probe){
+        // Include every millisecond, even when a fast phase is narrower than a pixel.
+        for(let t=cycle.start;t<cycle.end;t++){traceData.push({time:t,...C.sample(probe,Lab.engine,t)});}
+        b.lineWidth=1.8;b.lineJoin='round';b.lineCap='round';
+        for(let i=1;i<traceData.length;i++){const a=traceData[i-1],v=traceData[i];b.strokeStyle=C.color((a.voltage+v.voltage)/2);b.beginPath();b.moveTo(sx(a.time),sy(a.voltage));b.lineTo(sx(v.time),sy(v.voltage));b.stroke();}
+        let section=0;
+        for(let i=1;i<=traceData.length;i++){if(i<traceData.length&&traceData[i].phase===traceData[section].phase)continue;const a=sx(traceData[section].time),z=sx(traceData[i-1].time),ph=traceData[section].phase;b.fillStyle=['#ff775d','#ffbb79','#e4dc84','#72cfcc','#5777d8'][ph];b.globalAlpha=.45;b.fillRect(a,top-9,Math.max(1,z-a),2);b.globalAlpha=1;if(z-a>16){b.textAlign='center';b.font='9px Segoe UI';b.fillText(String(ph),(a+z)/2,top-12);}section=i;}
+      }else{b.textAlign='center';b.fillStyle='#a2bdd0';b.font='11px Segoe UI';b.fillText(tr('先在主模型上右键选点'),w/2,h*.47);}
+    }
+    x.clearRect(0,0,w,h);x.drawImage(traceBase,0,0,w,h);
+    const cx=sx(frame.time);x.lineWidth=1;x.strokeStyle='#e0f7eeaa';x.setLineDash([3,3]);x.beginPath();x.moveTo(cx,top-3);x.lineTo(cx,bottom);x.stroke();x.setLineDash([]);
+    if(current){x.fillStyle=C.color(current.voltage);x.strokeStyle='#fff';x.lineWidth=1.5;x.beginPath();x.arc(cx,sy(current.voltage),3.6,0,Math.PI*2);x.fill();x.stroke();}
+  }
+  function draw(frame){
+    if(!cycle)return;
+    const length=cycle.end-cycle.start,offset=frame.time-cycle.start;
+    write('mp-cycle-title',cycle.organized?'当前 V–V 周期':'观察窗 · 无统一周期');
+    write('mp-cycle-value',Math.floor(offset)+' / '+length+' ms');write('mp-cycle-duration',length+' ms');
+    $('mp-scrub').max=length-1;$('mp-scrub').value=Math.floor(offset);$('mp-scrub').setAttribute('aria-valuetext',Math.floor(offset)+' / '+length+' ms');
+    $('mp-loop').setAttribute('aria-pressed',String(!!loop));write('mp-loop',cycle.organized?'循环本搏':'循环观察窗');
+    $('mp-prev').disabled=cycle.start<=0;$('mp-next').disabled=cycle.end>=12000;
+    write('mp-prev',cycle.organized?'上一搏':'上一窗');write('mp-next',cycle.organized?'下一搏':'下一窗');
+    const q=C.quadrant(frame.vector);write('mp-axis',tr('额面向量')+' · '+(q.angle===null?tr(q.label):(q.angle>=0?'+':'')+q.angle.toFixed(0)+'° · '+(q.number?'Q'+q.number+' ':'')+tr(q.label)));
+    const value=probe?C.sample(probe,Lab.engine,frame.time):null;
+    write('mp-scale-state',enabled?'已复极 → 去极化':'着色已关闭');
+    write('mp-probe-name',probe?'P1 · '+tr(names[probe.key]):'右键心肌表面，放置观察点');
+    write('mp-voltage',value?(value.voltage>0?'+':'')+value.voltage.toFixed(1)+' mV':'— mV');
+    write('mp-phase',value?value.phase+' · '+tr(C.phases[value.phase]):'—');
+    write('mp-recovery',value?value.recovery===null?'去极中':Math.round(value.recovery*100)+'%':'—');
+    $('mp-color-cursor').hidden=!value;if(value)$('mp-color-cursor').style.left=C.clamp((value.voltage+90)/120*100,0,100)+'%';
+    for(const b of document.querySelectorAll('[data-mp-phase]')){b.disabled=!probe;b.setAttribute('aria-pressed',String(!!value&&value.phase===Number(b.dataset.mpPhase)));}
+    if(probe){const p=probe.position;write('mp-position',tr('患者方位')+' · '+tr(p[0]>0?'左':'右')+' / '+tr(p[2]>0?'前':'后')+' · '+p.map(v=>v.toFixed(2)).join(', ')+' · '+(value.age<0?tr('尚未激动'):tr('局部激动后')+' '+Math.round(value.age)+' ms'));
+      if(value.asynchronous)write('mp-status','局部非同步电活动 · 无全心统一分期');
+    }else write('mp-position','');
+    if(wasAsynchronous&&!value?.asynchronous)write('mp-status','拖动曲线或上方单搏时间条，逐毫秒观察。');wasAsynchronous=!!value?.asynchronous;
+    $('membrane-panel').dataset.phase=value?String(value.phase):'none';$('membrane-panel').dataset.voltage=value?value.voltage.toFixed(3):'';
+    trace(frame,value);
+  }
+  window.HeartMembrane={uniforms,fragment,register,attach,select,prepare,draw,advance,onSeek,get picking(){return picking;}};
+  Lab.state.running=false;Lab.state.time=414;Lab.playUI();
+})();
 </script><script>/*
 SPDX-License-Identifier: GPL-3.0-only
 Copyright (C) 2026 jksd4c
@@ -2391,8 +2720,8 @@ See LICENSE for copying conditions and warranty disclaimer.
       else if(key==='RA'||key==='LA'){const s=key==='RA'?anchors.SA:[.24,.29,.60];for(let i=0;i<act.length;i++)act[i]=(key==='RA'?6:55)+Math.hypot(pos[i*3]-s[0],pos[i*3+1]-s[1],pos[i*3+2]-s[2])*(key==='RA'?47:40);}
       g.setAttribute('activation',new T.BufferAttribute(act,1));
       const layer={key,meshes:[],mats:[],g,cavity,vessel};
-      for(const back of [true,false]){const mat=new T.ShaderMaterial({vertexShader:shellVertex,fragmentShader:shellFragment,uniforms:{t:{value:0},base:{value:new T.Color(vessel?'#729edb':cavity?'#426ba4':'#4d80c1')},opacity:{value:state.opacity},cut:{value:0},kind:{value:vessel?2:cavity?1:0},selected:{value:0},back:{value:back?1:0},mode:{value:0},age:{value:0},globalTime:{value:0},abnormal:{value:0},branchCode:{value:0},preexcited:{value:0},chamber:{value:key==='LV'?1:key==='RV'?-1:0},focus:{value:new T.Vector3()}},side:back?T.BackSide:T.FrontSide,transparent:true,depthWrite:false,depthTest:true});const m=new T.Mesh(g,mat);m.name=item.name;m.userData.key=key;m.renderOrder=back?1:cavity?2:3;heart.add(m);layer.meshes.push(m);layer.mats.push(mat);if(!back)pickSurfaces.push(m);}
-      surfaces.push(layer);
+      for(const back of [true,false]){const mat=new T.ShaderMaterial({vertexShader:shellVertex,fragmentShader:window.HeartMembrane?.fragment(shellFragment)||shellFragment,uniforms:{...window.HeartMembrane?.uniforms(),t:{value:0},base:{value:new T.Color(vessel?'#729edb':cavity?'#426ba4':'#4d80c1')},opacity:{value:state.opacity},cut:{value:0},kind:{value:vessel?2:cavity?1:0},selected:{value:0},back:{value:back?1:0},mode:{value:0},age:{value:0},globalTime:{value:0},abnormal:{value:0},branchCode:{value:0},preexcited:{value:0},chamber:{value:key==='LV'?1:key==='RV'?-1:0},focus:{value:new T.Vector3()}},side:back?T.BackSide:T.FrontSide,transparent:true,depthWrite:false,depthTest:true});const m=new T.Mesh(g,mat);m.name=item.name;m.userData.key=key;m.renderOrder=back?1:cavity?2:3;heart.add(m);layer.meshes.push(m);layer.mats.push(mat);if(!back)pickSurfaces.push(m);}
+      surfaces.push(layer);window.HeartMembrane?.register(layer);
       {const m=new T.Mesh(g,vessel?depthNoCut:depthMat);depthHeart.add(m);}
     }
     const wireVertex=`varying vec3 p;varying vec3 n;varying vec3 v;varying float at;uniform float a;uniform float b;void main(){p=position;at=mix(a,b,uv.x);vec4 mv=modelViewMatrix*vec4(position,1.);v=-mv.xyz;n=normalize(normalMatrix*normal);gl_Position=projectionMatrix*mv;}`;
@@ -2464,6 +2793,14 @@ See LICENSE for copying conditions and warranty disclaimer.
     $('magnify-structure').onclick=()=>{const key=state.selected;if(!key)return;if(key==='LA'&&Lab.allowedDetail('pv')){Lab.detail('pv');state.yaw=Math.PI;}else if(['LV','RV','VENT'].includes(key))Lab.detail('ventricle');state.zoom=1.8;heart.rotation.set(state.pitch,state.yaw,0,'YXZ');const q=vec(anchors[key]).applyEuler(heart.rotation).multiplyScalar(state.zoom);state.panX=-q.x;state.panY=-q.y+.04;state.auto=false;$('auto').setAttribute('aria-pressed','false');};
     function setUniform(m,key,value){m.uniforms[key].value=T.MathUtils.lerp(m.uniforms[key].value,value,Math.min(1,frameDt*14));}
     function occludedPick(hit){const p=hit.point.clone().applyMatrix4(heart.matrixWorld.clone().invert());return state.cut&&!['AO','PT','SVC'].includes(hit.object.userData.key)&&p.y<.22&&p.z>.59+.18*p.x;}
+    function pickMembrane(clientX,clientY){
+      const r=renderer.domElement.getBoundingClientRect();pointer.set((clientX-r.left)/r.width*2-1,-(clientY-r.top)/r.height*2+1);raycaster.setFromCamera(pointer,camera);
+      const hit=raycaster.intersectObjects(pickSurfaces,false).find(h=>!occludedPick(h));
+      if(!hit||!['RA','LA','VENT','RV','LV'].includes(hit.object.userData.key)){window.HeartMembrane?.select(null);return;}
+      const p=heart.worldToLocal(hit.point.clone()),g=hit.object.geometry,face=hit.face,a=new T.Vector3().fromBufferAttribute(g.attributes.position,face.a),b=new T.Vector3().fromBufferAttribute(g.attributes.position,face.b),c=new T.Vector3().fromBufferAttribute(g.attributes.position,face.c),weights=new T.Vector3();
+      T.Triangle.getBarycoord(p,a,b,c,weights);const activation=weights.x*g.attributes.activation.getX(face.a)+weights.y*g.attributes.activation.getX(face.b)+weights.z*g.attributes.activation.getX(face.c);
+      window.HeartMembrane?.select({key:hit.object.userData.key,position:p.toArray(),activation});
+    }
     function pick(clientX,clientY){const r=renderer.domElement.getBoundingClientRect();pointer.set((clientX-r.left)/r.width*2-1,-(clientY-r.top)/r.height*2+1);raycaster.setFromCamera(pointer,camera);
       const body=raycaster.intersectObjects(pickSurfaces,false).filter(h=>!occludedPick(h)),front=body[0]?.distance??Infinity;
       const hits=raycaster.intersectObjects(pickFibers,false).filter(h=>state.depthMode==='xray'||h.distance-front<.76*state.zoom);
@@ -2506,8 +2843,8 @@ See LICENSE for copying conditions and warranty disclaimer.
       const ventHot=(frame.ventMode===1||frame.preexcited)&&frame.ventAge>=0&&frame.ventAge<420,atrialHot=frame.atrialMode===1&&frame.atrialAge>=0&&frame.atrialAge<320;
       focusSprite.visible=ventHot||atrialHot||frame.af||frame.pvTrigger;focusSprite.position.copy(ventHot?focalV:focalA);focusSprite.scale.setScalar(frame.af?.34+.05*Math.sin(state.time*.04):.45);focusSprite.material.color.set('#ff304e');focusSprite.material.opacity=frame.af?.9:Math.max(.45,1.3-(ventHot?frame.ventAge:frame.atrialAge)/550);
 
-      updateCircuits(frame);renderer.setRenderTarget(depths);renderer.setClearColor(0xffffff,1);renderer.clear();renderer.render(depthScene,camera);renderer.setRenderTarget(null);renderer.setClearColor(0,0);renderer.render(scene,camera);drawLabels();
-      Lab.draw(frame);window.HeartSpatial?.draw(frame,heart.quaternion);
+      window.HeartMembrane?.prepare(frame);updateCircuits(frame);renderer.setRenderTarget(depths);renderer.setClearColor(0xffffff,1);renderer.clear();renderer.render(depthScene,camera);renderer.setRenderTarget(null);renderer.setClearColor(0,0);renderer.render(scene,camera);drawLabels();
+      Lab.draw(frame);window.HeartSpatial?.draw(frame,heart.quaternion);window.HeartMembrane?.draw(frame);
     }
     function playUI(){Lab.playUI();}
     $('play').onclick=()=>{state.running=!state.running;playUI()};$('auto').onclick=()=>{state.auto=!state.auto;$('auto').setAttribute('aria-pressed',state.auto)};
@@ -2525,16 +2862,16 @@ See LICENSE for copying conditions and warranty disclaimer.
       if(pointers.size===2){const a=[...pointers.values()],d=Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y);if(lastDistance)state.zoom=Math.max(.6,Math.min(2.4,state.zoom*d/lastDistance));lastDistance=d;state.panX+=dx*.0025;state.panY-=dy*.0025;}
       else if(panDrag){state.panX+=dx*.005;state.panY-=dy*.005;}else{state.yaw+=dx*.007;state.pitch=Math.max(-1.4,Math.min(1.4,state.pitch+dy*.0055));}labelDirty=true;
     });
-    renderer.domElement.addEventListener('pointerup',e=>{if(movement<6&&!panDrag)select(pick(e.clientX,e.clientY));pointers.delete(e.pointerId);lastDistance=0;dragging=false;persist();});
+    renderer.domElement.addEventListener('pointerup',e=>{if(movement<6){if(window.HeartMembrane&&(e.button===2||window.HeartMembrane.picking&&e.button===0))pickMembrane(e.clientX,e.clientY);else if(!panDrag)select(pick(e.clientX,e.clientY));}pointers.delete(e.pointerId);lastDistance=0;dragging=false;persist();});
     renderer.domElement.addEventListener('pointercancel',e=>{pointers.delete(e.pointerId);lastDistance=0;dragging=false});renderer.domElement.addEventListener('pointerleave',()=>{hover=null});
     renderer.domElement.addEventListener('wheel',e=>{e.preventDefault();state.zoom=Math.max(.6,Math.min(2.4,state.zoom*Math.exp(-e.deltaY*.0008)));labelDirty=true;},{passive:false});
     document.addEventListener('keydown',e=>{if(e.key==='Escape'&&state.selected)select(null,false)});root.addEventListener('change',persist);
     window.addEventListener('openai:set_globals',e=>restore(e.detail?.globals?.widgetState?.privateContent));
     renderer.domElement.addEventListener('webglcontextlost',e=>{e.preventDefault();$('loading').hidden=false;$('loading').textContent='显示已暂停，请刷新页面恢复。'});
     $('opacity').value=Math.round(state.opacity*100);$('opacity-value').textContent=Math.round(state.opacity*100)+'%';$('speed').value=state.speed;$('label-mode').value=state.labelMode;
-    $('loading').hidden=true;new ResizeObserver(resize).observe(area);resize();select(null,false,false);
+    window.HeartMembrane?.attach(heart,depthFade);$('loading').hidden=true;new ResizeObserver(resize).observe(area);resize();select(null,false,false);
     window.HeartSpatial?.init();
-    let prev=performance.now();function tick(now){const dt=Math.max(0,Math.min(80,now-prev));prev=now;frameDt=dt/1000;Lab.advanceECGDrag(dt);if(state.running)state.time=(state.time+dt*state.speed)%12000;if(state.auto)state.yaw+=dt/1000*Math.PI*2/32;render();requestAnimationFrame(tick)}requestAnimationFrame(tick);
+    let prev=performance.now();function tick(now){const dt=Math.max(0,Math.min(80,now-prev));prev=now;frameDt=dt/1000;Lab.advanceECGDrag(dt);if(state.running)state.time=window.HeartMembrane?window.HeartMembrane.advance(state.time,dt*state.speed):(state.time+dt*state.speed)%12000;if(state.auto)state.yaw+=dt/1000*Math.PI*2/32;render();requestAnimationFrame(tick)}requestAnimationFrame(tick);
     window.heartViewer={state,renderer,scene,camera,network,select,render,heart,stats:{anatomicalMeshes:surfaces.length,conductionSegments:fibers.length,triangles:surfaces.reduce((n,s)=>n+s.g.index.count/3,0)}};
     window.heartReady=true;area.dataset.ready='true';
   } catch(e) { fail(e); }

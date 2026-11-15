@@ -16,6 +16,7 @@ python work/build.py
 node work/rhythm-engine.test.js
 node work/expanded-rhythms.test.js
 node work/v011.test.cjs
+node work/membrane.test.js
 ```
 
 权利、隐私或不适合公开讨论的问题，请联系 [jksd4c@gmail.com](mailto:jksd4c@gmail.com)。

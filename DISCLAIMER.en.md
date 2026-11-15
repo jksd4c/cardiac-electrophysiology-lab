@@ -1,10 +1,10 @@
 # Educational notice and disclaimer
 
-Cardiac Electrophysiology Lab · v0.1.2 internal beta · by jksd4c · Developed with GPT-6 Astra · 2026-11-14
+Cardiac Electrophysiology Lab · v1.0 public release · by jksd4c · Developed with GPT-6 Astra · 2026-11-15
 
 ## Purpose and release status
 
-This interactive model supports teaching, learning and academic discussion of cardiac conduction, arrhythmias and ECGs. The author intends permanent open-source availability and a free official version. This copy is an open-source teaching beta. Original code and original documentation are licensed under GPL-3.0-only. Permissions are governed by LICENSE, LICENSING.md and the applicable third-party licenses.
+This interactive model supports teaching, learning and academic discussion of cardiac conduction, arrhythmias and ECGs. The author intends permanent open-source availability and a free official version. This copy is an open-source educational release. Original code and original documentation are licensed under GPL-3.0-only. Permissions are governed by LICENSE, LICENSING.md and the applicable third-party licenses.
 
 The educational purpose describes intended use and medical limitations; it does not add field-of-use restrictions to rights already granted by applicable open-source or third-party licenses.
 
@@ -14,7 +14,7 @@ The model has not been validated for clinical use. It must not guide individual 
 
 Anatomical surfaces come from a public atlas. Conduction fibers, foci, circuits and local tissue activity are teaching overlays. ECGs are rule- and template-generated signals, not patient recordings. QT and QTc are model estimates, not clinically validated automatic measurements. Local recovery illustrations are not a complete electrophysiological or ionic simulation.
 
-This beta may contain software defects, anatomical simplifications and waveform or timing errors. Passing software tests is not medical certification. Typical morphology cannot uniquely establish a diagnosis or an anatomical origin, and these examples do not cover all clinical variation.
+This model may contain software defects, anatomical simplifications and waveform or timing errors. Passing software tests is not medical certification. Typical morphology cannot uniquely establish a diagnosis or an anatomical origin, and these examples do not cover all clinical variation.
 
 ## Attribution, references and AI assistance
 

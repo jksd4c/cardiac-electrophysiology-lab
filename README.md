@@ -2,9 +2,9 @@
 
 **An interactive 3D heart, cardiac conduction and 12-lead ECG teaching model.**
 
-[Open the web app](https://jksd4c.github.io/cardiac-electrophysiology-lab/) · [中文说明](README.zh-CN.md) · [Download v0.1.2](https://github.com/jksd4c/cardiac-electrophysiology-lab/releases/tag/v0.1.2)
+[Open the web app](https://jksd4c.github.io/cardiac-electrophysiology-lab/) · [中文说明](README.zh-CN.md) · [Download v1.0](https://github.com/jksd4c/cardiac-electrophysiology-lab/releases/tag/v1.0)
 
-**v0.1.2 teaching beta · by jksd4c · Developed with GPT-6 Astra**
+**v1.0 public release · by jksd4c · Developed with GPT-6 Astra**
 
 Explore cardiac anatomy, follow electrical activation and compare synchronized ECG patterns across 75 rhythm scenarios. The official app is free to use, works entirely in your browser and offers Chinese and English interfaces. Select **English** at the top right of the app.
 
@@ -12,6 +12,7 @@ Explore cardiac anatomy, follow electrical activation and compare synchronized E
 
 - **Interactive 3D anatomy:** a translucent heart with freely adjustable views, front/back occlusion, linked structure labels and an orientation cube.
 - **Animated conduction:** SA node, AV node, His bundle, right and left bundle branches, left fascicles and Purkinje network. Normal activation is highlighted in yellow; abnormal activation and circuits are red.
+- **Membrane potential:** switchable myocardial voltage colors, a −90 to +30 mV color bar, surface probes with phase 0–4 action potentials, and millisecond single-beat seeking.
 - **75 rhythm scenarios:** sinus rhythms, escape rhythms, AV blocks, atrial and ventricular ectopy, AF/flutter, reentrant tachycardias, VT/VF, TdP and bundle/fascicular block patterns. PVC examples include RVOT, LVOT and other teaching origins.
 - **Synchronized 12-lead ECG:** lead selection, a shared playback clock, event shortcuts, continuous scrubbing across time windows and an enlarged lead strip.
 - **ECG inspection:** horizontal wheel zoom from 0.6 to 12 seconds, a stable central baseline, constant voltage gain and model-derived RR, PR, QRS, QT, QTcB and QTcF values where applicable.
@@ -23,7 +24,7 @@ Explore cardiac anatomy, follow electrical activation and compare synchronized E
 
 Open **[the live web app](https://jksd4c.github.io/cardiac-electrophysiology-lab/)** in a modern browser with WebGL support. No account or installation is required.
 
-For offline use, download and extract the ZIP from [Releases](https://github.com/jksd4c/cardiac-electrophysiology-lab/releases/tag/v0.1.2), then open `index.html` or `outputs/sinus-rhythm-3d.html`. The runtime library and model data are embedded. External reference links require an internet connection.
+For offline use, download and extract the ZIP from [Releases](https://github.com/jksd4c/cardiac-electrophysiology-lab/releases/tag/v1.0), then open `index.html` or `outputs/sinus-rhythm-3d.html`. The runtime library and model data are embedded. External reference links require an internet connection.
 
 ## Controls
 
@@ -31,6 +32,9 @@ For offline use, download and extract the ZIP from [Releases](https://github.com
 | --- | --- |
 | Top toolbar | Select a rhythm, play/pause, change playback speed or seek within the shared 12-second clip |
 | Heart viewport | Drag to rotate; use the wheel to zoom; click a structure or its label to highlight both |
+| Membrane potential | Toggle voltage colors; right-click the myocardium to place a probe, or choose Place probe and click the surface |
+| Probe action potential | Inspect local voltage and phases 0–4; click a phase or drag the trace to seek |
+| Single-beat timeline | Seek in 1 ms steps, switch beats or loop a beat; inspect the instantaneous frontal-vector quadrant |
 | Orientation cube | Click a face to change view; press Enter while focused to return to the anterior view |
 | ECG lead | Select a lead to inspect its enlarged strip and vector projection |
 | Enlarged ECG | Drag to scrub; continue past an edge to move across windows; use the wheel to zoom in time |
@@ -45,7 +49,7 @@ For offline use, download and extract the ZIP from [Releases](https://github.com
 python work/build.py
 ```
 
-This regenerates `index.html` and `outputs/sinus-rhythm-3d.html`. Runtime requirements are WebGL, Canvas and `DecompressionStream`; Python and Node.js are development tools and are not bundled.
+This regenerates `index.html` and `outputs/sinus-rhythm-3d.html`, including the membrane-potential tools. Use `python work/build.py --local` for a separate `local-v1.0` preview; see [LOCAL-v1.0.md](LOCAL-v1.0.md). Runtime requirements are WebGL, Canvas and `DecompressionStream`; Python and Node.js are development tools and are not bundled.
 
 Run the existing checks with Node.js:
 
@@ -53,6 +57,7 @@ Run the existing checks with Node.js:
 node work/rhythm-engine.test.js
 node work/expanded-rhythms.test.js
 node work/v011.test.cjs
+node work/membrane.test.js
 ```
 
 To build a source-inclusive ZIP and update the file checksum manifest:
@@ -80,7 +85,7 @@ See [LICENSING.md](LICENSING.md), [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.m
 
 ## Educational status and privacy
 
-This is a teaching beta, not a clinically validated ECG analyzer or patient-specific anatomical model. Conduction overlays and ECGs are generated teaching examples. See the [English educational notice](DISCLAIMER.en.md) or [中文版声明](DISCLAIMER.zh-CN.md).
+This is an educational model, not a clinically validated ECG analyzer or patient-specific anatomical model. Conduction overlays and ECGs are generated teaching examples. Membrane colors and probe traces approximate working-myocyte action potentials; they are not measured patient voltages or an ionic-current solver. AF/VF use schematic local asynchronous activity; disorganized ventricular rhythms use an observation window instead of a global beat. See the [English educational notice](DISCLAIMER.en.md) or [中文版声明](DISCLAIMER.zh-CN.md).
 
 The app includes no patient-data upload, advertising or analytics scripts. It stores only the language preference locally. The online version uses GitHub Pages, whose access logging is described in the [privacy notice](PRIVACY.md).
 
