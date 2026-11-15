@@ -1,53 +1,94 @@
-# 心脏电活动实验室 / Cardiac Electrophysiology Lab
+# Cardiac Electrophysiology Lab
 
-**v0.1.2 内测版 · by: jksd4c · 基于 GPT-6 Astra 辅助制作**
+**An interactive 3D heart, cardiac conduction and 12-lead ECG teaching model.**
 
-下载并解压 [v0.1.2 发布包](https://github.com/jksd4c/cardiac-electrophysiology-lab/releases/tag/v0.1.2)，用现代桌面浏览器打开 `index.html` 或 `outputs/sinus-rhythm-3d.html`。页面内嵌运行库和模型数据，可以离线使用，无需账户、联网加载或安装依赖。首页右上角可切换中文与 English。
+[Open the web app](https://jksd4c.github.io/cardiac-electrophysiology-lab/) · [中文说明](README.zh-CN.md) · [Download v0.1.2](https://github.com/jksd4c/cardiac-electrophysiology-lab/releases/tag/v0.1.2)
 
-## 操作
+**v0.1.2 teaching beta · by jksd4c · Developed with GPT-6 Astra**
 
-- 顶部固定栏统一选择节律、播放、速度和 12 秒全局进度；在局部视图处仍可定位。关键事件按钮可直接暂停到代表性激动。
-- 拖动主模型旋转，滚轮缩放；点击结构或标签相互高亮。左下角方位立方体随模型旋转，可点击面复位；键盘 Enter 返回前面观。
-- 右上角三维向量与主心脏同向旋转，并随所选导联更新投影。金色为正常、红色为异常净向量，青色为所选导联投影。
-- 点选十二导联中的一个导联，在下方条带精看；拖动到边缘可继续跨窗口。滚轮只缩放时间轴（0.6–12 秒），基线始终位于条带中央，电压增益不变。可重置缩放或使用左右窗口按钮。
-- 局部左房、心室壁、传导回路及单搏对照按当前节律提供，默认收起。QT、QTc 等均为合成模型的教学估算，方法可展开查看。
+Explore cardiac anatomy, follow electrical activation and compare synchronized ECG patterns across 75 rhythm scenarios. The official app is free to use, works entirely in your browser and offers Chinese and English interfaces. Select **English** at the top right of the app.
 
-- 教材与模型目录位于页脚右下角“声明与许可”内，默认收起；支持按节律名称或缩写检索，点击目录项即可切换节律。每个场景的参考栏仅保留文献与链接。
+## Features
 
-## 源码与重建
+- **Interactive 3D anatomy:** a translucent heart with freely adjustable views, front/back occlusion, linked structure labels and an orientation cube.
+- **Animated conduction:** SA node, AV node, His bundle, right and left bundle branches, left fascicles and Purkinje network. Normal activation is highlighted in yellow; abnormal activation and circuits are red.
+- **75 rhythm scenarios:** sinus rhythms, escape rhythms, AV blocks, atrial and ventricular ectopy, AF/flutter, reentrant tachycardias, VT/VF, TdP and bundle/fascicular block patterns. PVC examples include RVOT, LVOT and other teaching origins.
+- **Synchronized 12-lead ECG:** lead selection, a shared playback clock, event shortcuts, continuous scrubbing across time windows and an enlarged lead strip.
+- **ECG inspection:** horizontal wheel zoom from 0.6 to 12 seconds, a stable central baseline, constant voltage gain and model-derived RR, PR, QRS, QT, QTcB and QTcF values where applicable.
+- **3D cardiac vector:** a compact vector display in the heart viewport follows the selected lead and model orientation.
+- **Optional local views:** rhythm-dependent atrial, ventricular tissue, conduction-circuit and single-beat comparison panels, collapsed by default.
+- **References and attribution:** textbook navigation, the searchable rhythm catalog, licenses and privacy information are available through the footer's **Notices & licenses** entry.
 
-`work/` 包含完整运行源文件、预处理模型数据和内嵌库。Python 3 标准库即可重建页面：
+## Use online or offline
+
+Open **[the live web app](https://jksd4c.github.io/cardiac-electrophysiology-lab/)** in a modern browser with WebGL support. No account or installation is required.
+
+For offline use, download and extract the ZIP from [Releases](https://github.com/jksd4c/cardiac-electrophysiology-lab/releases/tag/v0.1.2), then open `index.html` or `outputs/sinus-rhythm-3d.html`. The runtime library and model data are embedded. External reference links require an internet connection.
+
+## Controls
+
+| Control | Action |
+| --- | --- |
+| Top toolbar | Select a rhythm, play/pause, change playback speed or seek within the shared 12-second clip |
+| Heart viewport | Drag to rotate; use the wheel to zoom; click a structure or its label to highlight both |
+| Orientation cube | Click a face to change view; press Enter while focused to return to the anterior view |
+| ECG lead | Select a lead to inspect its enlarged strip and vector projection |
+| Enlarged ECG | Drag to scrub; continue past an edge to move across windows; use the wheel to zoom in time |
+| Local-view buttons | Open the detail panels available for the selected rhythm |
+| Footer | Expand references, source attribution, licenses, feedback and privacy information |
+
+## Source and development
+
+`work/` contains the source modules, HTML template, editable conduction data, prepared anatomy data and embedded runtime library. Python 3's standard library is sufficient to rebuild the app:
 
 ```sh
 python work/build.py
+```
+
+This regenerates `index.html` and `outputs/sinus-rhythm-3d.html`. Runtime requirements are WebGL, Canvas and `DecompressionStream`; Python and Node.js are development tools and are not bundled.
+
+Run the existing checks with Node.js:
+
+```sh
 node work/rhythm-engine.test.js
 node work/expanded-rhythms.test.js
 node work/v011.test.cjs
 ```
 
-Python / Node.js 不随包分发。浏览器需支持 WebGL、Canvas 和 DecompressionStream。模型数据来自图谱，不是个体 CT；网络纤维为教学叠加。页面不上传患者数据，也没有患者数据导入功能。
+To build a source-inclusive ZIP and update the file checksum manifest:
 
-## 本版检查与发布状态
+```sh
+python tools/package_release.py
+```
 
-v0.1.2 通过现有 v0.1.1 回归检查（包括 8,925 个间期采样帧），双语源文案检查无缺失。浏览器验证了主界面入口移除、参考栏清理、声明内目录检索及选择节律后的跳转、中英文切换。既有核心与扩展节律测试记录见 CHANGELOG.md；本次未改变模型、心电信号或临床规则。
+GitHub Pages serves the repository's `main` branch from its root. `.nojekyll` keeps the generated page as a static asset. To publish a code change, rebuild the page, run the relevant checks and push the generated page with its corresponding source. See [CHANGELOG.md](CHANGELOG.md) for version history and validation details.
 
-这些是程序行为检查，不是医学准确性认证；未穷举所有浏览器、显卡和全部手势组合。本次按教学内测版开源发布，未取得独立医学准确性认证。
+## License and attribution
 
-原创代码和原创说明文档采用 **GPL-3.0-only**，Copyright (C) 2026 jksd4c。作者免费提供官方版本；许可证允许商用，分发和修改须遵守其条款。BodyParts3D 解剖数据保留 CC BY 4.0，Three.js 与 OrganUI 相关内容保留 MIT。详见 [LICENSE](LICENSE) 与 [LICENSING.md](LICENSING.md)。教学用途说明不另加使用领域限制。
+Original project code and original documentation are licensed under **[GPL-3.0-only](LICENSE)**. Copyright (C) 2026 jksd4c. The author provides the official version free of charge; the license permits commercial use and governs modification and redistribution. The educational notice adds no field-of-use restrictions to the applicable licenses.
 
-详见 `CHANGELOG.md`、`DISCLAIMER.zh-CN.md`、`DISCLAIMER.en.md`、`THIRD_PARTY_NOTICES.md`、`REFERENCES.md` 与 `LICENSING.md` 和 `PRIVACY.md`。本项目仅供教学和学习，未经临床用途验证。
+Third-party materials retain their own licenses:
 
-## English quick start
+| Material | Source and license |
+| --- | --- |
+| Anatomy data | **BodyParts3D, © The Database Center for Life Science licensed under CC Attribution 4.0 International.** Main-heart processing also credits OrganUI. |
+| Three.js r160 | MIT; see [the full notice](licenses/threejs-r160-MIT.txt) |
+| OrganUI source documentation and relevant materials | MIT; see [the full notice](licenses/organui-MIT.txt). Its anatomy data retains the BodyParts3D license. |
+| Medical textbooks, papers and guidelines | Bibliographic references and navigation links; their full texts and original figures are not included or relicensed. |
 
-Extract the archive and open `outputs/sinus-rhythm-3d.html` in a current WebGL-capable browser. Everything required at runtime is embedded. Select **English** at the top right. The sticky transport bar controls the same 12-second clock as all views. The enlarged ECG zooms horizontally around a fixed central baseline; its voltage gain does not change. The corner vector uses the selected lead and rotates with the heart. Detailed views are optional and rhythm-dependent. The searchable reference and rhythm catalog is now inside the footer’s Notices & licenses disclosure; per-scenario references display citations and links only.
+See [LICENSING.md](LICENSING.md), [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) and [provenance/](provenance/) for scope, modifications and source records. Retain the relevant attribution when sharing the model, screenshots or videos.
 
-This is an internal teaching beta, not a clinically validated ECG analyzer, anatomical mapping system or treatment aid. Original code and original documentation are GPL-3.0-only. The official version is free of charge. Third-party assets retain their respective licenses. Contact: jksd4c@gmail.com. Retain all third-party notices.
+## Educational status and privacy
 
-## 反馈 / Contact
+This is a teaching beta, not a clinically validated ECG analyzer or patient-specific anatomical model. Conduction overlays and ECGs are generated teaching examples. See the [English educational notice](DISCLAIMER.en.md) or [中文版声明](DISCLAIMER.zh-CN.md).
 
-- 普通问题：[GitHub Issues](https://github.com/jksd4c/cardiac-electrophysiology-lab/issues)。
-- 权利、隐私及其他联系：[jksd4c@gmail.com](mailto:jksd4c@gmail.com)。
-- 请勿在公开 Issues 或邮件中发送患者身份信息或未经授权的病历。
-- [简短隐私说明 / Privacy](PRIVACY.md)。
+The app includes no patient-data upload, advertising or analytics scripts. It stores only the language preference locally. The online version uses GitHub Pages, whose access logging is described in the [privacy notice](PRIVACY.md).
 
-当前提供源码与可离线运行的网页包。独立域名、网站托管及适用备案手续另行安排。
+## Feedback and contributions
+
+- Report reproducible problems through [GitHub Issues](https://github.com/jksd4c/cardiac-electrophysiology-lab/issues).
+- For rights, privacy or other private concerns, contact **[jksd4c@gmail.com](mailto:jksd4c@gmail.com)**.
+- Please do not submit patient identifiers or unauthorized medical records.
+- See [CONTRIBUTING.md](CONTRIBUTING.md) before contributing code or third-party assets.
+
+Developed by **jksd4c** with **GPT-6 Astra** assistance. Tool and resource credits do not imply endorsement by OpenAI or the cited authors, publishers or institutions.

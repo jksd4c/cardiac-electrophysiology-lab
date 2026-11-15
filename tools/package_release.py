@@ -13,7 +13,7 @@ root = Path(__file__).resolve().parent.parent
 subprocess.run([sys.executable, str(root / 'work/build.py')], check=True)
 assert (root / 'index.html').read_bytes() == (root / 'outputs/sinus-rhythm-3d.html').read_bytes()
 roots = {'work', 'licenses', 'provenance', 'tools', 'outputs'}
-names = {'LICENSE', 'LICENSING.md', 'README.md', 'PRIVACY.md', 'CONTRIBUTING.md',
+names = {'LICENSE', 'LICENSING.md', 'README.md', 'README.zh-CN.md', 'PRIVACY.md', 'CONTRIBUTING.md',
          'DISCLAIMER.zh-CN.md', 'DISCLAIMER.en.md', 'THIRD_PARTY_NOTICES.md',
          'REFERENCES.md', 'LINK_POLICY.md', 'CHANGELOG.md', 'index.html',
          '.gitignore', '.gitattributes', '.nojekyll'}
