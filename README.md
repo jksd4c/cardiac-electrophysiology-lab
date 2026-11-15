@@ -1,32 +1,35 @@
 # eRhythmos
 
-**An open-source 3D cardiac electrophysiology lab for learning how electrical activity becomes an ECG.**
+**An Interactive Cardiac Electrophysiology Learning Tool**
 
 [Open the web app](https://jksd4c.github.io/cardiac-electrophysiology-lab/) · [中文说明](README.zh-CN.md) · [Download v1.0.1](https://github.com/jksd4c/cardiac-electrophysiology-lab/releases/tag/v1.0.1)
 
-**v1.0.1 · by jksd4c**
+eRhythmos is a free, open-source cardiac electrophysiology learning project. Through an interactive 3D heart, it connects cardiac anatomy, electrical impulse propagation, myocardial membrane potentials and the 12-lead ECG, helping learners understand how cardiac electrical activity relates to ECG patterns.
 
-eRhythmos brings a translucent 3D heart, animated conduction pathways, membrane-potential visualization and synchronized 12-lead ECGs onto one shared timeline. Rotate the heart, follow an impulse, probe a myocardial point or pause a beat to explore how local electrical activity relates to the ECG.
+Rotate the heart to follow an impulse through the conduction system. Switch between rhythms to compare activation sequences and ECG changes. Select a point on the myocardium to inspect its local action potential, then pause, replay or step through depolarization and repolarization.
 
-Explore 75 rhythm scenarios, including AV block, atrial and ventricular ectopy, AF, VF and bundle-branch block, with RVOT/LVOT PVC examples and rhythm-specific detail views. The app is free to use, runs in your browser and supports Chinese and English. It also works offline from the downloadable package.
+## What you can explore
 
-## Features
+- **The cardiac conduction system:** explore the spatial relationships and activation of the SA node, AV node, His bundle, right and left bundle branches, and Purkinje network.
+- **Common arrhythmias:** study escape rhythms, AV block, atrial and ventricular premature beats, AF, VF and other rhythms; compare typical patterns associated with different PVC origins and bundle-branch blocks.
+- **The 12-lead ECG:** observe cardiac electrical activity alongside each lead, select and enlarge a waveform, and use cardiac vectors to understand its changes.
+- **Myocardial action potentials:** use colors and local traces to explore membrane-potential changes through phases 0–4.
+- **Local electrophysiological mechanisms:** open atrial, pulmonary-vein or ventricular-tissue views in relevant scenarios to explore triggering activity and differences in repolarization.
 
-- **Interactive 3D anatomy:** a translucent heart with freely adjustable views, front/back occlusion, linked structure labels and an orientation cube.
-- **Animated conduction:** SA node, AV node, His bundle, right and left bundle branches, left fascicles and Purkinje network. Normal activation is highlighted in yellow; abnormal activation and circuits are red.
-- **Membrane potential:** switchable myocardial voltage colors, a −90 to +30 mV color bar, surface probes with phase 0–4 action potentials, and millisecond single-beat seeking.
-- **75 rhythm scenarios:** sinus rhythms, escape rhythms, AV blocks, atrial and ventricular ectopy, AF/flutter, reentrant tachycardias, VT/VF, TdP and bundle/fascicular block patterns. PVC examples include RVOT, LVOT and other teaching origins.
-- **Synchronized 12-lead ECG:** lead selection, a shared playback clock, event shortcuts, continuous scrubbing across time windows and an enlarged lead strip.
-- **ECG inspection:** horizontal wheel zoom from 0.6 to 12 seconds, a stable central baseline, constant voltage gain and model-derived RR, PR, QRS, QT, QTcB and QTcF values where applicable.
-- **3D cardiac vector:** a compact vector display in the heart viewport follows the selected lead and model orientation.
-- **Optional local views:** rhythm-dependent atrial, ventricular tissue, conduction-circuit and single-beat comparison panels, collapsed by default.
-- **References and attribution:** textbook navigation, the searchable rhythm catalog, licenses and privacy information are available through the footer's **Notices & licenses** entry.
+eRhythmos is designed for medical students, clinical learners, educators and anyone interested in cardiac electrophysiology. It supports self-directed learning, classroom demonstrations and discussion. The app offers Chinese and English interfaces, requires no registration, and can be used in a browser or downloaded for offline use.
+
+Original code is available under **GPL-3.0-only**. Feedback, suggestions and contributions are welcome. Third-party sources and licenses are documented in the project.
+
+*For teaching and learning. The model and ECG signals are educational illustrations and must not be used as a basis for clinical diagnosis or treatment.*
 
 ## Use online or offline
 
 Open **[the live web app](https://jksd4c.github.io/cardiac-electrophysiology-lab/)** in a modern browser with WebGL support. No account or installation is required.
 
 For offline use, download and extract the ZIP from [Releases](https://github.com/jksd4c/cardiac-electrophysiology-lab/releases/tag/v1.0.1), then open `index.html` or `outputs/sinus-rhythm-3d.html`. The runtime library and model data are embedded. External reference links require an internet connection.
+
+<details>
+<summary>Interaction guide</summary>
 
 ## Controls
 
@@ -42,6 +45,11 @@ For offline use, download and extract the ZIP from [Releases](https://github.com
 | Enlarged ECG | Drag to scrub; continue past an edge to move across windows; use the wheel to zoom in time |
 | Local-view buttons | Open the detail panels available for the selected rhythm |
 | Footer | Expand references, source attribution, licenses, feedback and privacy information |
+
+</details>
+
+<details>
+<summary>Source, development and checks</summary>
 
 ## Source and development
 
@@ -70,6 +78,8 @@ python tools/package_release.py
 
 GitHub Pages serves the repository's `main` branch from its root. `.nojekyll` keeps the generated page as a static asset. To publish a code change, rebuild the page, run the relevant checks and push the generated page with its corresponding source. See [CHANGELOG.md](CHANGELOG.md) for version history and validation details.
 
+</details>
+
 ## License and attribution
 
 Original project code and original documentation are licensed under **[GPL-3.0-only](LICENSE)**. Copyright (C) 2026 jksd4c. The author provides the official version free of charge; the license permits commercial use and governs modification and redistribution. The educational notice adds no field-of-use restrictions to the applicable licenses.
@@ -85,11 +95,11 @@ Third-party materials retain their own licenses:
 
 See [LICENSING.md](LICENSING.md), [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) and [provenance/](provenance/) for scope, modifications and source records. Retain the relevant attribution when sharing the model, screenshots or videos.
 
-## Educational status and privacy
+## Further information
 
-This is an educational model, not a clinically validated ECG analyzer or patient-specific anatomical model. Conduction overlays and ECGs are generated teaching examples. Membrane colors and probe traces approximate working-myocyte action potentials; they are not measured patient voltages or an ionic-current solver. AF/VF use schematic local asynchronous activity; disorganized ventricular rhythms use an observation window instead of a global beat. See the [English educational notice](DISCLAIMER.en.md) or [中文版声明](DISCLAIMER.zh-CN.md).
+See the [educational notice](DISCLAIMER.en.md), [medical references](REFERENCES.md) and [privacy notice](PRIVACY.md) for the model's scope and supporting information.
 
-The app includes no patient-data upload, advertising or analytics scripts. It stores only the language preference locally. The online version uses GitHub Pages, whose access logging is described in the [privacy notice](PRIVACY.md).
+The app includes no patient-data upload, advertising or analytics scripts. It stores only the language preference locally. The online version is hosted on GitHub Pages.
 
 ## Feedback and contributions
 
