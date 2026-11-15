@@ -5,7 +5,7 @@ Copyright (C) 2026 jksd4c
 See LICENSE for copying conditions and warranty disclaimer.
 -->
 
-<html lang="zh-CN"><head><meta charset="utf-8"><meta name="app-version" content="v1.0"><meta name="referrer" content="no-referrer"><meta name="viewport" content="width=device-width, initial-scale=1"><title>心脏电活动实验室 · v1.0</title><style>/*
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="app-version" content="v1.0.1"><meta name="referrer" content="no-referrer"><meta name="viewport" content="width=device-width, initial-scale=1"><title>eRhythmos · 心脏电活动实验室 · v1.0.1</title><style>/*
 SPDX-License-Identifier: GPL-3.0-only
 Copyright (C) 2026 jksd4c
 See LICENSE for copying conditions and warranty disclaimer.
@@ -111,7 +111,7 @@ html{scroll-padding-top:180px}
 @media(max-width:600px){.membrane-panel{padding:12px;margin-top:12px}.mp-heading{align-items:flex-start}.mp-tools{flex-wrap:wrap;justify-content:flex-start}.mp-cycle{padding:7px 9px}.mp-cycle-meta{width:100%;white-space:normal;font-size:8px}.mp-cycle-heading{gap:5px}.mp-cycle-controls{margin-left:auto}.mp-cycle-controls button{font-size:8px;padding:3px 5px}.mp-cycle-fine{display:none}.mp-readouts output{font-size:11px}.mp-readouts #mp-voltage{font-size:16px}.mp-phase-chips button{font-size:8px}.mp-phase-chips b{display:block;margin:0}#mp-trace{height:145px}.mp-status{font-size:9px}.mp-cycle-range{grid-template-columns:36px minmax(0,1fr) 52px;gap:6px}}
 </style></head>
 <body><main id="heart-app" class="standalone-heart">
- <header class="heading"><div><div class="eyebrow">CARDIAC ELECTROPHYSIOLOGY · RHYTHM ATLAS</div><h1>心脏电活动实验室</h1><span class="version-badge">v1.0</span></div><div class="header-right"><div class="language-switch" role="group" aria-label="语言 / Language"><button id="lang-zh" data-language="zh" aria-pressed="true">中文</button><button id="lang-en" data-language="en" aria-pressed="false">English</button></div><div class="legend"><span><i class="dot gold"></i>正常激动</span><span><i class="dot red"></i>异常激动 / 回路</span><span><i class="dot cyan"></i>选中结构</span></div></div></header>
+ <header class="heading"><div><div class="eyebrow">CARDIAC ELECTROPHYSIOLOGY · RHYTHM ATLAS</div><h1>eRhythmos</h1><span class="version-badge">v1.0.1</span></div><div class="header-right"><div class="language-switch" role="group" aria-label="语言 / Language"><button id="lang-zh" data-language="zh" aria-pressed="true">中文</button><button id="lang-en" data-language="en" aria-pressed="false">English</button></div><div class="legend"><span><i class="dot gold"></i>正常激动</span><span><i class="dot red"></i>异常激动 / 回路</span><span><i class="dot cyan"></i>选中结构</span></div></div></header>
  <div class="sticky-controls"> <section class="session-bar" aria-label="节律和播放设置">
   <label class="rhythm-control">节律示例<select id="rhythm" aria-label="选择心律"></select></label>
   <label id="rhythm-rate-row" class="rate-control" hidden><span id="rhythm-rate-label">示例节律频率</span><span class="rate-input"><input id="rhythm-rate" type="range" min="120" max="240" value="180" step="1" aria-label="异常节律示例频率"><output id="rhythm-rate-value">180</output><small>次/分</small></span></label><div class="play-controls"><button id="play" class="primary" aria-pressed="true">暂停</button><button id="restart">从头播放</button><button id="focus-event" title="暂停在当前示例的关键事件">关键事件</button><label class="speed-control">速度<select id="speed"><option value="0.1">0.1×</option><option value="0.2">0.2×</option><option value="0.5" selected>0.5×</option><option value="1">1×</option></select></label></div>
@@ -143,7 +143,7 @@ html{scroll-padding-top:180px}
   
  </section>
  <footer class="page-footer"><span class="author-credit">by: jksd4c</span><div id="legal-credit"><details id="release-notice"><summary title="点击查看完整声明、资源来源和第三方许可">仅供学习，不作诊疗依据 · 声明与许可</summary><div class="notice-body">
-<p>jksd4c · GPT-6 Astra 辅助制作 · v1.0 · 开源发布</p>
+<p>jksd4c · GPT-6 Astra 辅助制作 · v1.0.1 · 开源发布</p>
 <details id="reference-notice"><summary id="reference-summary">教材与模型目录</summary><div id="panel-reference" role="region" aria-labelledby="reference-summary"><div class="table-scroll"><table><thead><tr><th>主参考</th><th>用来做什么</th><th>本轮范围</th></tr></thead><tbody><tr><td><a href="https://shop.elsevier.com/books/goldbergers-clinical-electrocardiography/goldberger/978-0-323-82475-0" target="_blank" rel="noopener noreferrer">Goldberger’s Clinical Electrocardiography，第 10 版</a></td><td>导联、波形、间期、心律识别</td><td>第 2–6 章：基础与导联；第 8 章：束支阻滞；13–16 章：窦性、房性、交界性与室性节律；17–18 章：房室阻滞及预激；21 章：心脏骤停节律。</td></tr><tr><td><a href="https://evolve.elsevier.com/cs/product/9780323757454?role=student" target="_blank" rel="noopener noreferrer">Zipes and Jalife’s Cardiac Electrophysiology: From Cell to Bedside，第 8 版</a></td><td>起搏与传播、复极 / 不应期、触发及折返的机制框架</td><td>细胞间传播、转子与心律失常、肺静脉与房颤、结构重构；局部视图采用简化的组织级示意。</td></tr></tbody></table></div><div class="catalog-tools"><strong id="catalog-count">75 个场景</strong><label>筛选目录 <input id="catalog-search" type="search" placeholder="如 LBBB、室早、AVRT" aria-label="筛选模型目录"></label></div><div id="scope-list" class="scope-list"></div></div></details>
 <p><strong>教学用途</strong><br>本项目用交互式心脏模型帮助学习传导系统、心律失常与心电图。模型及信号经过教学简化，未经临床用途验证，不作为诊断、治疗或消融定位依据。</p>
 <p><strong>解剖模型与修改</strong><br>解剖表面来自 BodyParts3D，经 OrganUI 整理；左房及肺静脉来自同一官方图谱。已进行网格量化、显示与局部视图调整，并叠加教学传导路径。BodyParts3D © The Database Center for Life Science，<a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener noreferrer">CC BY 4.0</a>。</p>
@@ -151,7 +151,7 @@ html{scroll-padding-top:180px}
 <p><strong>代码与制作工具</strong><br>Three.js r160 使用 MIT 许可；GPT-6 Astra 用于辅助开发。来源署名不代表相关作者、机构或 OpenAI 对本项目背书。感谢公开资源的作者与维护者。</p>
 <p><strong>开源许可</strong><br>本项目原创代码采用 GPL-3.0-only，作者免费提供官方版本。第三方模型与运行库保留各自许可；教学用途说明不增加许可证以外的使用限制。</p>
 
-<p><a href="https://github.com/jksd4c/cardiac-electrophysiology-lab" target="_blank" rel="noopener noreferrer">源码仓库</a> · <a href="https://github.com/jksd4c/cardiac-electrophysiology-lab/blob/v1.0/LICENSING.md" target="_blank" rel="noopener noreferrer">许可范围</a> · <a href="mailto:jksd4c@gmail.com">jksd4c@gmail.com</a></p>
+<p><a href="https://github.com/jksd4c/cardiac-electrophysiology-lab" target="_blank" rel="noopener noreferrer">源码仓库</a> · <a href="https://github.com/jksd4c/cardiac-electrophysiology-lab/blob/v1.0.1/LICENSING.md" target="_blank" rel="noopener noreferrer">许可范围</a> · <a href="mailto:jksd4c@gmail.com">jksd4c@gmail.com</a></p>
 <details id="project-license"><summary>原创代码 · GPL-3.0-only 完整许可</summary><p>Copyright (C) 2026 jksd4c. Original code: GPL-3.0-only. Third-party notices and licenses remain applicable.</p><pre translate="no">                    GNU GENERAL PUBLIC LICENSE
                        Version 3, 29 June 2007
 
@@ -832,7 +832,7 @@ Public License instead of this License.  But first, please read
 <p>模型和心电图在浏览器本地计算，不要求注册，不提供患者资料上传功能，未内置广告或访问统计脚本。</p>
 <p>仅在本机保存中英文语言偏好；清除浏览器网站数据即可删除。浏览网页及打开外部链接时，托管平台和外部站点可能处理 IP 地址等访问记录，并适用各自的隐私政策。</p>
 <p>主动通过邮件或 GitHub Issues 反馈时，相应服务会处理你提交的内容。公开 Issues 对所有人可见；请勿提交患者身份信息或其他敏感资料。</p>
-<p><span>隐私联系：</span><a href="mailto:jksd4c@gmail.com">jksd4c@gmail.com</a> · <a href="https://github.com/jksd4c/cardiac-electrophysiology-lab/blob/v1.0/PRIVACY.md" target="_blank" rel="noopener noreferrer">完整隐私说明</a></p></details>
+<p><span>隐私联系：</span><a href="mailto:jksd4c@gmail.com">jksd4c@gmail.com</a> · <a href="https://github.com/jksd4c/cardiac-electrophysiology-lab/blob/v1.0.1/PRIVACY.md" target="_blank" rel="noopener noreferrer">完整隐私说明</a></p></details>
 <details><summary>完整教学声明与发布状态</summary>
 <p>本模型面向教学、学习与交流，以开源教学版本发布。原创代码与原创说明文档采用 GPL-3.0-only；第三方内容适用其各自许可，完整授权范围见 LICENSING.md。</p>
 <p>解剖外形来自公开图谱，传导路径和局部组织为教学叠加。心电图是合成信号，未经临床用途验证，不作为个体诊断、治疗、用药、消融定位或风险预测依据。本模型可能存在程序、解剖及波形偏差。</p>
@@ -1808,7 +1808,7 @@ const originals=new WeakMap(),attrs=new WeakMap();
 function eligible(n){return n.parentElement&&!n.parentElement.closest('script,style,[data-language]');}
 function translateNode(n){if(n.nodeType===3){if(!eligible(n))return;const s=n.nodeValue,prior=originals.get(n),source=prior&&s===prior.en?prior.zh:s;if(language==='en'&&zhRE.test(source)){const en=t(source);if(en!==s){originals.set(n,{zh:source,en});n.nodeValue=en;}}else if(language==='zh'){const old=originals.get(n);if(old&&s===old.en)n.nodeValue=old.zh;}return;}if(n.nodeType!==1)return;const walker=document.createTreeWalker(n,NodeFilter.SHOW_TEXT);let child;while(child=walker.nextNode())translateNode(child);for(const el of [n,...n.querySelectorAll('[title],[aria-label],[placeholder],optgroup')]){if(el.matches('[data-language],script,style'))continue;for(const name of ['title','aria-label','placeholder','label']){if(!el.hasAttribute(name))continue;const val=el.getAttribute(name);let record=attrs.get(el)||{},source=record[name]&&val===record[name].en?record[name].zh:val;if(language==='en'&&zhRE.test(source)){record[name]={zh:source,en:t(source)};el.setAttribute(name,record[name].en);attrs.set(el,record);}else if(language==='zh'&&record[name]&&val===record[name].en)el.setAttribute(name,record[name].zh);}}}
 let observer;function scan(root=document.body){observer?.disconnect();translateNode(root);observer?.observe(document.body,{childList:true,subtree:true,characterData:true});}
-function setLanguage(next){language=next==='en'?'en':'zh';document.documentElement.lang=language==='en'?'en':'zh-CN';document.title=(language==='en'?'Cardiac Electrophysiology Lab':'心脏电活动实验室')+' · '+(document.querySelector('meta[name=app-version]')?.content||'v1.0');try{localStorage.setItem('heart-language',language);}catch{}for(const b of document.querySelectorAll('[data-language]'))b.setAttribute('aria-pressed',b.dataset.language===language);scan();window.dispatchEvent(new Event('heart-language-change'));}
+function setLanguage(next){language=next==='en'?'en':'zh';document.documentElement.lang=language==='en'?'en':'zh-CN';document.title='eRhythmos · '+(language==='en'?'Cardiac Electrophysiology Lab':'心脏电活动实验室')+' · '+(document.querySelector('meta[name=app-version]')?.content||'v1.0.1');try{localStorage.setItem('heart-language',language);}catch{}for(const b of document.querySelectorAll('[data-language]'))b.setAttribute('aria-pressed',b.dataset.language===language);scan();window.dispatchEvent(new Event('heart-language-change'));}
 window.HeartI18n={t,setLanguage,get language(){return language;},add(entries){for(const [a,b]of entries)dict.set(a,b);refresh();scan();}};
 observer=new MutationObserver(records=>{observer.disconnect();for(const record of records){if(record.type==='characterData')translateNode(record.target);else for(const n of record.addedNodes)translateNode(n);}observer.observe(document.body,{childList:true,subtree:true,characterData:true});});
 document.querySelectorAll('[data-language]').forEach(b=>b.onclick=()=>setLanguage(b.dataset.language));setLanguage(language);
@@ -1839,7 +1839,7 @@ BodyParts3D 4.0 · 左房壁 + 四组肺静脉；默认后面观，拖动可旋�
 两路融合|Fusion of two activation paths
 继发复极|Secondary repolarization
 室性心律失常共识|Ventricular arrhythmia consensus
-心脏电活动实验室 · v1.0|Cardiac Electrophysiology Lab · v1.0
+eRhythmos · 心脏电活动实验室 · v1.0.1|eRhythmos · Cardiac Electrophysiology Lab · v1.0.1
 窦房结发放|SA node firing
 · 左房壁 FJ2438 与四组肺静脉原始网格，统一坐标；肺静脉显示细分保留源开口边界。© The Database Center for Life Science，CC BY 4.0。|· LA wall FJ2438 and four PV meshes in shared coordinates. Display subdivision preserves source opening boundaries. © The Database Center for Life Science, CC BY 4.0.
 异常节律示例频率|Example abnormal rhythm rate
@@ -1848,7 +1848,7 @@ BodyParts3D 4.0 · 左房壁 + 四组肺静脉；默认后面观，拖动可旋�
 额面瞬时心电向量与导联轴|Instantaneous frontal vector and lead axes
 十二导联的十个电极位置示意|Ten electrode positions for the 12-lead ECG
 以下教材的官方版本与目录用于建立学习框架；各场景另附机制参考链接。波形、回路和组织活动为原创教学示意，不复刻教材原图，也不声称逐页核对整本教材。|Official editions and contents establish the learning framework; individual scenarios link to mechanism references. Waveforms, circuits and tissue activity are original teaching illustrations, not reproduced textbook figures or a page-by-page validation of complete textbooks.
-jksd4c · GPT-6 Astra 辅助制作 · v1.0 · 开源发布|jksd4c · Developed with GPT-6 Astra · v1.0 · Open source
+jksd4c · GPT-6 Astra 辅助制作 · v1.0.1 · 开源发布|jksd4c · Developed with GPT-6 Astra · v1.0.1 · Open source
 本项目用交互式心脏模型帮助学习传导系统、心律失常与心电图。模型及信号经过教学简化，未经临床用途验证，不作为诊断、治疗或消融定位依据。|An interactive model for learning cardiac conduction, arrhythmias and ECGs. Anatomy and signals are simplified for teaching and are not validated for diagnosis, treatment or ablation localization.
 解剖表面来自 BodyParts3D，经 OrganUI 整理；左房及肺静脉来自同一官方图谱。已进行网格量化、显示与局部视图调整，并叠加教学传导路径。BodyParts3D © The Database Center for Life Science，|Anatomical surfaces come from BodyParts3D via OrganUI; the LA and PVs use the same official atlas. Meshes are quantized and adapted for display and local views, with teaching conduction overlays. BodyParts3D © The Database Center for Life Science, 
 心电图由规则及模板合成，未使用真实患者心电记录。教材、指南和论文用于知识核对，书目及官方链接见“教材与模型目录”；不附其全文或原图。|ECGs are synthesized from rules and templates, without patient recordings. Textbooks, guidelines and papers support knowledge checks. Bibliography and official links appear in References & rhythm catalog; full texts and original figures are not included.

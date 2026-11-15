@@ -1,12 +1,14 @@
-# Cardiac Electrophysiology Lab
+# eRhythmos
 
-**An interactive 3D heart, cardiac conduction and 12-lead ECG teaching model.**
+**An open-source 3D cardiac electrophysiology lab for learning how electrical activity becomes an ECG.**
 
-[Open the web app](https://jksd4c.github.io/cardiac-electrophysiology-lab/) · [中文说明](README.zh-CN.md) · [Download v1.0](https://github.com/jksd4c/cardiac-electrophysiology-lab/releases/tag/v1.0)
+[Open the web app](https://jksd4c.github.io/cardiac-electrophysiology-lab/) · [中文说明](README.zh-CN.md) · [Download v1.0.1](https://github.com/jksd4c/cardiac-electrophysiology-lab/releases/tag/v1.0.1)
 
-**v1.0 public release · by jksd4c · Developed with GPT-6 Astra**
+**v1.0.1 · by jksd4c**
 
-Explore cardiac anatomy, follow electrical activation and compare synchronized ECG patterns across 75 rhythm scenarios. The official app is free to use, works entirely in your browser and offers Chinese and English interfaces. Select **English** at the top right of the app.
+eRhythmos brings a translucent 3D heart, animated conduction pathways, membrane-potential visualization and synchronized 12-lead ECGs onto one shared timeline. Rotate the heart, follow an impulse, probe a myocardial point or pause a beat to explore how local electrical activity relates to the ECG.
+
+Explore 75 rhythm scenarios, including AV block, atrial and ventricular ectopy, AF, VF and bundle-branch block, with RVOT/LVOT PVC examples and rhythm-specific detail views. The app is free to use, runs in your browser and supports Chinese and English. It also works offline from the downloadable package.
 
 ## Features
 
@@ -24,7 +26,7 @@ Explore cardiac anatomy, follow electrical activation and compare synchronized E
 
 Open **[the live web app](https://jksd4c.github.io/cardiac-electrophysiology-lab/)** in a modern browser with WebGL support. No account or installation is required.
 
-For offline use, download and extract the ZIP from [Releases](https://github.com/jksd4c/cardiac-electrophysiology-lab/releases/tag/v1.0), then open `index.html` or `outputs/sinus-rhythm-3d.html`. The runtime library and model data are embedded. External reference links require an internet connection.
+For offline use, download and extract the ZIP from [Releases](https://github.com/jksd4c/cardiac-electrophysiology-lab/releases/tag/v1.0.1), then open `index.html` or `outputs/sinus-rhythm-3d.html`. The runtime library and model data are embedded. External reference links require an internet connection.
 
 ## Controls
 
@@ -96,4 +98,4 @@ The app includes no patient-data upload, advertising or analytics scripts. It st
 - Please do not submit patient identifiers or unauthorized medical records.
 - See [CONTRIBUTING.md](CONTRIBUTING.md) before contributing code or third-party assets.
 
-Developed by **jksd4c** with **GPT-6 Astra** assistance. Tool and resource credits do not imply endorsement by OpenAI or the cited authors, publishers or institutions.
+Maintained by **jksd4c**. Contributions and reproducible feedback are welcome.

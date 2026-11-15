@@ -1,6 +1,6 @@
 # 许可范围 / Licensing
 
-2026-11-14 · v1.0 · Copyright (C) 2026 jksd4c
+2026-11-14 · v1.0.1 · Copyright (C) 2026 jksd4c
 
 本项目原创代码及原创说明文档采用 **GNU General Public License version 3 only（GPL-3.0-only）**。完整、未修改的标准文本见 [LICENSE](LICENSE)。这是作者对相应原创部分作出的授权，无需向机构申请或取得“开源证书”。官方版本免费提供；GPL 允许商业使用，不以“仅学习”为理由另加禁止商用等限制。
 
@@ -27,7 +27,7 @@ GPL 不取消第三方的独立署名要求。转发模型、截图、录像或�
 
 ## 源码及再分发
 
-对应源码位于 [jksd4c/cardiac-electrophysiology-lab](https://github.com/jksd4c/cardiac-electrophysiology-lab)，本版使用 `v1.0` 标签。`work/` 提供可修改的运行代码、模板、构建脚本及运行模型数据；执行 `python work/build.py` 可重新生成两份网页入口。
+对应源码位于 [jksd4c/cardiac-electrophysiology-lab](https://github.com/jksd4c/cardiac-electrophysiology-lab)，本版使用 `v1.0.1` 标签。`work/` 提供可修改的运行代码、模板、构建脚本及运行模型数据；执行 `python work/build.py` 可重新生成两份网页入口。
 
 再分发受 GPL 覆盖的程序或修改版时，须按 GPL 提供相应源码、保留通知并满足其他条款。不得仅凭这里的简述替代完整许可证。上游解剖数据的原始下载和处理记录见来源文档。
 

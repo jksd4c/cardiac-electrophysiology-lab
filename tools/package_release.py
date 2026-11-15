@@ -10,7 +10,7 @@ import sys
 import zipfile
 
 root = Path(__file__).resolve().parent.parent
-version = 'v1.0'
+version = 'v1.0.1'
 subprocess.run([sys.executable, str(root / 'work/build.py')], check=True)
 assert (root / 'index.html').read_bytes() == (root / 'outputs/sinus-rhythm-3d.html').read_bytes()
 roots = {'work', 'licenses', 'provenance', 'tools', 'outputs'}
@@ -25,11 +25,11 @@ files = sorted(p for p in root.rglob('*') if p.is_file()
 manifest = {p.relative_to(root).as_posix(): hashlib.sha256(p.read_bytes()).hexdigest() for p in files}
 manifest_path = root / 'SHA256SUMS.json'
 manifest_path.write_text(json.dumps(manifest, indent=2, ensure_ascii=False) + '\n', encoding='utf8', newline='\n')
-dest = root / f'dist/cardiac-electrophysiology-lab-{version}.zip'
+dest = root / f'dist/eRhythmos-{version}.zip'
 dest.parent.mkdir(exist_ok=True)
 with zipfile.ZipFile(dest, 'w', zipfile.ZIP_DEFLATED, compresslevel=9) as archive:
     for p in files + [manifest_path]:
-        archive.write(p, f'cardiac-electrophysiology-lab-{version}/' + p.relative_to(root).as_posix())
+        archive.write(p, f'eRhythmos-{version}/' + p.relative_to(root).as_posix())
 with zipfile.ZipFile(dest) as archive:
     assert archive.testzip() is None
 print(json.dumps({'archive': str(dest), 'files': len(files) + 1,

@@ -25,9 +25,9 @@ viewer_tag='<script>'+viewer+'</script>'
 assert viewer_tag in template,'Viewer script insertion point missing'
 template=template.replace(viewer_tag,'<script>'+(root/'membrane-core.js').read_text(encoding='utf8')+'</script><script>'+(root/'membrane-ui.js').read_text(encoding='utf8')+'</script>'+viewer_tag,1)
 if args.local:
- template=template.replace('name="app-version" content="v1.0"','name="app-version" content="local-v1.0"')
- template=template.replace('<span class="version-badge">v1.0</span>','<span class="version-badge">local-v1.0</span>')
- template=template.replace('<title>心脏电活动实验室 · v1.0</title>','<title>心脏电活动实验室 · local-v1.0</title>')
+ template=template.replace('name="app-version" content="v1.0.1"','name="app-version" content="local-v1.0"')
+ template=template.replace('<span class="version-badge">v1.0.1</span>','<span class="version-badge">local-v1.0</span>')
+ template=template.replace('<title>eRhythmos · 心脏电活动实验室 · v1.0.1</title>','<title>eRhythmos · 心脏电活动实验室 · local-v1.0</title>')
 out=root.parent/'outputs'/('local-v1.0.html' if args.local else 'sinus-rhythm-3d.html')
 out.parent.mkdir(parents=True,exist_ok=True)
 out.write_text(template,encoding='utf8', newline='\n');print(out, out.stat().st_size)

@@ -1,6 +1,6 @@
 # Educational notice and disclaimer
 
-Cardiac Electrophysiology Lab · v1.0 public release · by jksd4c · Developed with GPT-6 Astra · 2026-11-15
+eRhythmos · Cardiac Electrophysiology Lab · v1.0.1 public release · by jksd4c · Developed with GPT-6 Astra · 2026-11-15
 
 ## Purpose and release status
 

@@ -1,3 +1,12 @@
+# v1.0.1 — 2026-11-15
+
+- Named the project **eRhythmos** across the website, browser titles, documentation and release package.
+- Rewrote the English and Chinese project introductions around interactive anatomy, conduction, membrane potentials, synchronized ECGs and learning workflows.
+- Simplified the README and release bylines to identify the project author.
+- Preserved the existing website/repository addresses, author credit, runtime behavior and applicable third-party notices.
+
+---
+
 # v1.0 — 2026-11-15
 
 ### Membrane-potential release

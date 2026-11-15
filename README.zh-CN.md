@@ -1,10 +1,14 @@
-# 心脏电活动实验室 / Cardiac Electrophysiology Lab
+# eRhythmos · 心脏电活动实验室
 
 [English](README.md) · [打开网页版](https://jksd4c.github.io/cardiac-electrophysiology-lab/)
 
-**v1.0 公开发布版 · by: jksd4c · 基于 GPT-6 Astra 辅助制作**
+**v1.0.1 · by: jksd4c**
 
-下载并解压 [v1.0 发布包](https://github.com/jksd4c/cardiac-electrophysiology-lab/releases/tag/v1.0)，用现代桌面浏览器打开 `index.html` 或 `outputs/sinus-rhythm-3d.html`。页面内嵌运行库和模型数据，可以离线使用，无需账户、联网加载或安装依赖。首页右上角可切换中文与 English。
+eRhythmos 是一个免费、开源的三维心脏电生理教学工具，将心脏结构、传导路径、膜电位与十二导联心电图放在同一时间轴上。你可以自由旋转心脏、跟随电冲动传播、右键选点观察动作电位，并逐毫秒暂停和查看单个心动周期。
+
+项目提供 75 个节律示例，涵盖房室传导阻滞、房早、室早、房颤、室颤及束支阻滞等，并支持 RVOT／LVOT 等室早来源对照、心电向量和按需展开的局部机制视图。支持中英文切换，可在线使用或下载离线运行。
+
+下载并解压 [v1.0.1 发布包](https://github.com/jksd4c/cardiac-electrophysiology-lab/releases/tag/v1.0.1)，用现代桌面浏览器打开 `index.html` 或 `outputs/sinus-rhythm-3d.html`。页面内嵌运行库和模型数据，可以离线使用，无需账户、联网加载或安装依赖。首页右上角可切换中文与 English。
 
 ## 操作
 
@@ -34,7 +38,7 @@ Python / Node.js 不随包分发。浏览器需支持 WebGL、Canvas 和 Decompr
 
 ## 本版检查与发布状态
 
-v1.0 将 local-v1.0 的膜电位工具纳入正式构建，保留原有 75 个节律示例、心电图和传导模型。膜电位回归覆盖 76,800 个部位／时间采样，原有节律、间期和双语检查继续保留；验证记录见 CHANGELOG.md。
+v1.0.1 将项目命名统一为 eRhythmos，并更新中英文介绍；继承 v1.0 的膜电位工具，保留原有 75 个节律示例、心电图和传导模型。膜电位回归覆盖 76,800 个部位／时间采样，原有节律、间期和双语检查继续保留；验证记录见 CHANGELOG.md。
 
 颜色与选点曲线为工作心肌动作电位的教学近似，不是患者实测电位或离子电流求解；复极百分比不等同于不应期或兴奋性。
 

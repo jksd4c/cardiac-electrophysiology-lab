@@ -23,7 +23,7 @@ BodyParts3D 4.0 · 左房壁 + 四组肺静脉；默认后面观，拖动可旋�
 两路融合|Fusion of two activation paths
 继发复极|Secondary repolarization
 室性心律失常共识|Ventricular arrhythmia consensus
-心脏电活动实验室 · v1.0|Cardiac Electrophysiology Lab · v1.0
+eRhythmos · 心脏电活动实验室 · v1.0.1|eRhythmos · Cardiac Electrophysiology Lab · v1.0.1
 窦房结发放|SA node firing
 · 左房壁 FJ2438 与四组肺静脉原始网格，统一坐标；肺静脉显示细分保留源开口边界。© The Database Center for Life Science，CC BY 4.0。|· LA wall FJ2438 and four PV meshes in shared coordinates. Display subdivision preserves source opening boundaries. © The Database Center for Life Science, CC BY 4.0.
 异常节律示例频率|Example abnormal rhythm rate
@@ -32,7 +32,7 @@ BodyParts3D 4.0 · 左房壁 + 四组肺静脉；默认后面观，拖动可旋�
 额面瞬时心电向量与导联轴|Instantaneous frontal vector and lead axes
 十二导联的十个电极位置示意|Ten electrode positions for the 12-lead ECG
 以下教材的官方版本与目录用于建立学习框架；各场景另附机制参考链接。波形、回路和组织活动为原创教学示意，不复刻教材原图，也不声称逐页核对整本教材。|Official editions and contents establish the learning framework; individual scenarios link to mechanism references. Waveforms, circuits and tissue activity are original teaching illustrations, not reproduced textbook figures or a page-by-page validation of complete textbooks.
-jksd4c · GPT-6 Astra 辅助制作 · v1.0 · 开源发布|jksd4c · Developed with GPT-6 Astra · v1.0 · Open source
+jksd4c · GPT-6 Astra 辅助制作 · v1.0.1 · 开源发布|jksd4c · Developed with GPT-6 Astra · v1.0.1 · Open source
 本项目用交互式心脏模型帮助学习传导系统、心律失常与心电图。模型及信号经过教学简化，未经临床用途验证，不作为诊断、治疗或消融定位依据。|An interactive model for learning cardiac conduction, arrhythmias and ECGs. Anatomy and signals are simplified for teaching and are not validated for diagnosis, treatment or ablation localization.
 解剖表面来自 BodyParts3D，经 OrganUI 整理；左房及肺静脉来自同一官方图谱。已进行网格量化、显示与局部视图调整，并叠加教学传导路径。BodyParts3D © The Database Center for Life Science，|Anatomical surfaces come from BodyParts3D via OrganUI; the LA and PVs use the same official atlas. Meshes are quantized and adapted for display and local views, with teaching conduction overlays. BodyParts3D © The Database Center for Life Science, 
 心电图由规则及模板合成，未使用真实患者心电记录。教材、指南和论文用于知识核对，书目及官方链接见“教材与模型目录”；不附其全文或原图。|ECGs are synthesized from rules and templates, without patient recordings. Textbooks, guidelines and papers support knowledge checks. Bibliography and official links appear in References & rhythm catalog; full texts and original figures are not included.
